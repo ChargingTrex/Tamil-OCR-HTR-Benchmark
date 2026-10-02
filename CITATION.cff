@@ -21,5 +21,9 @@ references:
   - type: dataset
     title: "CICT Tirukkural Ground Truth Corpus"
     authors:
-      - name: "Central Institute of Classical Tamil"
+      - name: "Central Institute of Classical Tamil (CICT)"
+    contact:
+      - name: "Kannan Krishnan (data curator, CICT)"
     license: CC-BY-4.0
+    url: "https://www.digitalarchives.cict.in/"
+    notes: "Source of the palm-leaf-cict subset: leaf images and expert diplomatic transcriptions, one Zenodo DOI per leaf."

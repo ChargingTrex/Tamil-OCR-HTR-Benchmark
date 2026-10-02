@@ -39,19 +39,20 @@ tamilbench build --out data/v1 --cict-root tamil-ocr/cict-htr
 
 ## Wanted, by gap
 
-Candidates are listed with their licence status. "To confirm" means the licence has not
+Candidates are listed with their licence status; [`RELATED-WORK.md`](RELATED-WORK.md)
+describes each dataset. "To confirm" means the licence has not
 been verified for redistribution; such data is not added until it is.
 
 | Gap | Candidate sources | Licence status |
 |---|---|---|
 | Grantha and Grantha–Tamil manuscripts | Grantha–Tamil photography pages of the CIIL library ([library.ciil.org](https://library.ciil.org/Sites/Photography/GranthaTamil.html)); the Śaiva manuscripts of the French Institute of Pondicherry (UNESCO Memory of the World) | To confirm. These need expert transcriptions (Tamil-script parts in Tamil, Grantha parts in IAST) as well as permission |
 | More palm leaves | Further CICT leaves as they are published; THPLMD (*Data in Brief*, 2024); Tamil Palm Leaf Character Dataset (Mendeley Data, doi:10.17632/b7vhz7z83k.1) | CICT: CC BY 4.0. Others: to confirm |
-| Old print | Tamil Wikisource proofread pages (page scan plus community-validated text) | Scans mostly public domain; text CC BY-SA, so a subset built from it is share-alike |
+| Old print | Tamil Wikisource proofread pages (page scan plus community-validated text); Mozhi printed Tamil lines (IIIT Hyderabad) | Wikisource scans mostly public domain, text CC BY-SA (share-alike); Mozhi: to confirm |
 | Stone and copper (medieval Tamil letterforms) | Photographs of published inscriptions aligned with the readings in *South Indian Inscriptions* and state archaeology reports | To confirm, per photograph |
-| Vatteluttu | Hero stones and grants in Tamil Nadu and Kerala with published readings | To confirm |
+| Vatteluttu | Hero stones and grants in Tamil Nadu and Kerala with published readings; the stone-inscription images of the GHTNet study (*Heritage Science*, 2025: 720 Vatteluttu, 810 Tamil-Brahmi) | To confirm; these need line-level readings, not character labels |
 | Tamil-Brahmi | Cave inscriptions and Keezhadi / Kodumanal potsherds with published readings | To confirm, per photograph |
-| Handwriting | A line- or page-level Tamil HTR set with writer metadata | To confirm (several academic sets are research-only) |
-| Scene text | Photographs of Tamil signage with word or line transcriptions | To confirm |
+| Handwriting | ICDAR 2025 IHDR Tamil pages (mobile-camera handwritten pages); IIIT-INDIC-HW-WORDS Tamil words | To confirm (several academic sets are research-only) |
+| Scene text | Bharat Scene Text (Wikimedia Commons images; Tamil test words, with script labels); IndicSTR12 Tamil words | Bharat Scene Text: per-image Commons licences, dataset terms to confirm; IndicSTR12: web-crawled, to confirm |
 
 ## Contributing a dataset
 

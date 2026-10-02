@@ -111,6 +111,16 @@ def manipravalam() -> tuple[Item, ...]:
                         meta={"markup": r["text"].strip()}))
     return tuple(out)
 
+@lru_cache(maxsize=None)
+def tirukkural() -> dict[int, str]:
+    """The standard text of the 1,330 couplets (public domain), keyed by number, the two
+    lines joined by a space and the closing full stop dropped. Used as the "edition" text
+    against which readings of real Tirukkural manuscripts are checked for recitation.
+    Source: the ``thirukkural`` Python package (MIT, © Vaasudevan Srinivasan)."""
+    return {int(r["kural"]): " ".join(part.strip() for part in r["tamil"].split(_SPLIT)).rstrip(".")
+            for r in _rows("tirukkural.tsv")}
+
+
 _TOKEN = re.compile(r"[஀-௿]+")
 
 

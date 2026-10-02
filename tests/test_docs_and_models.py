@@ -22,9 +22,17 @@ def test_every_subset_is_documented_with_its_count():
 
 
 def test_linked_docs_exist():
-    for name in ("real-data.md", "annotation-guidelines.md"):
+    for name in ("real-data.md", "annotation-guidelines.md", "RELATED-WORK.md", "DATASHEET.md"):
         assert (DOCS / name).exists()
     assert "<!-- LEADERBOARD:START -->" in (ROOT / "README.md").read_text(encoding="utf-8")
+
+
+def test_cict_is_credited_wherever_its_data_appears():
+    credit = "Central Institute of Classical Tamil"
+    for path in (ROOT / "README.md", ROOT / "DATA_LICENSE.md", ROOT / "CITATION.cff", DOCS / "METHODOLOGY.md",
+                 DOCS / "DATASHEET.md", ROOT / "leaderboard" / "_page.src.html"):
+        assert credit in path.read_text(encoding="utf-8"), path.name
+    assert credit in S.get("palm-leaf-cict").attribution
 
 
 def test_clean_output_only_strips_wrappers():

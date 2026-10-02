@@ -9,13 +9,16 @@ import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
-from . import BENCHMARK_VERSION
+import numpy as np
+
+from . import BENCHMARK_VERSION, CANARY
 from . import subsets as S
 from .models import load_registry
 from .metrics import classification as cls_m
 from .metrics import recognition as rec_m
 from .metrics import translation as tr_m
 from .runner import load_manifest, read_predictions
+from .scoring import CI_METHOD
 from .taxonomy import MEDIA, SCRIPTS, TRACKS, Task, Track
 
 README_START, README_END = "<!-- LEADERBOARD:START -->", "<!-- LEADERBOARD:END -->"
@@ -42,6 +45,7 @@ def _entry(reg: dict, scores: dict | None) -> dict:
         "tracks": scores["tracks"],
         "subsets": {k: _subset_summary(v) for k, v in scores["subsets"].items()},
         "prior_reliance": scores.get("prior_reliance"),
+        "failure_modes": scores.get("failure_modes"),
         "n_refusals": scores.get("n_refusals", 0), "n_errors": scores.get("n_errors", 0),
         "input_tokens": scores.get("input_tokens"), "output_tokens": scores.get("output_tokens"),
         "mean_latency_s": scores.get("mean_latency_s"), "params": scores["model"].get("params", {}),
@@ -49,6 +53,53 @@ def _entry(reg: dict, scores: dict | None) -> dict:
         "scored_at": scores.get("scored_at"),
     })
     return e
+
+
+def _separability(models: list[dict], results_root: Path, data_dir: Path) -> None:
+    """For each ranked model, the paired bootstrap difference to the next model down, on the
+    ranking's own metric. ``separable`` is False when the 95% interval includes zero: the
+    two ranks are a statistical tie."""
+    from .compare import compare
+    rows = load_manifest(data_dir / "manifest-test.jsonl")
+    cache: dict[str, tuple[dict, set]] = {}
+
+    def run_of(mid):
+        if mid not in cache:
+            d = results_root / mid / f"{BENCHMARK_VERSION}-test"
+            preds = {k: v.get("text") for k, v in read_predictions(d / "predictions.jsonl").items()}
+            meta = json.loads((d / "run.json").read_text())
+            cache[mid] = (preds, set(meta["model"].get("supports") or []))
+        return cache[mid]
+
+    for key, rank in (("overall", "rank_overall"), ("recognition_avg", "rank_recognition")):
+        ranked = sorted((m for m in models if m.get(rank)), key=lambda m: m[rank])
+        for a, b in zip(ranked, ranked[1:]):
+            (pa, sa), (pb, sb) = run_of(a["id"]), run_of(b["id"])
+            res = compare(rows, pa, pb, supported_a=sa or None, supported_b=sb or None)
+            if res.get(key):
+                a.setdefault("vs_next", {})[key] = {"model": b["id"], **res[key]}
+
+
+def _spearman(x: list[float], y: list[float]) -> float | None:
+    if len(x) < 3:
+        return None
+    rx, ry = np.argsort(np.argsort(x)).astype(float), np.argsort(np.argsort(y)).astype(float)
+    if rx.std() == 0 or ry.std() == 0:
+        return None
+    return round(float(np.corrcoef(rx, ry)[0, 1]), 3)
+
+
+def proxy_validity(models: list[dict], pairs=(("palm-leaf-synth", "palm-leaf-cict"),)) -> list[dict]:
+    """Do synthetic proxies rank systems the way real artefacts do? Rank correlation across
+    evaluated systems between a synthetic subset and its real counterpart, and the mean gap."""
+    out = []
+    for synth, real in pairs:
+        pts = [(m["subsets"][synth]["score"], m["subsets"][real]["score"]) for m in models
+               if m.get("status") == "evaluated" and (m.get("subsets") or {}).get(synth) and (m["subsets"].get(real))]
+        out.append({"synthetic": synth, "real": real, "n_systems": len(pts),
+                    "spearman": _spearman([p[0] for p in pts], [p[1] for p in pts]),
+                    "mean_gap": round(float(np.mean([p[0] - p[1] for p in pts])), 2) if pts else None})
+    return out
 
 
 def _sort_key(m: dict):
@@ -139,6 +190,7 @@ def build(results_root: Path, data_dir: Path, out_json: Path, *, readme: Path | 
                     key=lambda m: -m["recognition_avg"]):
         rank_r += 1
         m["rank_recognition"] = rank_r
+    _separability(models, Path(results_root), data_dir)
 
     meta = json.loads((data_dir / "subsets.json").read_text())
     coverage: dict[str, dict[str, dict[str, int]]] = {}
@@ -159,6 +211,8 @@ def build(results_root: Path, data_dir: Path, out_json: Path, *, readme: Path | 
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "models": models,
         "coverage": coverage,
+        "diagnostics": {"proxy_validity": proxy_validity(models), "ci_method": CI_METHOD,
+                        "canary": CANARY},
         "examples": _examples(data_dir, Path(results_root), out_json.parent.parent, evaluated_ids),
     }
     out_json.write_text(json.dumps(lb, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -230,6 +284,9 @@ def markdown_table(lb: dict) -> str:
     ev = [m for m in lb["models"] if m["status"] == "evaluated"]
     for m in ev:
         rank = m.get("rank_overall") or f"({m.get('rank_recognition', '')})"
+        vs = (m.get("vs_next") or {}).get("overall" if m.get("rank_overall") else "recognition_avg")
+        if vs and not vs["separable"]:
+            rank = f"{rank} ≈"
         cells = [str(rank), f"**{m['name']}** <br><sub>{m.get('org') or ''}</sub>", _fmt(m["overall"]),
                  _fmt(m["recognition_avg"])] + [_fmt(m["tracks"].get(t.value)) for t in tracks]
         lines.append("| " + " | ".join(cells) + " |")
@@ -241,6 +298,7 @@ def markdown_table(lb: dict) -> str:
     out += (f"\n\n<sub>Scores are 0–100 (higher is better): 100·(1−CER) for reading tasks, macro-F1 for "
             f"identification, chrF++ for translation. Overall = mean of the 8 tracks; OCR/HTR avg = mean of the 6 "
             f"reading tracks, so OCR engines that cannot classify or translate are ranked there (in parentheses). "
+            f"≈ marks a rank not statistically separable from the next (paired cluster bootstrap, 95 %). "
             f"Benchmark {BENCHMARK_VERSION}, generated {lb['generated_at'][:10]}.</sub>")
     return out
 

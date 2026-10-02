@@ -18,7 +18,7 @@ from pathlib import Path
 
 import numpy as np
 
-from . import BENCHMARK_VERSION, corpus
+from . import BENCHMARK_VERSION, CANARY, corpus
 from . import subsets as S
 from .render import fonts as F
 from .render import media as M
@@ -808,6 +808,7 @@ def build(out_dir: Path, *, seed: int = DEFAULT_SEED, split: str = "test", subse
 def write_manifests(out_dir: Path, rows: list[dict], *, split: str = "test", seed: int = DEFAULT_SEED,
                     lite: int = LITE_PER_SUBSET) -> None:
     out_dir = Path(out_dir)
+    rows = [{**r, "canary": CANARY} for r in rows]
     with open(out_dir / f"manifest-{split}.jsonl", "w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
@@ -821,7 +822,8 @@ def write_manifests(out_dir: Path, rows: list[dict], *, split: str = "test", see
                 if k < cap:
                     f.write(json.dumps({**r, "split": "lite"}, ensure_ascii=False) + "\n")
                     seen[r["subset"]] = k + 1
-    meta = {"benchmark": "Tamil OCR/HTR Benchmark", "version": BENCHMARK_VERSION, "seed": seed if split != "private" else None,
+    meta = {"benchmark": "Tamil OCR/HTR Benchmark", "version": BENCHMARK_VERSION, "canary": CANARY,
+            "seed": seed if split != "private" else None,
             "subsets": [s.to_json() for s in S.SUBSETS],
             "counts": {sid: sum(1 for r in rows if r["subset"] == sid) for sid in {r["subset"] for r in rows}}}
     (out_dir / "subsets.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")

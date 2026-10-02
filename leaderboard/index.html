@@ -193,6 +193,15 @@ table.heat tr.dim td:not(.na) { opacity: 0.45; }
 .ramp-labels { display: inline-flex; justify-content: space-between; width: 194px; font-variant-numeric: tabular-nums; }
 
 /* ---------------- prior reliance ---------------- */
+.tie { margin-left: 0.3rem; color: var(--muted); font-weight: 600; cursor: help; }
+.fail-box { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); }
+table.fail { width: 100%; border-collapse: collapse; min-width: 760px; font-variant-numeric: tabular-nums; }
+table.fail th, table.fail td { padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--rule); text-align: right; }
+table.fail td { white-space: nowrap; }
+table.fail th { font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); font-weight: 600; vertical-align: bottom; }
+table.fail th.l, table.fail td.l { text-align: left; }
+table.fail td.hot { color: var(--error); font-weight: 600; }
+table.fail tr.dim td { opacity: 0.45; }
 .dumb { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.9rem 1rem; }
 .drow { display: grid; grid-template-columns: minmax(0, 12rem) minmax(0, 1fr) 4.2rem; gap: 0.7rem; align-items: center; padding-block: 0.35rem; }
 .drow .lab { font-size: 0.85rem; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -283,7 +292,7 @@ footer .cols { gap: 0.6rem 2rem; }
   <nav class="jump" aria-label="Sections">
     <div class="wrap">
       <a href="#leaderboard">Leaderboard</a><a href="#tracks">By track</a><a href="#subsets">By subset</a>
-      <a href="#prior">Reading vs guessing</a><a href="#examples">Examples</a><a href="#coverage">Coverage</a>
+      <a href="#prior">Reading vs guessing</a><a href="#failures">Failure modes</a><a href="#examples">Examples</a><a href="#coverage">Coverage</a>
       <a href="#method">Scoring</a><a href="#run">Evaluate a model</a>
     </div>
   </nav>
@@ -333,6 +342,16 @@ footer .cols { gap: 0.6rem 2rem; }
     <div class="dumb" id="dumb"></div>
   </section>
 
+  <section id="failures" aria-labelledby="h-fail">
+    <div class="section-head"><div>
+      <div class="eyebrow">Diagnostic · not ranked</div>
+      <h2 id="h-fail">Failure modes</h2>
+      <p class="lede">How often a system's answer fails in ways a character error rate hides: nothing at all, far too much, the same phrase looping, Markdown or HTML, or letters from a script the image does not use (Devanagari for Grantha, Malayalam for Tamil-Brahmi). The last column shows whether a system reads the real Tirukkural leaves or recites the standard text.</p>
+    </div></div>
+    <div class="fail-box"><table class="fail" id="fail-table"><thead></thead><tbody></tbody></table></div>
+    <p class="table-note">Shares of reading items, all reading subsets pooled. Wrong-script letters are counted against the scripts each subset's references use. Recitation runs from −1 (writes what the scribe wrote) to +1 (writes the standard edition instead); it is measured on the real leaves and diplomatic transcriptions of the Central Institute of Classical Tamil (CICT Tirukkural Ground Truth Corpus, CC BY 4.0).</p>
+  </section>
+
   <section id="examples" aria-labelledby="h-ex">
     <div class="section-head"><div>
       <div class="eyebrow">From the test set</div>
@@ -362,12 +381,12 @@ footer .cols { gap: 0.6rem 2rem; }
       <div class="panel"><h3>Reading</h3><ul>
         <li>CER over Unicode code points after NFC, zero-width removal and quote/dash folding; subset score 100·(1−CER).</li>
         <li>Inscriptions, palm leaves and Tamil-Brahmi ignore word spacing, the puḷḷi and e/ē–o/ō length — conventions scribes did not mark.</li>
-        <li>The real palm leaves are scored against the scribe's own spelling: reciting the canonical Tirukkural is an error.</li>
+        <li>The real palm leaves (CICT Tirukkural Ground Truth Corpus, Central Institute of Classical Tamil) are scored against the scribe's own spelling: reciting the canonical Tirukkural is an error.</li>
       </ul></div>
       <div class="panel"><h3>Identification &amp; translation</h3><ul>
         <li>Script and medium ID: one label from a closed list; anything else counts as wrong; macro-F1.</li>
         <li>Translation: corpus chrF++ (character 6-grams, word 2-grams, β = 2) against one reference.</li>
-        <li>95 % bootstrap intervals on every subset score.</li>
+        <li>95 % intervals on every subset score from a cluster bootstrap over source texts; rank differences are tested with paired resampling.</li>
       </ul></div>
       <div class="panel"><h3>Aggregation</h3><ul>
         <li>Track = mean of its subsets. Overall = mean of 8 tracks. OCR/HTR = mean of the 6 reading tracks.</li>
@@ -399,7 +418,7 @@ tamilbench leaderboard</pre></div>
 
 <footer>
   <div class="wrap cols">
-    <div>Benchmark data: synthetic items CC BY 4.0. Real palm leaves: Central Institute of Classical Tamil, <i>CICT Tirukkural Ground Truth Corpus</i>, CC BY 4.0. Fonts: SIL Open Font License. Code: Apache-2.0.</div>
+    <div>Real palm leaves and their transcriptions: <b>Central Institute of Classical Tamil (CICT)</b>, <i>CICT Tirukkural Ground Truth Corpus</i>, data curator Kannan Krishnan, CC BY 4.0 — <a href="https://www.digitalarchives.cict.in/">CICT digital archive</a>. Benchmark data: synthetic items CC BY 4.0. Fonts: SIL Open Font License. Code: Apache-2.0.</div>
     <div>Scores are only as good as the configuration they record; every entry lists its model identifier and settings. Generated <span id="gen-date"></span>.</div>
   </div>
 </footer>
@@ -422,7 +441,7 @@ tamilbench leaderboard</pre></div>
 
   function select(id) {
     selected = selected === id ? null : id;
-    renderTable(); renderMultiples(); renderHeat(); renderPrior();
+    renderTable(); renderMultiples(); renderHeat(); renderPrior(); renderFailures();
   }
 
   // ------------------------------------------------------------- masthead facts
@@ -432,7 +451,7 @@ tamilbench leaderboard</pre></div>
     const real = Object.entries(LB.coverage || {}).reduce((a, [, media]) => a + Object.values(media).reduce((s, c) => s + (c.real || 0), 0), 0);
     const f = $("#facts");
     [[total.toLocaleString("en"), "test images"], [String(LB.benchmark.subsets.length), "subsets"], ["8", "tracks"],
-     [String(evaluated().length), "models scored"], [String(real), "real palm leaves"]].forEach(([b, t]) => {
+     [String(evaluated().length), "models scored"], [String(real), "real palm leaves (CICT)"]].forEach(([b, t]) => {
       const s = el("span"); s.append(el("b", null, b), document.createTextNode(" " + t)); f.append(s);
     });
     $("#bver").textContent = LB.benchmark.version;
@@ -473,7 +492,14 @@ tamilbench leaderboard</pre></div>
       tr.addEventListener("click", () => select(m.id));
       tr.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(m.id); } });
       const rank = m.rank_overall != null ? String(m.rank_overall) : "(" + (m.rank_recognition || "–") + ")";
-      tr.append(el("td", "l rank" + (m.rank_overall === 1 || (m.rank_overall == null && m.rank_recognition === 1 && !evaluated().some((x) => x.rank_overall)) ? " r1" : ""), rank));
+      const rankCell = el("td", "l rank" + (m.rank_overall === 1 || (m.rank_overall == null && m.rank_recognition === 1 && !evaluated().some((x) => x.rank_overall)) ? " r1" : ""), rank);
+      const vs = (m.vs_next || {})[m.rank_overall != null ? "overall" : "recognition_avg"];
+      if (vs && !vs.separable) {
+        const t = el("span", "tie", "≈");
+        t.title = "Not statistically separable from the next rank (paired bootstrap difference " + vs.diff.toFixed(1) + ", 95 % CI " + vs.ci95[0].toFixed(1) + " to " + vs.ci95[1].toFixed(1) + ")";
+        rankCell.append(t);
+      }
+      tr.append(rankCell);
       const name = el("td", "l"); name.append(el("div", "model-name", m.name));
       const sub = el("div", "model-sub"); sub.append(el("span", null, m.org || ""), el("span", "pill", TYPE_LABEL[m.type] || m.type || ""));
       const p = m.params || {}; const knobs = Object.entries(p).filter(([, v]) => v != null && v !== "").map(([k, v]) => k + " " + v).join(" · ");
@@ -483,7 +509,8 @@ tamilbench leaderboard</pre></div>
       tbody.append(tr);
     });
     $("#lb-note").textContent = "Ranks in parentheses are OCR/HTR ranks for systems that only read (no identification or translation), so they have no Overall. " +
-      "Overall is the unweighted mean of the eight tracks; OCR/HTR is the mean of the six reading tracks.";
+      "Overall is the unweighted mean of the eight tracks; OCR/HTR is the mean of the six reading tracks. " +
+      "≈ marks a rank that is not statistically separable from the next one (paired cluster bootstrap, 95 %).";
   }
   function renderPending() {
     const box = $("#pending"); box.textContent = "";
@@ -706,7 +733,31 @@ tamilbench leaderboard</pre></div>
   });
   function selectText(node) { if (!node) return; const r = document.createRange(); r.selectNodeContents(node); const s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
 
-  function renderAll() { renderFacts(); renderTable(); renderPending(); renderMultiples(); renderHeat(); renderPrior(); renderExFilter(); renderExamples(); renderCoverage(); }
+  function renderFailures() {
+    const cols = [["empty_rate", "Empty"], ["overlong_rate", "Overlong"], ["repetition_rate", "Repetition loops"],
+      ["markup_rate", "Markdown / HTML"], ["offscript_item_rate", "Wrong-script letters"]];
+    const thead = $("#fail-table thead"); thead.textContent = "";
+    const hr = el("tr"); hr.append(el("th", "l", "Model"));
+    cols.forEach(([, label]) => hr.append(el("th", null, label)));
+    hr.append(el("th", null, "Recitation (real leaves)"));
+    thead.append(hr);
+    const tbody = $("#fail-table tbody"); tbody.textContent = "";
+    const ev = evaluated().filter((m) => m.failure_modes);
+    if (!ev.length) { const tr = el("tr"); const td = el("td", "l", "No evaluated model yet."); td.colSpan = cols.length + 2; tr.append(td); tbody.append(tr); return; }
+    ev.forEach((m) => {
+      const tr = el("tr", selected && selected !== m.id ? "dim" : null);
+      tr.append(el("td", "l", m.name));
+      cols.forEach(([k]) => {
+        const v = m.failure_modes[k];
+        tr.append(el("td", v != null && v >= 0.05 ? "hot" : null, v == null ? "—" : (100 * v).toFixed(1) + " %"));
+      });
+      const ri = ((m.prior_reliance || {}).recitation_index || {})["palm-leaf-cict"];
+      tr.append(el("td", ri != null && ri > 0 ? "hot" : null, ri == null ? "—" : (ri > 0 ? "+" : ri < 0 ? "−" : "") + Math.abs(ri).toFixed(2)));
+      tbody.append(tr);
+    });
+  }
+
+  function renderAll() { renderFacts(); renderTable(); renderPending(); renderMultiples(); renderHeat(); renderPrior(); renderFailures(); renderExFilter(); renderExamples(); renderCoverage(); }
 
   if (window.__LEADERBOARD__) { LB = window.__LEADERBOARD__; renderAll(); }
   else fetch("data/leaderboard.json").then((r) => r.json()).then((d) => { LB = d; renderAll(); })

@@ -25,6 +25,8 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
+from .. import corpus
+
 SUBSET = "palm-leaf-cict"
 ATTRIBUTION = ("Central Institute of Classical Tamil (CICT), CICT Tirukkural Ground Truth Corpus, "
                "CC BY 4.0. Data curator: Kannan Krishnan (CICT).")
@@ -84,6 +86,9 @@ def build_subset(root: Path, out_dir: Path, *, split: str = "test", limit: int |
         own = sorted((ln for ln in lines if ln["specimen"] == spec_id), key=lambda x: x["line_index"])
         text = "\n".join(ln["text_reading"] for ln in own)
         full = "\n".join(ln["text_full"] for ln in own)
+        kural_text = corpus.tirukkural()
+        canonical = ("\n".join(kural_text[int(ln["kural"])] for ln in own)
+                     if all(str(ln.get("kural", "")).isdigit() for ln in own) else None)
         sid = f"{SUBSET}-{spec_id.split('-')[-1]}"
         rel = Path("images") / SUBSET / f"{sid}.jpg"
         path = Path(out_dir) / rel
@@ -94,7 +99,8 @@ def build_subset(root: Path, out_dir: Path, *, split: str = "test", limit: int |
             "id": sid, "subset": SUBSET, "split": split, "task": "recognition",
             "image": rel.as_posix(), "sha256": hashlib.sha256(data).hexdigest(),
             "width": crop.width, "height": crop.height, "bytes": len(data),
-            "text": text, "text_full": full, "script": "tamil-pre-reform", "medium": "palm-leaf",
+            "text": text, "text_full": full, "text_canonical": canonical,
+            "script": "tamil-pre-reform", "medium": "palm-leaf",
             "granularity": "page", "provenance": "real", "lexical": "corpus",
             "text_source": f"cict:{spec_id}",
             "render": {"caption_masked": masked, "crop_box": list(box), "source_split": assignment[spec_id]},

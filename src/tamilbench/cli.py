@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import sys
 from pathlib import Path
 
@@ -50,6 +51,35 @@ def cmd_score(a):
             print(f"== {p}")
             _print_scores(s)
 
+
+def cmd_compare(a):
+    from . import runner
+    from .compare import compare
+
+    def load(model):
+        d = Path(model) if Path(model).is_dir() else Path(a.results) / model / f"{BENCHMARK_VERSION}-{a.split}"
+        preds = {k: v.get("text") for k, v in runner.read_predictions(d / "predictions.jsonl").items()}
+        meta = json.loads((d / "run.json").read_text())
+        return preds, set(meta["model"].get("supports") or []) or None
+
+    (pa, sa), (pb, sb) = load(a.a), load(a.b)
+    rows = runner.load_manifest(runner.manifest_path(Path(a.data), a.split))
+    res = compare(rows, pa, pb, supported_a=sa, supported_b=sb, n_boot=a.n_boot)
+    if a.json:
+        Path(a.json).write_text(json.dumps(res, ensure_ascii=False, indent=2))
+
+    def line(name, r):
+        if not r:
+            return f"{name:22s}   —"
+        mark = "" if r["separable"] else "  (tie)"
+        return f"{name:22s} {r['diff']:+7.2f}  [{r['ci95'][0]:+.2f}, {r['ci95'][1]:+.2f}]  p={r['p']:.3f}{mark}"
+    print(f"{a.a} − {a.b}  (paired cluster bootstrap, {a.n_boot} replicates)")
+    print(line("overall", res["overall"]))
+    print(line("OCR/HTR average", res["recognition_avg"]))
+    for k, v in res["tracks"].items():
+        print(line("  " + k, v))
+    for k, v in res["subsets"].items():
+        print(line("    " + k, v))
 
 def _print_scores(s: dict):
     def f(v):
@@ -170,6 +200,16 @@ def main(argv=None) -> int:
     s.add_argument("--data", default=str(DATA))
     s.add_argument("--n-boot", type=int, default=1000)
     s.set_defaults(fn=cmd_score)
+
+    c = sub.add_parser("compare", help="paired significance test between two runs (A − B)")
+    c.add_argument("a", help="model id under --results, or a results directory")
+    c.add_argument("b")
+    c.add_argument("--results", default=str(RESULTS))
+    c.add_argument("--data", default=str(DATA))
+    c.add_argument("--split", default="test")
+    c.add_argument("--n-boot", type=int, default=1000)
+    c.add_argument("--json", help="also write the full comparison to this file")
+    c.set_defaults(fn=cmd_compare)
 
     lb = sub.add_parser("leaderboard", help="aggregate scores into leaderboard.json and the README table")
     lb.add_argument("--results", default=str(RESULTS))
