@@ -1,0 +1,552 @@
+{
+  "benchmark": "Tamil OCR/HTR Benchmark",
+  "version": "v1",
+  "seed": 20261002,
+  "subsets": [
+    {
+      "id": "print-digital",
+      "title": "Born-digital text",
+      "task": "recognition",
+      "track": "print",
+      "prompt": "recognition",
+      "description": "Clean Unicode text rendered in 17 Tamil typefaces — words, lines and paragraphs. The upper bound: failures here are failures of script knowledge, not of vision.",
+      "scripts": [
+        "tamil-modern"
+      ],
+      "media": [
+        "born-digital"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "word",
+        "line",
+        "block"
+      ],
+      "count": 100,
+      "policy": {
+        "spaces": "collapse"
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "print-scan",
+      "title": "Scanned print",
+      "task": "recognition",
+      "track": "print",
+      "prompt": "recognition",
+      "description": "Book and newspaper text as a flatbed scanner sees it: paper texture, ink spread, skew, speckle, bleed-through, JPEG.",
+      "scripts": [
+        "tamil-modern"
+      ],
+      "media": [
+        "print-scan"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "line",
+        "block"
+      ],
+      "count": 100,
+      "policy": {
+        "spaces": "collapse"
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "print-photo",
+      "title": "Photographed print",
+      "task": "recognition",
+      "track": "print",
+      "prompt": "recognition",
+      "description": "Pages photographed with a phone: perspective, page curl, shadows, uneven light, blur.",
+      "scripts": [
+        "tamil-modern"
+      ],
+      "media": [
+        "print-photo"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "line",
+        "block"
+      ],
+      "count": 100,
+      "policy": {
+        "spaces": "collapse"
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "numerals-symbols",
+      "title": "Tamil numerals & signs",
+      "task": "recognition",
+      "track": "print",
+      "prompt": "recognition",
+      "description": "Ledger, deed and horoscope lines using Tamil numerals (positional and ௰ ௱ ௲), the day/month/year/debit/credit/rupee signs and Tamil Supplement fractions and measures (U+11FC0–U+11FFF).",
+      "scripts": [
+        "tamil-modern"
+      ],
+      "media": [
+        "print-scan",
+        "born-digital"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "line"
+      ],
+      "count": 80,
+      "policy": {
+        "spaces": "collapse"
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "screen",
+      "title": "Screenshots",
+      "task": "recognition",
+      "track": "screen",
+      "prompt": "recognition",
+      "description": "Real browser renderings (Chromium) of news pages, chat bubbles, app settings, forms, tables and video subtitles — light and dark themes, phone and desktop widths, downscaled and re-compressed like forwarded screenshots.",
+      "scripts": [
+        "tamil-modern"
+      ],
+      "media": [
+        "screen"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "line",
+        "block"
+      ],
+      "count": 120,
+      "policy": {
+        "spaces": "collapse"
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "handwriting",
+      "title": "Handwriting (synthetic)",
+      "task": "recognition",
+      "track": "handwriting",
+      "prompt": "recognition",
+      "description": "Letters, notes and lists in handwriting-style typefaces with per-word elastic distortion, slant, baseline drift, pen-pressure variation and ruled paper. A proxy until a licensed real-HTR set is added — see docs/real-data.md.",
+      "scripts": [
+        "tamil-modern"
+      ],
+      "media": [
+        "handwritten"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "line",
+        "block"
+      ],
+      "count": 100,
+      "policy": {
+        "spaces": "collapse"
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "scene",
+      "title": "Scene text",
+      "task": "recognition",
+      "track": "scene",
+      "prompt": "recognition",
+      "description": "Shop boards, road and bus signs, LED destination boards, painted walls and flex banners, photographed in perspective under uneven light.",
+      "scripts": [
+        "tamil-modern"
+      ],
+      "media": [
+        "scene"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "word",
+        "line"
+      ],
+      "count": 100,
+      "policy": {
+        "spaces": "collapse"
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "pre-reform-print",
+      "title": "Pre-1978 print",
+      "task": "recognition",
+      "track": "manuscripts",
+      "prompt": "recognition",
+      "description": "Letterpress pages in pre-reform orthography (old ligatures for ணா றா னா ணை லை ளை னை) on aged, foxed paper. Every item contains at least one reform syllable.",
+      "scripts": [
+        "tamil-pre-reform"
+      ],
+      "media": [
+        "print-scan"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "line",
+        "block"
+      ],
+      "count": 100,
+      "policy": {
+        "spaces": "collapse"
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "palm-leaf-synth",
+      "title": "Palm leaf (synthetic)",
+      "task": "recognition",
+      "track": "manuscripts",
+      "prompt": "recognition-palm-leaf",
+      "description": "Simulated ōlaiccuvaṭi: stylus-incised, lamp-black-filled lines on fibrous leaf with string holes and edge damage; scriptio continua, puḷḷi often omitted, e/ē and o/ō merged, pre-reform letterforms.",
+      "scripts": [
+        "tamil-pre-reform"
+      ],
+      "media": [
+        "palm-leaf"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "block"
+      ],
+      "count": 80,
+      "policy": {
+        "spaces": "remove",
+        "fold_pulli": true,
+        "fold_vowel_length": true
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "palm-leaf-cict",
+      "title": "Palm leaf (real, CICT Tirukkural)",
+      "task": "recognition",
+      "track": "manuscripts",
+      "prompt": "recognition-palm-leaf-cict",
+      "description": "Real leaves of a Tirukkural palm-leaf manuscript with expert diplomatic transcriptions (10 lines per leaf), from the CICT Tirukkural Ground Truth Corpus. Uses only leaves from the source's held-out val+test splits.",
+      "scripts": [
+        "tamil-pre-reform"
+      ],
+      "media": [
+        "palm-leaf"
+      ],
+      "provenance": "real",
+      "granularity": [
+        "page"
+      ],
+      "count": 26,
+      "policy": {
+        "spaces": "remove",
+        "fold_pulli": true,
+        "fold_vowel_length": true,
+        "strip_tamil_numerals": true
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": "Central Institute of Classical Tamil (CICT), CICT Tirukkural Ground Truth Corpus, CC BY 4.0; per-leaf DOIs in the manifest."
+    },
+    {
+      "id": "stone",
+      "title": "Stone inscriptions & plaques",
+      "task": "recognition",
+      "track": "epigraphy",
+      "prompt": "recognition-epigraphic",
+      "description": "Engraved granite and marble: modern foundation stones, donor and memorial plaques, and medieval-style temple inscriptions (scriptio continua, Chola-style formulae) with weathering, lichen and raking light.",
+      "scripts": [
+        "tamil-modern",
+        "tamil-pre-reform"
+      ],
+      "media": [
+        "stone"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "line",
+        "block"
+      ],
+      "count": 80,
+      "policy": {
+        "spaces": "remove",
+        "fold_pulli": true,
+        "fold_vowel_length": true
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "copper-plate",
+      "title": "Copper plates & metal",
+      "task": "recognition",
+      "track": "epigraphy",
+      "prompt": "recognition-epigraphic",
+      "description": "Engraved copper-plate grants with ring holes and patina, and brass donor plaques.",
+      "scripts": [
+        "tamil-pre-reform",
+        "tamil-modern"
+      ],
+      "media": [
+        "copper-plate"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "block"
+      ],
+      "count": 60,
+      "policy": {
+        "spaces": "remove",
+        "fold_pulli": true,
+        "fold_vowel_length": true
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "tamil-brahmi",
+      "title": "Tamil-Brahmi",
+      "task": "recognition",
+      "track": "epigraphy",
+      "prompt": "recognition-tamil-brahmi",
+      "description": "Tamil-Brahmi in its three orthographic stages (TB-I, TB-II, TB-III) on cave rock, as estampages and as potsherd graffiti, read into modern Tamil.",
+      "scripts": [
+        "tamil-brahmi"
+      ],
+      "media": [
+        "stone",
+        "estampage",
+        "pottery"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "word",
+        "line"
+      ],
+      "count": 100,
+      "policy": {
+        "spaces": "remove",
+        "fold_pulli": true,
+        "fold_vowel_length": true
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "grantha",
+      "title": "Grantha",
+      "task": "recognition",
+      "track": "epigraphy",
+      "prompt": "recognition-grantha",
+      "description": "Sanskrit in Grantha — as on Pallava/Chola copper plates, stone and palm leaves — transliterated to IAST.",
+      "scripts": [
+        "grantha"
+      ],
+      "media": [
+        "copper-plate",
+        "stone",
+        "palm-leaf",
+        "print-scan"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "line",
+        "block"
+      ],
+      "count": 60,
+      "policy": {
+        "spaces": "remove",
+        "script": "iast"
+      },
+      "labels": [],
+      "target": "iast",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "script-id",
+      "title": "Script identification",
+      "task": "script-id",
+      "track": "classification",
+      "prompt": "script-id",
+      "description": "Which script is this? Modern vs pre-reform Tamil, Tamil-Brahmi, Grantha, and neighbouring scripts (Malayalam, Kannada, Telugu, Sinhala, Devanagari).",
+      "scripts": [
+        "tamil-modern",
+        "tamil-pre-reform",
+        "tamil-brahmi",
+        "grantha",
+        "malayalam",
+        "kannada",
+        "telugu",
+        "sinhala",
+        "devanagari"
+      ],
+      "media": [
+        "born-digital",
+        "screen",
+        "print-scan",
+        "print-photo",
+        "handwritten",
+        "scene",
+        "palm-leaf",
+        "stone",
+        "estampage",
+        "copper-plate",
+        "pottery"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "line"
+      ],
+      "count": 144,
+      "policy": {
+        "spaces": "collapse"
+      },
+      "labels": [
+        "tamil-modern",
+        "tamil-pre-reform",
+        "tamil-brahmi",
+        "grantha",
+        "malayalam",
+        "kannada",
+        "telugu",
+        "sinhala",
+        "devanagari"
+      ],
+      "target": "label",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "medium-id",
+      "title": "Medium identification",
+      "task": "medium-id",
+      "track": "classification",
+      "prompt": "medium-id",
+      "description": "What is the text written on? Screen, paper (print / handwritten), signage, palm leaf, stone, estampage, copper plate or pottery.",
+      "scripts": [
+        "tamil-modern",
+        "tamil-pre-reform",
+        "tamil-brahmi"
+      ],
+      "media": [
+        "born-digital",
+        "screen",
+        "print-scan",
+        "print-photo",
+        "handwritten",
+        "scene",
+        "palm-leaf",
+        "stone",
+        "estampage",
+        "copper-plate",
+        "pottery"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "line"
+      ],
+      "count": 144,
+      "policy": {
+        "spaces": "collapse"
+      },
+      "labels": [
+        "screen",
+        "printed-paper",
+        "handwritten-paper",
+        "scene-signage",
+        "palm-leaf",
+        "stone",
+        "estampage",
+        "copper-plate",
+        "pottery"
+      ],
+      "target": "label",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
+      "id": "translate-en",
+      "title": "Image → English",
+      "task": "translation",
+      "track": "translation",
+      "prompt": "translation",
+      "description": "Read Tamil sentences and signs from print, screens, signboards and handwriting and translate them into English; scored with chrF++ against a reference translation.",
+      "scripts": [
+        "tamil-modern"
+      ],
+      "media": [
+        "print-scan",
+        "screen",
+        "scene",
+        "handwritten"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "line"
+      ],
+      "count": 100,
+      "policy": {
+        "spaces": "collapse"
+      },
+      "labels": [],
+      "target": "english",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    }
+  ],
+  "counts": {
+    "script-id": 144,
+    "handwriting": 100,
+    "translate-en": 100,
+    "pre-reform-print": 100,
+    "print-photo": 100,
+    "print-digital": 100,
+    "scene": 100,
+    "palm-leaf-synth": 80,
+    "numerals-symbols": 80,
+    "palm-leaf-cict": 26,
+    "stone": 80,
+    "copper-plate": 60,
+    "screen": 120,
+    "tamil-brahmi": 100,
+    "medium-id": 144,
+    "grantha": 60,
+    "print-scan": 100
+  }
+}

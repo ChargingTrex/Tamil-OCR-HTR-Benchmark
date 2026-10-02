@@ -1,0 +1,83 @@
+id	kind	tamil	english
+g001	shop	ஸ்ரீ முருகன் மளிகைக் கடை	Sri Murugan Grocery Store
+g002	shop	அன்னபூர்ணா உணவகம்	Annapoorna Restaurant
+g003	shop	லட்சுமி ஜவுளி மாளிகை	Lakshmi Textiles
+g004	shop	தமிழ் நூல் நிலையம்	Tamil Book House
+g005	shop	கணேஷ் பேக்கரி	Ganesh Bakery
+g006	shop	மீனாட்சி நகை மாளிகை	Meenakshi Jewellery
+g007	shop	செல்வம் கைபேசி பழுதுபார்க்கும் கடை	Selvam Mobile Phone Repair Shop
+g008	shop	சுந்தரம் முடிதிருத்தகம்	Sundaram Hair Salon
+g009	shop	வேலவன் தேநீர் கடை	Velavan Tea Shop
+g010	shop	கிருஷ்ணா பழமுதிர்ச்சோலை	Krishna Fruit Shop
+g011	shop	பாண்டியன் பாத்திரக் கடை	Pandian Vessel Store
+g012	shop	தென்றல் தையலகம்	Thendral Tailoring
+g013	shop	முத்து மின்சாதனங்கள்	Muthu Electricals
+g014	shop	வெற்றி மருத்துவமனை	Vetri Hospital
+g015	shop	கலைமகள் புத்தக நிலையம்	Kalaimagal Book Stall
+g016	shop	அருணா பல் மருத்துவமனை	Aruna Dental Clinic
+g017	shop	சக்தி உரக்கடை	Sakthi Fertiliser Shop
+g018	shop	இளங்கோ பூக்கடை	Ilango Flower Shop
+g019	shop	ராஜா சைக்கிள் கடை	Raja Cycle Shop
+g020	shop	ஐயனார் இரும்புக் கடை	Ayyanar Hardware Store
+g021	shop	அறிவகம் கணினிப் பயிற்சி மையம்	Arivagam Computer Training Centre
+g022	shop	சிவா பால் பண்ணை	Siva Dairy Farm
+g023	shop	காவேரி சைவ உணவகம்	Kaveri Vegetarian Restaurant
+g024	shop	பாரதி அச்சகம்	Bharathi Printers
+g025	road	சென்னை 120 கி.மீ	Chennai 120 km
+g026	road	மதுரை 45 கி.மீ	Madurai 45 km
+g027	road	கன்னியாகுமரி 85 கி.மீ	Kanniyakumari 85 km
+g028	road	வேகத்தடை முன்னால்	Speed breaker ahead
+g029	road	பள்ளி மண்டலம் மெதுவாகச் செல்லவும்	School zone, go slowly
+g030	road	ஒருவழிப் பாதை	One way
+g031	road	வாகனங்களை நிறுத்தக் கூடாது	No parking
+g032	road	இடது பக்கம் செல்லவும்	Keep left
+g033	road	விபத்துப் பகுதி கவனம்	Accident-prone area, take care
+g034	road	சுங்கச்சாவடி 2 கி.மீ	Toll plaza 2 km
+g035	road	திருச்சி தஞ்சாவூர் சாலை	Tiruchi Thanjavur Road
+g036	bus	மதுரை மாட்டுத்தாவணி	Madurai Mattuthavani
+g037	bus	சென்னை கோயம்பேடு	Chennai Koyambedu
+g038	bus	திருநெல்வேலி சந்திப்பு	Tirunelveli Junction
+g039	bus	கோவை காந்திபுரம்	Coimbatore Gandhipuram
+g040	bus	திருச்சி சத்திரம்	Tiruchi Chathiram
+g041	bus	ராமேஸ்வரம்	Rameswaram
+g042	bus	பழனி	Palani
+g043	bus	வேளாங்கண்ணி	Velankanni
+g044	bus	சேலம் புதிய பேருந்து நிலையம்	Salem New Bus Stand
+g045	bus	காஞ்சிபுரம் வழி செங்கல்பட்டு	Kanchipuram via Chengalpattu
+g046	office	கிராம நிர்வாக அலுவலகம்	Village Administrative Office
+g047	office	அரசு மேல்நிலைப் பள்ளி	Government Higher Secondary School
+g048	office	ஆரம்ப சுகாதார நிலையம்	Primary Health Centre
+g049	office	காவல் நிலையம்	Police Station
+g050	office	அஞ்சல் அலுவலகம்	Post Office
+g051	office	நியாய விலைக் கடை	Fair Price Shop
+g052	office	பொது நூலகம்	Public Library
+g053	office	நகராட்சி அலுவலகம்	Municipal Office
+g054	office	மாவட்ட ஆட்சியர் அலுவலகம்	District Collector's Office
+g055	office	தீயணைப்பு நிலையம்	Fire Station
+g056	office	ஊராட்சி ஒன்றியத் தொடக்கப் பள்ளி	Panchayat Union Primary School
+g057	worship	அருள்மிகு மீனாட்சி சுந்தரேஸ்வரர் திருக்கோயில்	Arulmigu Meenakshi Sundareswarar Temple
+g058	worship	அருள்மிகு முருகன் திருக்கோயில்	Arulmigu Murugan Temple
+g059	worship	புனித தோமையார் ஆலயம்	St Thomas Church
+g060	worship	ஜாமியா பள்ளிவாசல்	Jamia Mosque
+g061	worship	காலணிகளை இங்கே விடவும்	Leave your footwear here
+g062	worship	அன்னதானம் நடைபெறும்	Free meals are served
+g063	notice	தண்ணீரை வீணாக்காதீர்	Do not waste water
+g064	notice	இங்கே குப்பை கொட்டாதீர்	Do not dump rubbish here
+g065	notice	அபாயம் உயர் மின்னழுத்தம்	Danger, high voltage
+g066	notice	வெளியே செல்லும் வழி	Exit
+g067	notice	உள்ளே	Entrance
+g068	notice	கழிப்பறை	Toilet
+g069	notice	குடிநீர்	Drinking water
+g070	notice	அமைதி காக்கவும்	Please keep silence
+g071	notice	திறந்திருக்கும்	Open
+g072	notice	விற்பனைக்கு	For sale
+g073	notice	வாடகைக்கு வீடு	House for rent
+g074	banner	பொங்கல் நல்வாழ்த்துகள்	Pongal greetings
+g075	banner	இனிய தீபாவளி நல்வாழ்த்துகள்	Happy Deepavali greetings
+g076	banner	மாபெரும் தள்ளுபடி விற்பனை	Grand discount sale
+g077	banner	இலவச கண் பரிசோதனை முகாம்	Free eye check-up camp
+g078	banner	வருக வருக	Welcome
+g079	banner	நன்றி மீண்டும் வருக	Thank you, visit again
+g080	banner	தமிழ் வாழ்க	Long live Tamil
+g081	banner	புத்தகத் திருவிழா	Book festival
+g082	banner	சித்திரைத் திருவிழா	Chithirai festival

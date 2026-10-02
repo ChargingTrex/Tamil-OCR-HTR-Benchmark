@@ -1,0 +1,151 @@
+id	domain	tamil	english
+m001	news	தமிழ்நாடு அரசு புதிய கல்வித் திட்டத்தை இன்று அறிவித்தது.	The Tamil Nadu government announced a new education scheme today.
+m002	news	சென்னையில் நாளை முதல் மெட்ரோ ரயில் சேவை நீட்டிக்கப்படும்.	Metro rail service in Chennai will be extended from tomorrow.
+m003	news	மதுரை மீனாட்சி அம்மன் கோயிலில் சித்திரைத் திருவிழா கோலாகலமாகத் தொடங்கியது.	The Chithirai festival began grandly at the Madurai Meenakshi Amman temple.
+m004	weather	வடகிழக்குப் பருவமழை அடுத்த வாரம் தொடங்க வாய்ப்பு உள்ளது என்று வானிலை ஆய்வு மையம் தெரிவித்துள்ளது.	The meteorological centre has said that the northeast monsoon is likely to begin next week.
+m005	news	கடலோர மாவட்டங்களில் மீனவர்கள் கடலுக்குச் செல்ல வேண்டாம் என எச்சரிக்கை விடுக்கப்பட்டுள்ளது.	Fishermen in coastal districts have been warned not to go to sea.
+m006	education	பத்தாம் வகுப்புப் பொதுத் தேர்வு முடிவுகள் வெள்ளிக்கிழமை வெளியிடப்படும்.	The tenth standard public examination results will be released on Friday.
+m007	news	கோயம்புத்தூரில் புதிய தொழில்நுட்பப் பூங்கா திறக்கப்பட்டது.	A new technology park was opened in Coimbatore.
+m008	news	நகரின் பல பகுதிகளில் குடிநீர் விநியோகம் இரண்டு நாட்களுக்கு நிறுத்தப்படும்.	Drinking water supply will be suspended for two days in many parts of the city.
+m009	agriculture	விவசாயிகளுக்குப் பயிர்க் காப்பீட்டுத் தொகை அடுத்த மாதம் வழங்கப்படும்.	Crop insurance payments will be given to farmers next month.
+m010	weather	மாநிலம் முழுவதும் இன்று கனமழை பெய்ய வாய்ப்புள்ளது.	Heavy rain is likely across the state today.
+m011	news	திருச்சி விமான நிலையத்தில் புதிய முனையம் திறந்து வைக்கப்பட்டது.	A new terminal was inaugurated at Tiruchi airport.
+m012	news	காவிரி ஆற்றில் வெள்ளப்பெருக்கு ஏற்பட்டுள்ளதால் கரையோர மக்கள் பாதுகாப்பான இடங்களுக்குச் செல்ல அறிவுறுத்தப்பட்டுள்ளனர்.	As the Kaveri river is in flood, people living along its banks have been advised to move to safe places.
+m013	news	ஊரக வேலை உறுதித் திட்டத்தின் கீழ் கூலி உயர்த்தப்பட்டுள்ளது.	Wages under the rural employment guarantee scheme have been increased.
+m014	transport	அரசுப் பேருந்துகளில் மகளிருக்குக் கட்டணமில்லாப் பயணம் தொடரும்.	Free travel for women in government buses will continue.
+m015	news	சட்டமன்றக் கூட்டத்தொடர் வரும் திங்கள்கிழமை தொடங்குகிறது.	The legislative assembly session begins next Monday.
+m016	health	தினமும் போதுமான அளவு தண்ணீர் குடிப்பது உடல் நலத்திற்கு நல்லது.	Drinking enough water every day is good for health.
+m017	health	காய்ச்சல் மூன்று நாட்களுக்கு மேல் நீடித்தால் உடனே மருத்துவரை அணுகவும்.	If the fever lasts more than three days, consult a doctor immediately.
+m018	health	குழந்தைகளுக்கு உரிய காலத்தில் தடுப்பூசி போடுவது அவசியம்.	It is essential to vaccinate children at the right time.
+m019	health	இந்த மருந்தை உணவுக்குப் பின் இரண்டு வேளை உட்கொள்ளவும்.	Take this medicine twice a day after food.
+m020	health	அரசு மருத்துவமனையில் இலவச இதயப் பரிசோதனை முகாம் நடைபெறுகிறது.	A free heart check-up camp is being held at the government hospital.
+m021	health	சர்க்கரை நோயாளிகள் தொடர்ந்து உடற்பயிற்சி செய்ய வேண்டும்.	Diabetic patients should exercise regularly.
+m022	health	கைகளைச் சோப்பு போட்டு நன்றாகக் கழுவுங்கள்.	Wash your hands well with soap.
+m023	health	டெங்கு காய்ச்சலைத் தடுக்க வீட்டைச் சுற்றி நீர் தேங்காமல் பார்த்துக்கொள்ளுங்கள்.	To prevent dengue fever, make sure water does not stagnate around your house.
+m024	education	மாணவர்கள் நூலகத்தை முழுமையாகப் பயன்படுத்திக்கொள்ள வேண்டும்.	Students should make full use of the library.
+m025	education	பள்ளிகள் ஜூன் மாதம் இரண்டாம் வாரத்தில் மீண்டும் திறக்கப்படும்.	Schools will reopen in the second week of June.
+m026	education	இந்த ஆண்டு அறிவியல் கண்காட்சியில் நூற்றுக்கும் மேற்பட்ட மாணவர்கள் கலந்துகொண்டனர்.	More than a hundred students took part in this year's science exhibition.
+m027	education	கற்றல் என்பது வாழ்நாள் முழுவதும் தொடரும் ஒரு பயணம்.	Learning is a journey that continues throughout life.
+m028	education	ஆசிரியர் கரும்பலகையில் கணக்குகளை விளக்கினார்.	The teacher explained the sums on the blackboard.
+m029	government	விண்ணப்பங்களை இணையதளம் வழியாக மட்டுமே சமர்ப்பிக்க வேண்டும்.	Applications must be submitted only through the website.
+m030	education	தமிழ் இலக்கியத்தில் சங்க காலம் ஒரு பொற்காலமாகக் கருதப்படுகிறது.	The Sangam age is regarded as a golden age in Tamil literature.
+m031	weather	இன்று வானம் மேகமூட்டத்துடன் காணப்படும்.	The sky will be cloudy today.
+m032	weather	கோடை வெப்பம் அதிகரித்து வருவதால் மதிய நேரத்தில் வெளியே செல்வதைத் தவிர்க்கவும்.	As the summer heat is rising, avoid going out in the afternoon.
+m033	environment	மரங்களை நடுவோம், மழை பெறுவோம்.	Let us plant trees and receive rain.
+m034	environment	பிளாஸ்டிக் பைகளுக்குப் பதிலாகத் துணிப் பைகளைப் பயன்படுத்துங்கள்.	Use cloth bags instead of plastic bags.
+m035	weather	நீலகிரி மலைப்பகுதியில் கடும் பனிமூட்டம் நிலவுகிறது.	Dense fog prevails in the Nilgiris hill region.
+m036	agriculture	ஏரிகளும் குளங்களும் நிரம்பியதால் விவசாயிகள் மகிழ்ச்சி அடைந்துள்ளனர்.	Farmers are happy as the lakes and ponds have filled up.
+m037	agriculture	நெல் அறுவடை இந்த ஆண்டு நல்ல மகசூலைத் தந்துள்ளது.	The paddy harvest has given a good yield this year.
+m038	agriculture	சொட்டு நீர்ப் பாசனம் மூலம் தண்ணீரைச் சேமிக்கலாம்.	Water can be saved through drip irrigation.
+m039	agriculture	தென்னை மரங்களுக்கு இயற்கை உரம் இடுவது நல்ல பலன் தரும்.	Applying natural manure to coconut trees gives good results.
+m040	agriculture	உழவர் சந்தையில் காய்கறிகள் நியாயமான விலையில் கிடைக்கின்றன.	Vegetables are available at fair prices in the farmers' market.
+m041	transport	இந்த ரயில் எழும்பூரிலிருந்து காலை ஆறு மணிக்குப் புறப்படும்.	This train will depart from Egmore at six in the morning.
+m042	transport	பயணிகள் தங்கள் உடைமைகளைத் தாங்களே கவனித்துக்கொள்ள வேண்டும்.	Passengers must take care of their own belongings.
+m043	transport	சாலைப் பணிகள் நடைபெறுவதால் போக்குவரத்து மாற்றுப் பாதையில் திருப்பி விடப்பட்டுள்ளது.	Traffic has been diverted to an alternative route because of road works.
+m044	transport	தலைக்கவசம் அணிந்து வாகனம் ஓட்டுங்கள்.	Wear a helmet while riding.
+m045	transport	பேருந்து நிலையத்திலிருந்து கோயிலுக்கு நடந்தே செல்லலாம்.	You can walk to the temple from the bus stand.
+m046	transport	அடுத்த நிறுத்தம் மத்திய பேருந்து நிலையம்.	The next stop is the central bus stand.
+m047	technology	உங்கள் கைபேசியில் புதிய மென்பொருள் புதுப்பிப்பு கிடைக்கிறது.	A new software update is available on your mobile phone.
+m048	technology	கடவுச்சொல்லை யாரிடமும் பகிர வேண்டாம்.	Do not share your password with anyone.
+m049	technology	செயற்கை நுண்ணறிவு பல துறைகளில் மாற்றங்களை ஏற்படுத்தி வருகிறது.	Artificial intelligence is bringing changes to many fields.
+m050	banking	இணைய வங்கிச் சேவை இரவு பதினொரு மணி முதல் ஒரு மணி நேரம் இயங்காது.	Internet banking will not work for one hour from eleven at night.
+m051	technology	இந்தச் செயலியைப் பயன்படுத்தி மின்கட்டணம் செலுத்தலாம்.	You can pay the electricity bill using this app.
+m052	technology	தமிழில் தட்டச்சு செய்வது இப்போது மிகவும் எளிது.	Typing in Tamil is now very easy.
+m053	commerce	இன்றைய தங்கம் விலை ஒரு கிராமுக்கு ஐம்பது ரூபாய் உயர்ந்துள்ளது.	Today's gold price has risen by fifty rupees per gram.
+m054	commerce	கடை ஞாயிற்றுக்கிழமை விடுமுறை.	The shop is closed on Sunday.
+m055	commerce	அனைத்துப் பொருட்களுக்கும் பத்து சதவீதத் தள்ளுபடி.	Ten percent discount on all items.
+m056	banking	உங்கள் கணக்கில் ஐந்தாயிரம் ரூபாய் வரவு வைக்கப்பட்டுள்ளது.	Five thousand rupees has been credited to your account.
+m057	commerce	ரசீது இல்லாமல் பொருட்களைத் திருப்பித் தர இயலாது.	Goods cannot be returned without a receipt.
+m058	banking	புதிய கிளை அடுத்த வாரம் திறக்கப்படும்.	The new branch will be opened next week.
+m059	culture	பொங்கல் பண்டிகையை முன்னிட்டு நான்கு நாட்கள் விடுமுறை அறிவிக்கப்பட்டுள்ளது.	Four days of holiday have been announced for the Pongal festival.
+m060	culture	ஜல்லிக்கட்டுப் போட்டியில் ஐநூறுக்கும் மேற்பட்ட காளைகள் பங்கேற்றன.	More than five hundred bulls took part in the jallikattu contest.
+m061	culture	சென்னையில் நடைபெற்ற புத்தகக் கண்காட்சிக்கு லட்சக்கணக்கான வாசகர்கள் வருகை தந்தனர்.	Lakhs of readers visited the book fair held in Chennai.
+m062	sports	இந்திய அணி கடைசிப் பந்தில் வெற்றி பெற்றது.	The Indian team won on the last ball.
+m063	culture	பரதநாட்டியம் தமிழ்நாட்டின் தொன்மையான நடனக் கலையாகும்.	Bharatanatyam is an ancient dance form of Tamil Nadu.
+m064	culture	இசைக் கச்சேரி மாலை ஆறு மணிக்குத் தொடங்கும்.	The music concert will begin at six in the evening.
+m065	sports	கபடிப் போட்டியில் எங்கள் கல்லூரி அணி முதல் பரிசு வென்றது.	Our college team won first prize in the kabaddi tournament.
+m066	history	தஞ்சைப் பெரிய கோயில் ஆயிரம் ஆண்டுகளுக்கு மேல் பழமையானது.	The Thanjavur Big Temple is more than a thousand years old.
+m067	history	கீழடி அகழாய்வில் கிடைத்த பொருட்கள் அருங்காட்சியகத்தில் வைக்கப்பட்டுள்ளன.	The objects found in the Keezhadi excavation have been placed in the museum.
+m068	daily	நான் நாளை காலை உங்களைச் சந்திக்கிறேன்.	I will meet you tomorrow morning.
+m069	daily	மதிய உணவுக்குச் சாம்பார் சாதமும் ரசமும் தயார்.	Sambar rice and rasam are ready for lunch.
+m070	daily	அம்மா சந்தைக்குக் காய்கறி வாங்கச் சென்றிருக்கிறார்.	Mother has gone to the market to buy vegetables.
+m071	daily	மழை வருவதால் குடையை எடுத்துச் செல்.	Take the umbrella because it is going to rain.
+m072	daily	என் தம்பி பொறியியல் படிக்கிறான்.	My younger brother is studying engineering.
+m073	daily	நேரத்திற்கு வந்ததற்கு மிக்க நன்றி.	Thank you very much for coming on time.
+m074	daily	இன்று இரவு எங்கள் வீட்டில் விருந்து.	There is a feast at our house tonight.
+m075	daily	தயவுசெய்து கதவை மூடிவிடுங்கள்.	Please close the door.
+m076	daily	உங்கள் பெயர் என்ன?	What is your name?
+m077	daily	இந்தப் பேருந்து மதுரைக்குப் போகுமா?	Will this bus go to Madurai?
+m078	daily	எனக்கு ஒரு குவளை காபி வேண்டும்.	I want a cup of coffee.
+m079	daily	பாட்டி எங்களுக்குப் பழைய கதைகளைச் சொன்னார்.	Grandmother told us old stories.
+m080	daily	வீட்டுப் பாடத்தை முடித்துவிட்டு விளையாடப் போ.	Finish your homework and then go and play.
+m081	proverb	ஆழம் தெரியாமல் காலை விடாதே.	Do not put your foot in without knowing the depth.
+m082	proverb	சிறு துளி பெரு வெள்ளம்.	Small drops make a great flood.
+m083	proverb	யானைக்கும் அடி சறுக்கும்.	Even an elephant can slip.
+m084	proverb	கற்றது கைம்மண் அளவு கல்லாதது உலகளவு.	What has been learnt is a handful of sand; what has not been learnt is the size of the world.
+m085	proverb	அகத்தின் அழகு முகத்தில் தெரியும்.	The beauty of the heart shows in the face.
+m086	proverb	ஒற்றுமையே பலம்.	Unity is strength.
+m087	proverb	பருவத்தே பயிர் செய்.	Sow the crop in its season.
+m088	proverb	எறும்பு ஊரக் கல்லும் தேயும்.	Even a stone wears away when ants keep crawling over it.
+m089	proverb	தன் கையே தனக்கு உதவி.	One's own hand is one's best help.
+m090	proverb	இளமையில் கல்.	Learn while you are young.
+m091	science	சூரியனைச் சுற்றி எட்டுக் கோள்கள் வலம் வருகின்றன.	Eight planets revolve around the sun.
+m092	science	நீர் நூறு டிகிரி செல்சியஸ் வெப்பநிலையில் கொதிக்கும்.	Water boils at a temperature of one hundred degrees Celsius.
+m093	history	ராஜராஜ சோழன் கட்டிய பெரிய கோயில் யுனெஸ்கோ உலகப் பாரம்பரியச் சின்னமாக அறிவிக்கப்பட்டுள்ளது.	The Big Temple built by Rajaraja Chola has been declared a UNESCO World Heritage Site.
+m094	science	சந்திரயான் விண்கலம் நிலவின் தென் துருவத்தில் தரையிறங்கியது.	The Chandrayaan spacecraft landed near the south pole of the moon.
+m095	history	தமிழ் உலகின் தொன்மையான மொழிகளில் ஒன்று.	Tamil is one of the oldest languages in the world.
+m096	history	ஓலைச்சுவடிகளைப் பாதுகாக்க அவற்றை எண்ணிம வடிவில் மாற்றி வருகின்றனர்.	Palm-leaf manuscripts are being converted into digital form to preserve them.
+m097	history	கல்வெட்டுகள் வரலாற்றை அறிய உதவும் முக்கியச் சான்றுகள்.	Inscriptions are important evidence for understanding history.
+m098	notice	அனுமதியின்றி உள்ளே நுழையக் கூடாது.	Entry is prohibited without permission.
+m099	notice	இங்கு புகைபிடிப்பது தண்டனைக்குரிய குற்றம்.	Smoking here is a punishable offence.
+m100	government	விண்ணப்பதாரர்கள் அசல் சான்றிதழ்களுடன் நேரில் வர வேண்டும்.	Applicants must come in person with their original certificates.
+m101	government	இந்த அலுவலகம் காலை பத்து மணி முதல் மாலை ஐந்து மணி வரை செயல்படும்.	This office functions from ten in the morning to five in the evening.
+m102	government	வாக்காளர் அடையாள அட்டை இல்லாதவர்கள் வேறு அடையாளச் சான்றைக் காட்டலாம்.	Those without a voter ID card can show another proof of identity.
+m103	notice	குப்பைகளைக் குப்பைத் தொட்டியில் மட்டுமே போடவும்.	Put rubbish only in the dustbin.
+m104	government	சொத்து வரியை இம்மாத இறுதிக்குள் செலுத்த வேண்டும்.	Property tax must be paid by the end of this month.
+m105	history	நம் முன்னோர்கள் கட்டிய ஏரிகள் இன்றும் பல கிராமங்களுக்குத் தண்ணீர் வழங்குகின்றன.	The lakes built by our ancestors still supply water to many villages today.
+m106	daily	மாலை நேரத்தில் கடற்கரையில் நடப்பது மனதுக்கு அமைதி தரும்.	Walking on the beach in the evening brings peace of mind.
+m107	culture	இந்த நூல் ஐந்து ஆண்டுகள் ஆய்வுக்குப் பின் எழுதப்பட்டது.	This book was written after five years of research.
+m108	daily	கிராமத்தின் நடுவே ஒரு பெரிய ஆலமரம் நிற்கிறது.	A big banyan tree stands in the middle of the village.
+m109	culture	விழாவில் கலந்துகொண்ட அனைவருக்கும் இனிப்பு வழங்கப்பட்டது.	Sweets were given to everyone who attended the function.
+m110	transport	புதிய பாலம் கட்டி முடிக்கப்பட்டதால் பயண நேரம் பாதியாகக் குறைந்துள்ளது.	Since the new bridge has been completed, travel time has been cut by half.
+m111	culture	அவள் ஒவ்வொரு நாளும் காலையில் வீணை பயிற்சி செய்கிறாள்.	She practises the veena every morning.
+m112	culture	எங்கள் ஊரில் ஆண்டுதோறும் தேர்த் திருவிழா நடைபெறும்.	A chariot festival is held every year in our town.
+m113	news	மின்வெட்டு காரணமாகத் தொழிற்சாலைகளின் உற்பத்தி பாதிக்கப்பட்டுள்ளது.	Production in factories has been affected because of power cuts.
+m114	government	இளைஞர்கள் தொழில் தொடங்க அரசு கடனுதவி வழங்குகிறது.	The government provides loans to young people to start businesses.
+m115	culture	சுற்றுலாப் பயணிகள் கொடைக்கானல் ஏரியில் படகுச் சவாரி செய்தனர்.	Tourists went boating on Kodaikanal lake.
+m116	culture	வள்ளுவர் கோட்டம் சென்னையின் முக்கிய அடையாளங்களில் ஒன்று.	Valluvar Kottam is one of the important landmarks of Chennai.
+m117	environment	பனை மரம் தமிழ்நாட்டின் மாநில மரமாகும்.	The palmyra tree is the state tree of Tamil Nadu.
+m118	culture	கண்ணகி சிலை மெரினா கடற்கரையில் உள்ளது.	The Kannagi statue is on Marina beach.
+m119	daily	குழந்தைகள் பூங்காவில் மகிழ்ச்சியாக விளையாடிக் கொண்டிருந்தனர்.	The children were playing happily in the park.
+m120	culture	இந்த ஆண்டின் சிறந்த நாவலுக்கான விருது ஒரு இளம் எழுத்தாளருக்கு வழங்கப்பட்டது.	The award for the best novel of the year was given to a young writer.
+m121	technology	உங்கள் OTP எண்ணை யாருடனும் பகிர வேண்டாம்.	Do not share your OTP number with anyone.
+m122	technology	WiFi இணைப்பு துண்டிக்கப்பட்டது, மீண்டும் முயற்சிக்கவும்.	The WiFi connection was lost; please try again.
+m123	government	உதவிக்கு 1800 425 1100 என்ற எண்ணைத் தொடர்பு கொள்ளவும்.	For help, contact the number 1800 425 1100.
+m124	weather	இன்றைய வெப்பநிலை 36°C, ஈரப்பதம் 70%.	Today's temperature is 36°C and the humidity is 70%.
+m125	commerce	உங்கள் ஆர்டர் 2 நாட்களில் டெலிவரி செய்யப்படும்.	Your order will be delivered in 2 days.
+m126	commerce	ரூ. 499 முதல் தொடங்கும் சிறப்புச் சலுகை!	A special offer starting from Rs. 499!
+m127	transport	அடுத்த ரயில் 10:45 மணிக்கு நடைமேடை 3-இல் வரும்.	The next train will arrive at platform 3 at 10:45.
+m128	banking	உங்கள் கணக்கு இருப்பு ₹12,450.00	Your account balance is ₹12,450.00
+m129	government	பதிவு செய்ய www.tn.gov.in இணையதளத்தைப் பார்வையிடவும்.	To register, visit the website www.tn.gov.in.
+m130	technology	இந்த வீடியோவை like செய்து share செய்யுங்கள்.	Like and share this video.
+m131	letter	அன்புள்ள அம்மாவுக்கு, நான் இங்கு நலமாக இருக்கிறேன்.	Dear Mother, I am well here.
+m132	letter	உங்கள் கடிதம் கிடைத்தது, மிக்க மகிழ்ச்சி.	I received your letter and I am very happy.
+m133	letter	அடுத்த மாதம் ஊருக்கு வருகிறேன்.	I am coming home next month.
+m134	letter	பணம் அனுப்பியதற்கு நன்றி.	Thank you for sending the money.
+m135	letter	தேர்வுக்கு நன்றாகப் படித்துக் கொண்டிருக்கிறேன்.	I am studying hard for the exam.
+m136	letter	அப்பாவின் உடல்நிலை பற்றி எழுதவும்.	Please write about Father's health.
+m137	letter	இப்படிக்கு, உங்கள் அன்பு மகன்.	Yours, your loving son.
+m138	notice	கூட்டம் வியாழக்கிழமை மாலை நான்கு மணிக்கு நடைபெறும்.	The meeting will be held on Thursday at four in the evening.
+m139	note	பால், முட்டை, ரொட்டி, வெங்காயம் வாங்க வேண்டும்.	Need to buy milk, eggs, bread and onions.
+m140	note	நாளை மறக்காமல் மின்கட்டணம் கட்டவும்.	Don't forget to pay the electricity bill tomorrow.
+m141	news	புயல் காரணமாக இன்று பள்ளி கல்லூரிகளுக்கு விடுமுறை அறிவிக்கப்பட்டுள்ளது.	Because of the cyclone, a holiday has been declared for schools and colleges today.
+m142	news	மாநகராட்சி சார்பில் புதிய பூங்கா அமைக்கப்பட உள்ளது.	A new park is to be built by the corporation.
+m143	health	ஒவ்வொரு நாளும் குறைந்தது அரை மணி நேரம் நடைப்பயிற்சி செய்யுங்கள்.	Walk for at least half an hour every day.
+m144	education	தமிழ் வழிக் கல்வியில் பயின்ற மாணவர்களுக்குச் சிறப்பு ஊக்கத்தொகை வழங்கப்படும்.	A special incentive will be given to students who studied in the Tamil medium.
+m145	agriculture	மஞ்சள் விலை இந்த வாரம் சற்று குறைந்துள்ளது.	The price of turmeric has fallen slightly this week.
+m146	culture	தெருக்கூத்து கலைஞர்கள் ஊர் ஊராகச் சென்று நாடகம் நடத்துகின்றனர்.	Street-theatre artists travel from village to village staging plays.
+m147	daily	தாத்தா தினமும் காலையில் செய்தித்தாள் படிப்பார்.	Grandfather reads the newspaper every morning.
+m148	daily	இந்த வீட்டின் முன்பு அழகான கோலம் போடப்பட்டிருந்தது.	A beautiful kolam had been drawn in front of this house.
+m149	science	மின்சார வாகனங்கள் சுற்றுச்சூழல் மாசுபாட்டைக் குறைக்கின்றன.	Electric vehicles reduce environmental pollution.
+m150	history	சோழர்களின் கடற்படை தென்கிழக்கு ஆசியா வரை சென்றது.	The Chola navy sailed as far as Southeast Asia.

@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tamilbench"
+version = "1.0.0"
+description = "A comprehensive OCR / HTR / epigraphy benchmark for Tamil: from Tamil-Brahmi to Unicode, from palm leaves and stone to screens."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0 (code); CC BY 4.0 (benchmark data) — see DATA_LICENSE.md" }
+authors = [{ name = "Tamil OCR/HTR Benchmark contributors" }]
+keywords = ["tamil", "ocr", "htr", "benchmark", "epigraphy", "palm-leaf", "tamil-brahmi", "grantha", "vlm", "leaderboard"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Scientific/Engineering :: Image Recognition",
+  "Natural Language :: Tamil",
+]
+dependencies = [
+  "numpy>=1.24",
+  "pillow>=10.0",
+  "pyyaml>=6.0",
+  "httpx>=0.25",
+]
+
+[project.optional-dependencies]
+# Rebuilding the synthetic data from source (fonts are vendored in assets/fonts).
+build = ["scipy>=1.10", "fonttools>=4.40", "playwright>=1.40", "tqdm>=4.60"]
+# Faster edit distance (pure-Python fallback is used otherwise).
+fast = ["rapidfuzz>=3.0"]
+# Optional local OCR engines (each needs its own model weights).
+easyocr = ["easyocr>=1.7"]
+paddleocr = ["paddleocr>=2.7"]
+surya = ["surya-ocr>=0.6"]
+dev = ["pytest>=7.4", "sacrebleu>=2.3", "scipy>=1.10", "fonttools>=4.40", "rapidfuzz>=3.0"]
+
+[project.scripts]
+tamilbench = "tamilbench.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ChargingTrex/Tamil-OCR-HTR-Benchmark"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+tamilbench = ["corpus/data/*.tsv", "corpus/data/*.txt", "py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
