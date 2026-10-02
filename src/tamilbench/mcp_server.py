@@ -43,7 +43,7 @@ from . import subsets as S
 from .prompts import PROMPT_VERSION, PROMPTS, SYSTEM
 from .runner import load_manifest, manifest_path, read_predictions, results_dir
 from .scoring import item_result
-from .taxonomy import TRACKS, Task, Track
+from .taxonomy import ERAS, LINEAGE_ORDER, SCRIPTS, TRACKS, Era, Script, Task, Track
 
 _REPO = Path(__file__).resolve().parents[2]
 _RUN_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{1,99}$")
@@ -51,8 +51,10 @@ _MAX_IMPORT_BYTES = 50_000_000
 TASKS_ALL = [t.value for t in Task]
 
 INSTRUCTIONS = """\
-Tamil OCR / HTR Benchmark (tamilbench): 1,654 test images of Tamil writing, from
-Tamil-Brahmi inscriptions and palm leaves to screens, in 18 subsets and 8 tracks.
+Tamil OCR / HTR Benchmark (tamilbench): test images of Tamil writing from Tamil-Brahmi
+inscriptions and palm leaves to screens, in 18 ranked subsets, 8 tracks and 2 control
+subsets. The modern script and the older scripts count equally: OCR/HTR = ½ modern-script
+reading + ½ older-script reading; tamilbench_get_script_scores shows every script stage.
 
 Workflows:
 1. Explore: tamilbench_list_subsets -> tamilbench_get_subset -> tamilbench_list_items ->
@@ -64,7 +66,7 @@ Workflows:
    tamilbench_run_model -> tamilbench_run_status -> tamilbench_score_run,
    tamilbench_compare_runs, tamilbench_update_leaderboard. Outputs produced elsewhere:
    tamilbench_import_predictions.
-Use split "lite" (371 items) for quick checks; only "test" (1,654) is ranked.
+Use split "lite" for quick checks; only "test" is ranked.
 """
 
 mcp = MCPServer(name="tamilbench_mcp", title="Tamil OCR / HTR Benchmark", version=__version__,
@@ -88,7 +90,8 @@ class ModelStatus(str, Enum):
 
 
 Fmt = Annotated[ResponseFormat, Field(description="'markdown' for reading, 'json' for programmatic use")]
-SplitArg = Annotated[Split, Field(description="'test' (1,654 items, ranked) or 'lite' (371 items, quick checks)")]
+SplitArg = Annotated[Split, Field(description="'test' (the ranked split) or 'lite' (about 20 items per subset, "
+                                              "for quick checks)")]
 RunName = Annotated[str, Field(description="Run identifier (the results/ folder name): letters, digits, '.', '_' "
                                            "or '-', e.g. 'claude-desktop-2026-10' or 'tesseract-tam-best'",
                                 min_length=2, max_length=100)]
@@ -180,6 +183,10 @@ def _image(row: dict, max_side: int | None) -> Image:
 
 
 def _policy_text(spec: S.SubsetSpec) -> str:
+    if spec.scoring == "abstention":
+        return "100 − % of items answered with any letters (the right answer is no text); not ranked"
+    if spec.id == "perturbed":
+        return "100·(1−CER) with the policy of the subset each item imitates, plus the prior-pull index; not ranked"
     if spec.task == Task.SCRIPT_ID or spec.task == Task.MEDIUM_ID:
         return "macro-F1 over the label set"
     if spec.task == Task.TRANSLATION:
@@ -213,8 +220,9 @@ def tamilbench_list_subsets(
     task: Annotated[Task | None, Field(description="Only subsets of this task")] = None,
     response_format: Fmt = ResponseFormat.MARKDOWN,
 ) -> str:
-    """List the benchmark's 18 subsets with their track, task, item count, provenance and
-    scoring policy. Use tamilbench_get_subset for the full description and the prompt."""
+    """List the benchmark's 18 ranked subsets and 2 control subsets with their track, task,
+    item count, provenance and scoring policy. Use tamilbench_get_subset for the full
+    description and the prompt."""
     counts = {}
     for r in _manifest("test"):
         counts[r["subset"]] = counts.get(r["subset"], 0) + 1
@@ -247,7 +255,10 @@ def tamilbench_get_subset(
             "granularity": [g.value for g in spec.granularity], "n_test": len(test_ids), "n_lite": lite_n,
             "scoring": _policy_text(spec), "policy": spec.policy, "labels": list(spec.labels),
             "prompt_id": spec.prompt, "prompt": PROMPTS[spec.prompt], "system_prompt": SYSTEM,
-            "attribution": spec.attribution or None, "sample_ids": test_ids[:5]}
+            "ranked": spec.ranked, "attribution": spec.attribution or None, "sample_ids": test_ids[:5]}
+    if not spec.ranked:
+        imitated = sorted({r.get("as_subset") for r in _manifest("test") if r["subset"] == spec.id} - {None})
+        info.update({"prompt_id": None, "prompt": None, "imitates": imitated})
     if response_format == ResponseFormat.JSON:
         return _dump(info)
     lines = [f"# {spec.title} (`{spec.id}`)", "", spec.description, "",
@@ -261,8 +272,13 @@ def tamilbench_get_subset(
         lines.append(f"- **Labels:** {', '.join(spec.labels)}")
     if spec.attribution:
         lines.append(f"- **Source and credit:** {spec.attribution}")
-    lines += ["", f"## Prompt (`{spec.prompt}`)", "", "```text", PROMPTS[spec.prompt], "```",
-              "", f"Sample ids: {', '.join(info['sample_ids'])}"]
+    if spec.ranked:
+        lines += ["", f"## Prompt (`{spec.prompt}`)", "", "```text", PROMPTS[spec.prompt], "```"]
+    else:
+        lines += ["", "## Prompt", "", "Control subset, not ranked: each item is shown with the prompt of the subset it "
+                  "imitates, so a system cannot tell a control from a test item. Imitated subsets: "
+                  + ", ".join(f"`{x}`" for x in info["imitates"]) + "."]
+    lines += ["", f"Sample ids: {', '.join(info['sample_ids'])}"]
     return "\n".join(lines)
 
 
@@ -288,7 +304,7 @@ def tamilbench_list_items(
               "granularity": r.get("granularity"), "lexical": r.get("lexical"),
               "provenance": r.get("provenance"), "size": [r.get("width"), r.get("height")]}
         if include_reference:
-            it["reference"] = r.get(spec.target)
+            it["reference"] = r.get(S.presentation(r).target)
         items.append(it)
     more = offset + len(page) < len(rows)
     out = {"subset": spec.id, "split": split.value, "total": len(rows), "count": len(items), "offset": offset,
@@ -306,8 +322,9 @@ def tamilbench_list_items(
 
 
 def _item_text(row: dict, split: str, *, include_reference: bool, run_name: str | None = None) -> str:
-    spec = S.get(row["subset"])
-    lines = [f"Item `{row['id']}` · subset `{spec.id}` ({spec.title}) · split {split}",
+    # Control items are presented as the subset they imitate, with that subset's prompt.
+    spec = S.presentation(row)
+    lines = [f"Item `{row['id']}` · {spec.title} · split {split}",
              f"Task: {spec.task.value} · medium {row.get('medium')} · granularity {row.get('granularity')} · "
              f"image {row.get('width')}×{row.get('height')}",
              "", "System prompt:", SYSTEM, "", "Prompt:", PROMPTS[spec.prompt]]
@@ -405,9 +422,12 @@ def tamilbench_submit_answer(
     res = item_result(spec, row, answer)
     done = read_predictions(run_dir / "predictions.jsonl")
     total = len(_manifest(split.value))
-    if "cer" in res:
+    if "hallucinated" in res:
+        verdict = ("no text claimed: correct" if not res["hallucinated"]
+                   else f"{res['letters']} letters written where nothing is legible")
+    elif "cer" in res:
         verdict = (f"CER {res['cer']:.3f} ({res['char_edits']} edits over {res['chars']} reference characters, "
-                   f"after the subset's normalisation: {_policy_text(spec)})")
+                   f"after the subset's normalisation: {_policy_text(S.presentation(row))})")
     elif "ok" in res:
         verdict = f"label parsed as '{res['label']}': {'correct' if res['ok'] else 'incorrect'}"
     else:
@@ -415,19 +435,43 @@ def tamilbench_submit_answer(
     out = [f"Recorded `{row['id']}` for run '{run_name}': {verdict}.",
            f"Progress: {len(done)} of {total} items in '{split.value}' answered."]
     if show_reference:
-        out.append(f"Reference: {row.get(spec.target)!r}")
+        out.append(f"Reference: {row.get(S.presentation(row).target)!r}")
     out.append(f"Next: tamilbench_next_item(run_name='{run_name}', split='{split.value}').")
     return "\n".join(out)
 
 
 # ------------------------------------------------------------------------------- scoring
 
+def _ci_text(ci) -> str:
+    return f"{_fmt(ci[0])}–{_fmt(ci[1])}" if ci else ""
+
+
+def _script_rows(scripts: dict) -> list[str]:
+    lines = ["| Script stage | Era | Reading | 95 % CI | Items |", "|---|---|---:|---|---:|"]
+    for sc in sorted(scripts, key=lambda x: [s.value for s in LINEAGE_ORDER].index(x)
+                     if x in [s.value for s in LINEAGE_ORDER] else 99):
+        v = scripts[sc]
+        name = SCRIPTS[Script(sc)].name if sc in Script._value2member_map_ else sc
+        lines.append(f"| {name} | {v.get('era', '')} | {_fmt(v.get('score'))} | {_ci_text(v.get('ci95'))} | "
+                     f"{v.get('n', '')} |")
+    return lines
+
+
 def _score_summary(scores: dict, *, title: str, answered: int | None = None, total: int | None = None) -> str:
     lines = [f"# {title}", ""]
     if answered is not None:
         lines.append(f"Scored on the {answered} answered items of {total}.")
-    lines += [f"**Overall:** {_fmt(scores.get('overall'))} · **OCR/HTR average:** {_fmt(scores.get('recognition_avg'))}",
-              "", "| Track | Score |", "|---|---:|"]
+    eras = scores.get("eras") or {}
+    m, o = eras.get("modern", {}), eras.get("older", {})
+    lines += [f"**Overall:** {_fmt(scores.get('overall'))} · **OCR/HTR:** {_fmt(scores.get('recognition_avg'))} "
+              f"= ½ modern script {_fmt(m.get('reading'))} + ½ older scripts {_fmt(o.get('reading'))}"]
+    gap = scores.get("era_gap")
+    if gap:
+        lines.append(f"Modern − older reading: {gap['diff']:+.1f} (95 % CI {gap['ci95'][0]:+.1f} to "
+                     f"{gap['ci95'][1]:+.1f}){'' if gap['separable'] else ', not significant'}")
+    if scores.get("scripts"):
+        lines += [""] + _script_rows(scores["scripts"])
+    lines += ["", "| Track | Score |", "|---|---:|"]
     lines += [f"| {TRACKS[Track(k)].name} | {_fmt(v)} |" for k, v in scores["tracks"].items()]
     lines += ["", "| Subset | n | Score | 95 % CI |", "|---|---:|---:|---|"]
     for sid, v in scores["subsets"].items():
@@ -445,8 +489,12 @@ def _score_summary(scores: dict, *, title: str, answered: int | None = None, tot
         lines.append(f"**Reading vs guessing:** real text {_fmt(pr['corpus_text'])}, nonce words "
                      f"{_fmt(pr.get('nonce_words'))}")
     if pr.get("recitation_index"):
-        lines.append("**Recitation index** (−1 reads the leaf, +1 recites the edition): " + ", ".join(
+        lines.append("**Recitation index** (−1 reads the image, +1 recites the canonical text): " + ", ".join(
             f"{k} {v:+.2f}" for k, v in pr["recitation_index"].items()))
+    hal = scores.get("hallucination")
+    if hal:
+        lines.append(f"**Hallucination on blank and effaced surfaces:** {100 * hal['rate']:.1f} % of "
+                     f"{hal['n']} control items answered with letters")
     return "\n".join(lines)
 
 
@@ -489,8 +537,9 @@ async def tamilbench_score_run(
     response_format: Fmt = ResponseFormat.MARKDOWN,
 ) -> str:
     """Score a run with the official code: per-subset scores with cluster-bootstrap 95 %
-    intervals, track scores, Overall and OCR/HTR averages, failure modes and the
-    reading-vs-guessing diagnostics. Writes scores.json (or scores-answered.json)."""
+    intervals, per-script and per-era scores, track scores, Overall and OCR/HTR (modern and
+    older scripts weighted equally), failure modes and the reading-vs-guessing and
+    hallucination diagnostics. Writes scores.json (or scores-answered.json)."""
     s, md = await anyio.to_thread.run_sync(lambda: _score(run_name, split.value, answered_only, 1000))
     if response_format == ResponseFormat.JSON:
         return _dump({k: v for k, v in s.items()})
@@ -551,8 +600,8 @@ async def tamilbench_compare_runs(
     response_format: Fmt = ResponseFormat.MARKDOWN,
 ) -> str:
     """Compare two runs on paired differences (A − B) with a cluster bootstrap: per subset,
-    per track, for the OCR/HTR average and for Overall, each with a 95 % interval and a
-    p-value. A difference whose interval includes zero is a statistical tie."""
+    per track, per script stage, for the modern and older halves, OCR/HTR and Overall, each
+    with a 95 % interval and a p-value. An interval that includes zero is a statistical tie."""
     from .compare import compare
 
     def load(name):
@@ -575,8 +624,11 @@ async def tamilbench_compare_runs(
         return (f"| {name} | {r['diff']:+.2f} | {r['ci95'][0]:+.2f} to {r['ci95'][1]:+.2f} | {r['p']:.3f} | "
                 f"{'yes' if r['separable'] else 'no (tie)'} |")
     lines = [f"# {run_a} − {run_b} ({split.value})", "", "| | Difference | 95 % CI | p | Separable |",
-             "|---|---:|---|---:|---|", row("**Overall**", res["overall"]), row("**OCR/HTR average**",
+             "|---|---:|---|---:|---|", row("**Overall**", res["overall"]), row("**OCR/HTR**",
                                                                               res["recognition_avg"])]
+    lines += [row(f"{ERAS[Era(e)].name} (reading)", parts.get("reading")) for e, parts in res["eras"].items()]
+    lines += [row(SCRIPTS[Script(k)].name if k in Script._value2member_map_ else k, v)
+              for k, v in res["scripts"].items()]
     lines += [row(TRACKS[Track(k)].name, v) for k, v in res["tracks"].items()]
     lines += [row(f"`{k}`", v) for k, v in res["subsets"].items()]
     return "\n".join(lines)
@@ -676,6 +728,8 @@ def _run_job(job: dict, adapter, subsets: list[str] | None, limit: int | None, c
                        limit=limit, concurrency=concurrency, progress=False)
             scores = runner.score(Path(job["run_dir"]), data_dir(), split=job["split"])
         job["summary"] = {"overall": scores["overall"], "recognition_avg": scores["recognition_avg"],
+                          "modern_script": (scores["eras"].get("modern") or {}).get("reading"),
+                          "older_scripts": (scores["eras"].get("older") or {}).get("reading"),
                           "tracks": scores["tracks"], "complete": scores.get("complete")}
         job["status"] = "finished"
     except Exception as e:  # noqa: BLE001 - reported to the client through tamilbench_run_status
@@ -821,8 +875,9 @@ def tamilbench_get_leaderboard(
     include_pending: Annotated[bool, Field(description="Also list systems awaiting evaluation")] = False,
     response_format: Fmt = ResponseFormat.MARKDOWN,
 ) -> str:
-    """Show the current leaderboard: ranked systems with Overall, OCR/HTR average and track
-    scores, statistical ties (≈) between neighbouring ranks, and failure-mode rates."""
+    """Show the current leaderboard: ranked systems with Overall, OCR/HTR, the modern-script
+    and older-script halves and track scores, statistical ties (≈) between neighbouring
+    ranks, and failure-mode rates."""
     path = _REPO / "leaderboard" / "data" / "leaderboard.json"
     if not path.exists():
         raise ToolError("No leaderboard yet. Build it with tamilbench_update_leaderboard.")
@@ -830,12 +885,13 @@ def tamilbench_get_leaderboard(
     models = [m for m in lb["models"] if include_pending or m["status"] == "evaluated"]
     if response_format == ResponseFormat.JSON:
         keys = ("id", "name", "org", "status", "rank_overall", "rank_recognition", "overall", "recognition_avg",
-                "tracks", "vs_next", "failure_modes")
+                "modern_script", "older_scripts", "tracks", "vs_next", "failure_modes")
         return _dump({"generated_at": lb["generated_at"], "models": [{k: m.get(k) for k in keys} for m in models],
                       "diagnostics": lb.get("diagnostics")})
     lines = [f"# Leaderboard (benchmark {lb['benchmark']['version']}, generated {lb['generated_at'][:10]})", "",
-             "| # | System | Overall | OCR/HTR | " + " | ".join(t["name"] for t in lb["tracks"]) + " |",
-             "|---:|---|---:|---:|" + "---:|" * len(lb["tracks"])]
+             "| # | System | Overall | OCR/HTR | Modern script | Older scripts | "
+             + " | ".join(t["name"] for t in lb["tracks"]) + " |",
+             "|---:|---|---:|---:|---:|---:|" + "---:|" * len(lb["tracks"])]
     for m in models:
         if m["status"] != "evaluated":
             continue
@@ -844,12 +900,67 @@ def tamilbench_get_leaderboard(
         if vs and not vs["separable"]:
             rank = f"{rank} ≈"
         lines.append(f"| {rank} | {m['name']} | {_fmt(m.get('overall'))} | {_fmt(m.get('recognition_avg'))} | "
+                     f"{_fmt(m.get('modern_script'))} | {_fmt(m.get('older_scripts'))} | "
                      + " | ".join(_fmt((m.get('tracks') or {}).get(t['id'])) for t in lb["tracks"]) + " |")
     pending = [m["id"] for m in models if m["status"] != "evaluated"]
     if pending:
         lines += ["", "Awaiting evaluation: " + ", ".join(f"`{p}`" for p in pending)]
-    lines += ["", "Ranks in parentheses: OCR/HTR rank for systems that only read. ≈: not separable from the next "
-                  "rank (paired bootstrap, 95 %)."]
+    lines += ["", "Ranks in parentheses: OCR/HTR rank for systems that only read. OCR/HTR = ½ modern script + ½ "
+                  "older scripts. ≈: not separable from the next rank (paired bootstrap, 95 %). Per-script "
+                  "scores: tamilbench_get_script_scores."]
+    return "\n".join(lines)
+
+
+@mcp.tool(name="tamilbench_get_script_scores", annotations=READ_ONLY, structured_output=False)
+def tamilbench_get_script_scores(
+    run_name: Annotated[str | None, Field(description="A scored run (results/ folder name); omit for every system "
+                                                      "on the leaderboard", max_length=100)] = None,
+    split: SplitArg = Split.TEST,
+    response_format: Fmt = ResponseFormat.MARKDOWN,
+) -> str:
+    """Reading scores per script stage — modern Tamil, pre-reform Tamil, Grantha–Tamil, Grantha
+    and Tamil-Brahmi — with 95 % intervals, the modern and older halves, the gap between
+    them, each script's scores by track and its identification scores."""
+    if run_name:
+        run_dir = _run_dir(run_name, split.value)
+        path = next((p for p in (run_dir / "scores.json", run_dir / "scores-answered.json") if p.exists()), None)
+        if path is None:
+            raise ToolError(f"Run '{run_name}' has not been scored on '{split.value}'. Call tamilbench_score_run.")
+        s = json.loads(path.read_text(encoding="utf-8"))
+        data = {"run": run_name, "split": split.value, "eras": s.get("eras"), "era_gap": s.get("era_gap"),
+                "scripts": s.get("scripts")}
+        if response_format == ResponseFormat.JSON:
+            return _dump(data)
+        lines = [f"# Scores by script: {run_name} · {split.value}", ""]
+        for e, v in (s.get("eras") or {}).items():
+            lines.append(f"- **{v['name']}:** reading {_fmt(v.get('reading'))} ({_ci_text(v.get('reading_ci95'))})"
+                         + (f", composite {_fmt(v['composite'])}" if v.get("composite") is not None else ""))
+        lines += [""] + _script_rows(s.get("scripts") or {})
+        for sc, v in (s.get("scripts") or {}).items():
+            cells = ", ".join(f"{TRACKS[Track(t)].name} {_fmt(x)}" for t, x in v["tracks"].items())
+            ident = v.get("identification") or {}
+            extra = "; ".join(f"{k.replace('_', ' ')} {x:.1f}" for k, x in ident.items())
+            lines.append(f"- {SCRIPTS[Script(sc)].name}: {cells}" + (f"; {extra}" if extra else ""))
+        return "\n".join(lines)
+    path = _REPO / "leaderboard" / "data" / "leaderboard.json"
+    if not path.exists():
+        raise ToolError("No leaderboard yet. Build it with tamilbench_update_leaderboard.")
+    lb = json.loads(path.read_text(encoding="utf-8"))
+    ev = [m for m in lb["models"] if m["status"] == "evaluated"]
+    order = [s.value for s in LINEAGE_ORDER if any(s.value in (m.get("scripts") or {}) for m in ev)]
+    if response_format == ResponseFormat.JSON:
+        return _dump({"scripts": order, "models": [{"id": m["id"], "name": m["name"], "modern_script":
+                     m.get("modern_script"), "older_scripts": m.get("older_scripts"), "era_gap": m.get("era_gap"),
+                     "scripts": m.get("scripts")} for m in ev]})
+    lines = ["# Reading scores by script stage (test split)", "",
+             "| System | Modern script | Older scripts | " + " | ".join(SCRIPTS[Script(x)].name for x in order) + " |",
+             "|---|---:|---:|" + "---:|" * len(order)]
+    for m in ev:
+        sc = m.get("scripts") or {}
+        lines.append(f"| {m['name']} | {_fmt(m.get('modern_script'))} | {_fmt(m.get('older_scripts'))} | "
+                     + " | ".join(_fmt((sc.get(x) or {}).get("score")) for x in order) + " |")
+    lines += ["", "Older scripts = mean of the older script stages, each weighted equally. OCR/HTR = ½ modern + ½ "
+                  "older. Vatteluttu and medieval Tamil have no items yet."]
     return "\n".join(lines)
 
 

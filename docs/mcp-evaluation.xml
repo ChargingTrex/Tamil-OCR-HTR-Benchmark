@@ -13,16 +13,16 @@
     <answer>tesseract-tam-best</answer>
   </qa_pair>
   <qa_pair>
-    <question>Take the system ranked last by its average over the reading tracks. On what percentage of its reading answers does it produce letters from a script that the references never use? Answer to one decimal place without the % sign.</question>
-    <answer>33.0</answer>
+    <question>Take the system ranked last on the OCR/HTR score. On what percentage of its answers to the ranked reading items does it produce letters from a script that the references never use? Answer to one decimal place without the % sign.</question>
+    <answer>35.1</answer>
   </qa_pair>
   <qa_pair>
     <question>Among the subsets in the inscriptions track, one expects its answers romanised rather than written in Tamil letters. What is that subset's id?</question>
     <answer>grantha</answer>
   </qa_pair>
   <qa_pair>
-    <question>The benchmark has a task that asks what the writing is physically on (stone, leaf, screen and so on). How many answers is a model allowed to choose from?</question>
-    <answer>9</answer>
+    <question>The benchmark shows systems surfaces with nothing legible on them. On what percentage of those items does the Tesseract configuration with the tessdata_best Tamil model write text anyway? Answer to one decimal place without the % sign.</question>
+    <answer>68.8</answer>
   </qa_pair>
   <qa_pair>
     <question>In the quick-check split of the oldest Tamil script's subset, consider the items built from invented words rather than real text. What is the image width in pixels of the one with the smallest id?</question>
@@ -33,8 +33,8 @@
     <answer>yes</answer>
   </qa_pair>
   <qa_pair>
-    <question>On the synthetic palm leaves, which Tamil letter substitution does the Tesseract configuration based on the whole-script Tamil model make most often? Answer in the form X→Y.</question>
-    <answer>ன→ள</answer>
+    <question>For the system ranked first on OCR/HTR, how many points higher is its modern-script reading score than its older-scripts reading score? Answer to one decimal place.</question>
+    <answer>49.5</answer>
   </qa_pair>
   <qa_pair>
     <question>The benchmark data carries a marker meant to keep it out of training corpora. What is the GUID in that marker?</question>

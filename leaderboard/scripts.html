@@ -1,0 +1,931 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Scores by script stage on the Tamil OCR / HTR Benchmark: modern Tamil, pre-reform Tamil, Grantha–Tamil, Grantha and Tamil-Brahmi.">
+</head>
+<body>
+<title>Tamil OCR · Scores by Script</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Tamil:wdth,wght@75..125,400..800&family=Hind+Madurai:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Brahmi&family=Noto+Sans+Grantha&display=swap">
+<style>
+/* Shared by index.html (the leaderboard) and scripts.html (scores by script stage).
+   Layout: a palm-leaf masthead (the subject's own writing surface) over a ledger-like page. */
+:root {
+  --ground: #f3f4ef;
+  --surface: #fcfcfa;
+  --ink: #17160f;
+  --ink-2: #4c4a42;
+  --muted: #7d7a72;
+  --rule: #e0dfd7;
+  --rule-strong: #c6c4ba;
+  --leaf-1: #e3c27f;
+  --leaf-2: #cfa65a;
+  --leaf-edge: #9c7531;
+  --leaf-ink: #241a0c;
+  --gold: #8a6420;
+  --accent: #2a78d6;
+  --accent-strong: #1c5cab;
+  --accent-soft: #9ec5f4;
+  --accent-wash: rgba(42, 120, 214, 0.10);
+  --verdigris: #2b7a69;
+  --verdigris-wash: rgba(43, 122, 105, 0.12);
+  --error: #c43d3d;
+  --error-wash: rgba(196, 61, 61, 0.14);
+  /* modern script vs older scripts: validated categorical pair (CVD ΔE ≥ 26 in both themes) */
+  --era-modern: #2a78d6;
+  --era-older: #b8790f;
+  --era-older-wash: rgba(184, 121, 15, 0.12);
+  --h0: #eef4fd; --h1: #cde2fb; --h2: #9ec5f4; --h3: #6da7ec; --h4: #3987e5; --h5: #256abf; --h6: #104281;
+  --h-ink-lo: #17160f; --h-ink-hi: #ffffff;
+  --font-display: "Anek Tamil", "Hind Madurai", system-ui, sans-serif;
+  --font-body: "Hind Madurai", "Noto Sans Tamil", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-brahmi: "Noto Sans Brahmi", serif;
+  --font-grantha: "Noto Sans Grantha", serif;
+  --font-classical: "Lohit Tamil Classical Subset", "Hind Madurai", serif;
+  --radius: 6px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --maxw: 1240px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #11110e; --surface: #1a1a17; --ink: #f1eee4; --ink-2: #c6c2b6; --muted: #8f8b80;
+    --rule: #2c2a25; --rule-strong: #403d36;
+    --leaf-1: #c9a35c; --leaf-2: #b38a42; --leaf-edge: #7d5c22; --leaf-ink: #1d1509; --gold: #e2b45a;
+    --accent: #3987e5; --accent-strong: #86b6ef; --accent-soft: #1c5cab; --accent-wash: rgba(57, 135, 229, 0.16);
+    --verdigris: #5fc0a8; --verdigris-wash: rgba(95, 192, 168, 0.14);
+    --error: #ef7a7a; --error-wash: rgba(239, 122, 122, 0.18);
+    --era-modern: #3987e5; --era-older: #b98526; --era-older-wash: rgba(185, 133, 38, 0.16);
+    --h0: #16202c; --h1: #10345e; --h2: #1c5cab; --h3: #2a78d6; --h4: #5598e7; --h5: #9ec5f4; --h6: #dbe9fc;
+    --h-ink-lo: #f1eee4; --h-ink-hi: #0d1520;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #11110e; --surface: #1a1a17; --ink: #f1eee4; --ink-2: #c6c2b6; --muted: #8f8b80;
+  --rule: #2c2a25; --rule-strong: #403d36;
+  --leaf-1: #c9a35c; --leaf-2: #b38a42; --leaf-edge: #7d5c22; --leaf-ink: #1d1509; --gold: #e2b45a;
+  --accent: #3987e5; --accent-strong: #86b6ef; --accent-soft: #1c5cab; --accent-wash: rgba(57, 135, 229, 0.16);
+  --verdigris: #5fc0a8; --verdigris-wash: rgba(95, 192, 168, 0.14);
+  --error: #ef7a7a; --error-wash: rgba(239, 122, 122, 0.18);
+  --era-modern: #3987e5; --era-older: #b98526; --era-older-wash: rgba(185, 133, 38, 0.16);
+  --h0: #16202c; --h1: #10345e; --h2: #1c5cab; --h3: #2a78d6; --h4: #5598e7; --h5: #9ec5f4; --h6: #dbe9fc;
+  --h-ink-lo: #f1eee4; --h-ink-hi: #0d1520;
+  color-scheme: dark;
+}
+/* Lohit Tamil Classical (SIL OFL 1.1, assets/fonts/licenses/OFL-lohit.txt), WOFF2 subset
+   holding only the glyphs of the masthead's pre-1978 letterforms. */
+@font-face{font-family:'Lohit Tamil Classical Subset';src:url(data:font/woff2;base64,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) format('woff2');font-display:swap}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--font-body); font-size: 15.5px; line-height: 1.55; }
+a { color: var(--accent-strong); text-underline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--gutter); }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; letter-spacing: -0.005em; }
+h2 { font-size: 1.6rem; font-weight: 650; font-stretch: 112%; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+.eyebrow { font-size: 0.72rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.lede { color: var(--ink-2); max-width: 68ch; margin: 0.4rem 0 0; }
+.num { font-variant-numeric: tabular-nums; }
+section { padding-block: 2.6rem 0.6rem; }
+.section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 1.5rem; margin-bottom: 1rem; }
+.section-head > div { min-width: 0; }
+
+/* ---------------- masthead ---------------- */
+header.masthead { padding-block: 2.2rem 0.4rem; }
+.title-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 0.8rem 2rem; }
+.title-row h1 { font-size: clamp(2rem, 4.6vw, 3.25rem); line-height: 1.02; font-weight: 720; font-stretch: 118%; }
+.title-row h1 span { display: block; font-size: 0.42em; font-weight: 500; font-stretch: 100%; color: var(--ink-2); margin-top: 0.45rem; letter-spacing: 0; }
+.facts { display: flex; flex-wrap: wrap; gap: 0.35rem 1.4rem; color: var(--ink-2); font-size: 0.92rem; }
+.facts b { color: var(--ink); font-weight: 600; }
+.leaf {
+  position: relative; margin-top: 1.4rem; border-radius: 22px / 50%;
+  background:
+    radial-gradient(120% 140% at 50% 50%, transparent 55%, rgba(80, 52, 12, 0.28) 100%),
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0 2px, rgba(120, 82, 24, 0.10) 2px 3px, transparent 3px 7px),
+    linear-gradient(180deg, var(--leaf-1), var(--leaf-2));
+  box-shadow: inset 0 0 0 1px var(--leaf-edge);
+  padding: 1.1rem clamp(2.6rem, 7vw, 5.2rem);
+  color: var(--leaf-ink);
+}
+.leaf::before, .leaf::after { content: ""; position: absolute; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: var(--ground); box-shadow: inset 0 0 0 1.5px var(--leaf-edge); }
+.leaf::before { left: clamp(0.9rem, 2.6vw, 2rem); }
+.leaf::after { right: clamp(0.9rem, 2.6vw, 2rem); }
+.timeline { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.6rem 1.4rem; align-items: end; }
+.stage { min-width: 0; }
+.stage .glyphs { font-size: clamp(1.25rem, 2.6vw, 1.85rem); line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+.stage .cap { font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; opacity: 0.85; }
+.stage .cap i { font-style: normal; font-weight: 500; text-transform: none; letter-spacing: 0; opacity: 0.85; }
+.g-brahmi { font-family: var(--font-brahmi); }
+.g-grantha { font-family: var(--font-grantha); }
+.g-classical { font-family: var(--font-classical); }
+.g-modern { font-family: var(--font-body); }
+.g-mixed { font-family: var(--font-grantha), var(--font-body); }
+@media (max-width: 760px) { .timeline { grid-template-columns: repeat(2, minmax(0, 1fr)); } .timeline .stage:last-child { grid-column: 1 / -1; } .stage .glyphs { white-space: normal; } .leaf { border-radius: 18px; } }
+
+nav.jump { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--ground) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--rule); margin-top: 1.4rem; }
+nav.jump .wrap { display: flex; gap: 0.2rem 1.1rem; overflow-x: auto; padding-block: 0.55rem; scrollbar-width: none; }
+nav.jump a { white-space: nowrap; color: var(--ink-2); text-decoration: none; font-size: 0.88rem; font-weight: 500; }
+nav.jump a:hover { color: var(--ink); }
+
+/* ---------------- leaderboard table ---------------- */
+.table-box { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); }
+table.lb { width: 100%; border-collapse: collapse; min-width: 980px; }
+table.lb th, table.lb td { padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--rule); text-align: right; vertical-align: middle; }
+table.lb th:first-child, table.lb td:first-child { padding-left: 0.8rem; }
+table.lb td.l .model-name { min-width: 11rem; }
+table.lb thead th { font-size: 0.74rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--surface); position: sticky; top: 0; }
+table.lb th.l, table.lb td.l { text-align: left; }
+table.lb tbody tr { cursor: pointer; }
+table.lb tbody tr:hover td { background: var(--accent-wash); }
+table.lb tbody tr.is-sel td { background: var(--accent-wash); box-shadow: inset 0 -1px 0 var(--accent); }
+table.lb tbody tr:last-child td { border-bottom: 0; }
+.sort { all: unset; cursor: pointer; display: inline-flex; gap: 0.25rem; align-items: center; }
+.sort[aria-sort="descending"]::after { content: "↓"; color: var(--accent-strong); }
+.rank { font-family: var(--font-display); font-weight: 650; font-size: 1.05rem; color: var(--ink-2); }
+.rank.r1 { color: var(--gold); }
+.model-name { font-weight: 600; color: var(--ink); }
+.model-sub { display: flex; flex-wrap: wrap; gap: 0.3rem 0.5rem; align-items: center; color: var(--muted); font-size: 0.8rem; margin-top: 0.1rem; }
+.pill { display: inline-block; font-size: 0.7rem; line-height: 1.5; padding: 0 0.45rem; border-radius: 999px; border: 1px solid var(--rule-strong); color: var(--ink-2); white-space: nowrap; }
+.pill.real { border-color: var(--verdigris); color: var(--verdigris); background: var(--verdigris-wash); }
+.score { display: inline-grid; gap: 3px; justify-items: end; min-width: 3.2rem; }
+.score .v { font-variant-numeric: tabular-nums; font-weight: 500; }
+.score .v.big { font-weight: 650; font-size: 1.05rem; }
+.score .bar { width: 3.2rem; height: 3px; background: var(--rule); border-radius: 2px; overflow: hidden; }
+.score .bar i { display: block; height: 100%; background: var(--accent); border-radius: 0 2px 2px 0; }
+.na { color: var(--muted); }
+.table-note { color: var(--muted); font-size: 0.84rem; margin-top: 0.7rem; max-width: 92ch; }
+.pending-head { margin-top: 1.8rem; display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; }
+.pending { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 0.6rem; margin-top: 0.8rem; }
+.pending .card { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.6rem 0.75rem; min-width: 0; }
+.pending .card .model-name { font-size: 0.95rem; }
+.pending code { font-family: var(--font-mono); font-size: 0.74rem; color: var(--ink-2); word-break: break-all; }
+
+/* ---------------- small multiples ---------------- */
+.multiples { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.mult { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.85rem 0.95rem 0.9rem; min-width: 0; }
+.mult h3 { margin-bottom: 0.1rem; }
+.mult .sub { color: var(--muted); font-size: 0.8rem; margin-bottom: 0.65rem; min-height: 2.5em; }
+.brow { display: grid; grid-template-columns: minmax(0, 8.5rem) minmax(0, 1fr) 2.6rem; align-items: center; gap: 0.5rem; padding-block: 3px; }
+.brow .lab { font-size: 0.8rem; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.brow .track { position: relative; height: 14px; border-left: 1px solid var(--rule-strong); }
+.brow .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); border-radius: 0 4px 4px 0; transition: background-color 120ms; }
+.brow .val { font-size: 0.8rem; text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); }
+.brow.dim .fill { background: var(--accent-soft); }
+.brow.dim .lab, .brow.dim .val { color: var(--muted); }
+.brow .nsup { font-size: 0.74rem; color: var(--muted); }
+
+/* ---------------- heatmap ---------------- */
+.heat-box { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.6rem; }
+table.heat { border-collapse: separate; border-spacing: 2px; min-width: 900px; width: 100%; }
+table.heat th { font-size: 0.7rem; font-weight: 600; color: var(--muted); padding: 0.25rem 0.2rem; vertical-align: bottom; }
+table.heat th.grp { color: var(--ink-2); letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 1px solid var(--rule-strong); }
+table.heat th.sub { font-weight: 500; writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; height: 8.2rem; white-space: nowrap; }
+table.heat th.row { text-align: left; font-size: 0.8rem; color: var(--ink-2); font-weight: 500; white-space: nowrap; padding-right: 0.6rem; }
+table.heat td { text-align: center; font-size: 0.74rem; font-variant-numeric: tabular-nums; height: 2rem; min-width: 2.3rem; border-radius: 3px; }
+table.heat td.na { background: transparent; color: var(--muted); }
+table.heat tr.dim th.row { color: var(--muted); }
+table.heat tr.dim td:not(.na) { opacity: 0.45; }
+.b0 { background: var(--h0); color: var(--h-ink-lo); } .b1 { background: var(--h1); color: var(--h-ink-lo); }
+.b2 { background: var(--h2); color: var(--h-ink-lo); } .b3 { background: var(--h3); color: var(--h-ink-lo); }
+.b4 { background: var(--h4); color: var(--h-ink-hi); } .b5 { background: var(--h5); color: var(--h-ink-hi); }
+.b6 { background: var(--h6); color: var(--h-ink-hi); }
+:root[data-theme="dark"] .b0, :root[data-theme="dark"] .b1, :root[data-theme="dark"] .b2, :root[data-theme="dark"] .b3 { color: var(--h-ink-lo); }
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.9rem; font-size: 0.78rem; color: var(--muted); margin-top: 0.7rem; }
+.ramp { display: inline-flex; gap: 2px; align-items: center; }
+.ramp span { width: 26px; height: 10px; border-radius: 2px; }
+.ramp-labels { display: inline-flex; justify-content: space-between; width: 194px; font-variant-numeric: tabular-nums; }
+
+/* ---------------- prior reliance ---------------- */
+.tie { margin-left: 0.3rem; color: var(--muted); font-weight: 600; cursor: help; }
+.fail-box { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); }
+table.fail { width: 100%; border-collapse: collapse; min-width: 760px; font-variant-numeric: tabular-nums; }
+table.fail th, table.fail td { padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--rule); text-align: right; }
+table.fail td { white-space: nowrap; }
+table.fail th { font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); font-weight: 600; vertical-align: bottom; }
+table.fail th.l, table.fail td.l { text-align: left; }
+table.fail td.hot { color: var(--error); font-weight: 600; }
+table.fail tr.dim td { opacity: 0.45; }
+.dumb { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.9rem 1rem; }
+.drow { display: grid; grid-template-columns: minmax(0, 12rem) minmax(0, 1fr) 4.2rem; gap: 0.7rem; align-items: center; padding-block: 0.35rem; }
+.drow .lab { font-size: 0.85rem; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.drow .axis { position: relative; height: 22px; }
+.drow .axis::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid var(--rule); }
+.drow .seg { position: absolute; top: 50%; height: 2px; margin-top: -1px; background: var(--muted); }
+.drow .dot { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; box-shadow: 0 0 0 2px var(--surface); }
+.dot.real { background: var(--h5); } .dot.nonce { background: var(--h2); }
+.drow .gap { font-size: 0.8rem; text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.drow.dim { opacity: 0.45; }
+.ticks { display: grid; grid-template-columns: minmax(0, 12rem) minmax(0, 1fr) 4.2rem; gap: 0.7rem; font-size: 0.72rem; color: var(--muted); }
+.ticks .scale { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
+.key { display: inline-flex; align-items: center; gap: 0.35rem; }
+.key i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+/* ---------------- examples ---------------- */
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+.chip { font: inherit; font-size: 0.82rem; padding: 0.25rem 0.75rem; border-radius: 999px; border: 1px solid var(--rule-strong); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.examples { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+.ex { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+.ex .img { background: color-mix(in srgb, var(--ground) 70%, var(--rule)); display: flex; align-items: center; justify-content: center; height: 190px; padding: 0.4rem; }
+.ex .img img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 3px; }
+.ex .body { padding: 0.7rem 0.85rem 0.85rem; display: grid; gap: 0.55rem; min-width: 0; }
+.ex .meta { display: flex; flex-wrap: wrap; gap: 0.3rem; align-items: center; }
+.ex .meta .t { font-weight: 600; font-size: 0.86rem; margin-right: 0.2rem; }
+.ex .lbl { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.ex .ref { font-size: 0.95rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ex .ref.native { color: var(--ink-2); font-size: 1.05rem; }
+.ex .pred { border-top: 1px solid var(--rule); padding-top: 0.45rem; display: grid; gap: 0.15rem; min-width: 0; }
+.ex .pred .who { display: flex; justify-content: space-between; gap: 0.5rem; font-size: 0.78rem; color: var(--muted); }
+.ex .pred .who b { color: var(--ink-2); font-weight: 600; }
+.ex .pred .txt { font-size: 0.9rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ex .pred .txt.empty { color: var(--muted); font-style: italic; }
+.ex mark { background: var(--error-wash); color: inherit; text-decoration: underline; text-decoration-color: var(--error); text-underline-offset: 3px; border-radius: 2px; }
+.ex .ok { color: var(--verdigris); font-weight: 600; } .ex .bad { color: var(--error); font-weight: 600; }
+.ex .clamp.clamped { max-height: 7.4em; overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent); mask-image: linear-gradient(to bottom, #000 62%, transparent); }
+.ex .more { margin-top: 0.2rem; font: inherit; font-size: 0.78rem; color: var(--accent); background: none; border: 0; padding: 0.15rem 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.attrib { font-size: 0.74rem; color: var(--muted); }
+
+/* ---------------- coverage ---------------- */
+.cov-box { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); }
+table.cov { border-collapse: collapse; width: 100%; min-width: 880px; }
+table.cov th, table.cov td { padding: 0.5rem 0.55rem; border-bottom: 1px solid var(--rule); font-size: 0.82rem; text-align: center; }
+table.cov thead th { color: var(--muted); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.03em; text-transform: uppercase; }
+table.cov th.s { text-align: left; min-width: 13rem; }
+table.cov th.s b { display: block; font-size: 0.9rem; color: var(--ink); font-weight: 600; text-transform: none; letter-spacing: 0; }
+table.cov th.s span { font-weight: 400; color: var(--muted); font-size: 0.76rem; text-transform: none; letter-spacing: 0; }
+.cnt { display: inline-flex; gap: 0.25rem; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; }
+.cnt .r { color: var(--verdigris); font-weight: 600; }
+td.gap-cell { color: var(--muted); font-style: italic; text-align: left; }
+.empty-dot { color: var(--rule-strong); }
+
+/* ---------------- method / run ---------------- */
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 1rem 1.1rem; min-width: 0; }
+.panel p, .panel li { color: var(--ink-2); font-size: 0.92rem; }
+.panel ul { padding-left: 1.1rem; margin: 0.5rem 0 0; display: grid; gap: 0.3rem; }
+.code { position: relative; background: color-mix(in srgb, var(--ground) 60%, var(--surface)); border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.75rem 0.85rem; overflow-x: auto; }
+.code pre { margin: 0; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.6; color: var(--ink); }
+.code .c { color: var(--muted); }
+.copy { position: absolute; top: 0.45rem; right: 0.45rem; font: inherit; font-size: 0.74rem; padding: 0.15rem 0.55rem; border-radius: 4px; border: 1px solid var(--rule-strong); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+footer { margin-top: 3rem; border-top: 1px solid var(--rule); padding-block: 1.4rem 2.4rem; color: var(--muted); font-size: 0.84rem; }
+footer .cols { gap: 0.6rem 2rem; }
+/* ---------------- eras (shared by both pages) ---------------- */
+.score .bar.modern i { background: var(--era-modern); }
+.score .bar.older i { background: var(--era-older); }
+.dot.modern { background: var(--era-modern); } .dot.older { background: var(--era-older); }
+.key i.modern { background: var(--era-modern); } .key i.older { background: var(--era-older); }
+.pill.era-modern { border-color: var(--era-modern); color: var(--accent-strong); background: var(--accent-wash); }
+.pill.era-older { border-color: var(--era-older); color: var(--gold); background: var(--era-older-wash); }
+th.era-older-h { box-shadow: inset 0 -2px 0 var(--era-older); }
+th.era-modern-h { box-shadow: inset 0 -2px 0 var(--era-modern); }
+.cta { display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 600; font-size: 0.92rem; text-decoration: none; color: var(--accent-strong); border: 1px solid var(--rule-strong); background: var(--surface); padding: 0.35rem 0.8rem; border-radius: 999px; white-space: nowrap; }
+.cta:hover { border-color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+@media (max-width: 560px) {
+  .brow { grid-template-columns: minmax(0, 6.5rem) minmax(0, 1fr) 2.4rem; }
+  .drow, .ticks { grid-template-columns: minmax(0, 7rem) minmax(0, 1fr) 3.4rem; }
+}
+/* ---------------- scripts page ---------------- */
+.title-row h1 { font-size: clamp(1.8rem, 4vw, 2.7rem); }
+.back { font-size: 0.9rem; font-weight: 600; color: var(--accent-strong); text-decoration: none; }
+.back:hover { text-decoration: underline; }
+.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1.2rem; }
+.half { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.9rem 1rem; min-width: 0; border-top: 3px solid var(--era-modern); }
+.half.older { border-top-color: var(--era-older); }
+.half h3 { display: flex; justify-content: space-between; gap: 0.6rem; align-items: baseline; flex-wrap: wrap; }
+.half h3 .w { font-family: var(--font-body); font-weight: 500; font-size: 0.82rem; color: var(--muted); }
+.half p { margin: 0.35rem 0 0; color: var(--ink-2); font-size: 0.9rem; }
+.half .stages { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.6rem; }
+.formula { margin-top: 1rem; font-size: 0.92rem; color: var(--ink-2); background: var(--surface); border: 1px dashed var(--rule-strong); border-radius: var(--radius); padding: 0.6rem 0.85rem; }
+.formula b { color: var(--ink); }
+@media (max-width: 700px) { .split { grid-template-columns: minmax(0, 1fr); } }
+table.lb.st { min-width: 860px; }
+table.lb.st thead th.grp { text-align: center; color: var(--ink-2); border-bottom: 1px solid var(--rule-strong); }
+.cards { display: grid; gap: 1.2rem; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 1rem 1.1rem 1.1rem; min-width: 0; border-left: 4px solid var(--era-modern); }
+.card.older { border-left-color: var(--era-older); }
+.card-head { display: grid; grid-template-columns: minmax(6rem, 9rem) minmax(0, 1fr); gap: 0.4rem 1.2rem; align-items: center; }
+.card-head .glyph { font-size: 2rem; line-height: 1.4; white-space: nowrap; overflow: hidden; color: var(--ink); }
+.card-head h3 { font-size: 1.2rem; }
+.card-head .ta { color: var(--ink-2); font-size: 0.92rem; }
+.card-head .meta { display: flex; flex-wrap: wrap; gap: 0.35rem 0.6rem; align-items: center; color: var(--muted); font-size: 0.82rem; margin-top: 0.2rem; }
+.card .desc { color: var(--ink-2); font-size: 0.9rem; margin: 0.6rem 0 0; max-width: 90ch; }
+.card .items { color: var(--muted); font-size: 0.82rem; margin-top: 0.4rem; }
+.card .heat-box { margin-top: 0.8rem; }
+table.heat.slices { min-width: 0; width: auto; }
+table.heat.slices th.sub { writing-mode: horizontal-tb; transform: none; height: auto; white-space: normal; max-width: 6.2rem; min-width: 3.4rem; text-align: center; vertical-align: bottom; line-height: 1.25; padding-bottom: 0.35rem; }
+table.heat.slices td { min-width: 3.4rem; }
+#era-dumb .drow, #era-dumb .ticks { grid-template-columns: minmax(0, 17rem) minmax(0, 1fr) 4.6rem; }
+details.more-rows { margin-top: 0.6rem; }
+details.more-rows summary { cursor: pointer; color: var(--accent-strong); font-size: 0.88rem; font-weight: 600; }
+details.more-rows .fail-box { margin-top: 0.5rem; }
+table.heat.slices td.total { font-weight: 650; }
+.ident { color: var(--ink-2); font-size: 0.84rem; margin-top: 0.6rem; }
+.gaps { margin-top: 0.9rem; color: var(--muted); font-size: 0.86rem; }
+.gaps b { color: var(--ink-2); }
+.sub-h { margin: 1.6rem 0 0.5rem; display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
+.sub-h p { margin: 0.2rem 0 0; color: var(--muted); font-size: 0.86rem; max-width: 80ch; }
+table.fail td.grp-start, table.fail th.grp-start { border-left: 1px solid var(--rule-strong); }
+table.fail td.good { color: var(--verdigris); font-weight: 600; }
+.notice { background: var(--surface); border: 1px dashed var(--rule-strong); border-radius: var(--radius); padding: 0.8rem 1rem; color: var(--ink-2); font-size: 0.9rem; }
+.notice code, .panel code { font-family: var(--font-mono); font-size: 0.8rem; }
+.tools { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.7rem; }
+.tools .copy { position: static; }
+dl.glossary { display: grid; grid-template-columns: minmax(8rem, 13rem) minmax(0, 1fr); gap: 0.35rem 1rem; margin: 0.6rem 0 0; font-size: 0.88rem; }
+dl.glossary dt { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink); }
+dl.glossary dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { #era-dumb .drow, #era-dumb .ticks { grid-template-columns: minmax(0, 7rem) minmax(0, 1fr) 3.6rem; } dl.glossary { grid-template-columns: minmax(0, 1fr); } dl.glossary dd { margin-bottom: 0.4rem; } .card-head { grid-template-columns: minmax(0, 1fr); } }
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="back" href="index.html">← Leaderboard</a>
+    <div class="title-row" style="margin-top:0.5rem">
+      <h1>Scores by script<span lang="ta">எழுத்து வாரியான மதிப்பெண்கள் · each stage of the Tamil script, scored on its own</span></h1>
+      <div class="facts" id="facts"></div>
+    </div>
+  </div>
+  <nav class="jump" aria-label="Sections">
+    <div class="wrap">
+      <a href="index.html">← Leaderboard</a><a href="#eras">Modern vs older</a><a href="#stages">Every script</a>
+      <a href="#detail">Script × medium</a><a href="#identification">Identification</a><a href="#diagnostics">Diagnostics</a>
+      <a href="#reliability">Reliability</a><a href="#data">Data</a>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section id="eras" aria-labelledby="h-eras">
+    <div class="section-head"><div>
+      <div class="eyebrow">Equal weight</div>
+      <h2 id="h-eras">Modern script vs older scripts</h2>
+      <p class="lede">The benchmark is split into two halves that count the same. The older half averages four script stages with equal weight, so Tamil-Brahmi counts as much as pre-reform print.</p>
+    </div></div>
+    <div class="split" id="halves"></div>
+    <div class="formula" id="formula"></div>
+    <div class="sub-h"><div><h3>Reading the two halves</h3><p>Each row compares one system's modern-script and older-script reading scores. The gap is modern − older on paired bootstrap replicates; ≈ marks a gap whose 95 % interval includes zero.</p></div></div>
+    <div class="dumb" id="era-dumb"></div>
+    <div class="table-box" style="margin-top:1rem"><table class="lb" id="era-table"><thead></thead><tbody></tbody></table></div>
+  </section>
+
+  <section id="stages" aria-labelledby="h-stages">
+    <div class="section-head"><div>
+      <div class="eyebrow">Five script stages · oldest first</div>
+      <h2 id="h-stages">Every script, scored separately</h2>
+      <p class="lede">Reading score per script stage, with the mean of the older stages beside the modern script. Hover a cell for its 95 % interval and item count; select a column heading to sort.</p>
+    </div></div>
+    <div class="table-box"><table class="lb st" id="stage-table"><thead></thead><tbody></tbody></table></div>
+    <div class="tools"><button class="copy" type="button" id="copy-stages">Copy table as CSV</button><span class="table-note" id="copy-msg" style="margin:0"></span></div>
+    <p class="gaps" id="gaps"></p>
+  </section>
+
+  <section id="detail" aria-labelledby="h-detail">
+    <div class="section-head"><div>
+      <div class="eyebrow">Where each script is hard</div>
+      <h2 id="h-detail">Script × medium</h2>
+      <p class="lede">A script's score is the mean over the reading tracks it appears in of the mean of its subsets there. These grids show every slice: the stone and copper-plate subsets are split by the script on each item.</p>
+    </div></div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section id="identification" aria-labelledby="h-id">
+    <div class="section-head"><div>
+      <div class="eyebrow">Script &amp; medium identification</div>
+      <h2 id="h-id">Identification by era</h2>
+      <p class="lede">Script identification is scored per class: the modern half is the F1 of “modern Tamil”, the older half the mean F1 of pre-reform Tamil, Grantha–Tamil, Grantha and Tamil-Brahmi. Calling a Malayalam page “pre-reform Tamil” costs the older half. Medium identification is split by the script on each item.</p>
+    </div></div>
+    <div id="id-box"></div>
+  </section>
+
+  <section id="diagnostics" aria-labelledby="h-diag">
+    <div class="section-head"><div>
+      <div class="eyebrow">Diagnostic · not ranked</div>
+      <h2 id="h-diag">How systems fail, by era</h2>
+      <p class="lede">The failure modes that a character error rate hides, split into the modern and older halves, and three controls: invented words, perturbed famous texts and surfaces with nothing to read.</p>
+    </div></div>
+    <div class="sub-h"><div><h3>Failure modes</h3><p>Share of reading items in each half. Wrong-script means letters from a script the references never use; line tests check that every reference line appears, in order (olmOCR-style), on multi-line items.</p></div></div>
+    <div class="fail-box"><table class="fail" id="fm-table"><thead></thead><tbody></tbody></table></div>
+    <div class="sub-h"><div><h3>Reading vs guessing</h3><p>Score on real text and on phonotactic nonce words in each half. A reader that relies on its language model drops on nonce words.</p></div></div>
+    <div class="fail-box"><table class="fail" id="nonce-table"><thead></thead><tbody></tbody></table></div>
+    <div class="sub-h"><div><h3>Prior pull on perturbed famous texts</h3><p>Tirukkural couplets, Sanskrit verses and Tamil-Brahmi lines with a few letters changed. −1: the answer follows the image; +1: it reverts to the text as usually written; near 0 with a low reading score: nothing was read. Values above 0 are marked.</p></div></div>
+    <div class="fail-box"><table class="fail" id="pull-table"><thead></thead><tbody></tbody></table></div>
+    <div class="sub-h"><div><h3>Invented text on blank and effaced surfaces</h3><p>Paper, boards, palm leaves, stone, copper and potsherds with nothing legible. The right answer is “[no text]”; the table shows the share of items answered with letters.</p></div></div>
+    <div class="fail-box"><table class="fail" id="hal-table"><thead></thead><tbody></tbody></table></div>
+  </section>
+
+  <section id="reliability" aria-labelledby="h-rel">
+    <div class="section-head"><div>
+      <div class="eyebrow">Can the numbers be trusted?</div>
+      <h2 id="h-rel">Reliability</h2>
+      <p class="lede">Signal-to-noise per script and subset, human reference readers, and how much a score moves when the prompt is reworded or the run repeated.</p>
+    </div></div>
+    <div class="sub-h"><div><h3>Signal-to-noise</h3><p id="snr-note">Signal is the spread of a score across evaluated systems; noise is its bootstrap standard error. Below about 1 a score cannot yet tell those systems apart.</p></div></div>
+    <div id="snr-box"></div>
+    <div class="sub-h"><div><h3>Human reference readers</h3><p>Expert readers on the same items, shown for scale and never ranked.</p></div></div>
+    <div id="human-box"></div>
+    <div class="sub-h"><div><h3>Prompt wording and repeat runs</h3><p>Spread of a system's scores over three paraphrases of every prompt, and over repeated runs of the same prompt.</p></div></div>
+    <div id="robust-box"></div>
+  </section>
+
+  <section id="data" aria-labelledby="h-data">
+    <div class="section-head"><div>
+      <div class="eyebrow">For analysis</div>
+      <h2 id="h-data">Get the data</h2>
+      <p class="lede">Everything on this page comes from one file. The per-script CSV lists every system's score per era, script stage, script × track cell and script × subset slice, with intervals and item counts.</p>
+    </div></div>
+    <div class="cols">
+      <div class="panel"><h3>Files</h3><ul>
+        <li><a href="data/leaderboard.json"><code>data/leaderboard.json</code></a> — every score, interval and diagnostic</li>
+        <li><a href="data/scores-by-script.csv"><code>data/scores-by-script.csv</code></a> — long format, one row per score</li>
+        <li><code>results/&lt;system&gt;/v1-test/scores.json</code> and <code>predictions.jsonl</code> in the repository — raw answers</li>
+      </ul>
+      <div class="tools"><button class="copy" type="button" id="copy-long">Copy the per-script CSV</button><span class="table-note" id="copy-long-msg" style="margin:0"></span></div></div>
+      <div class="panel"><h3>Fields in <code>models[].scripts</code></h3>
+        <dl class="glossary">
+          <dt>score, ci95</dt><dd>Reading score of the script stage, 0–100, with its cluster-bootstrap 95 % interval</dd>
+          <dt>tracks</dt><dd>Mean of the script's subset slices within each reading track</dd>
+          <dt>subsets</dt><dd>Each slice: score, interval and item count (stone and copper plates hold two scripts)</dd>
+          <dt>identification</dt><dd>Script-ID F1 and recall for this class; medium-ID accuracy on its items</dd>
+          <dt>eras.*.reading</dt><dd>Modern script, or the mean of the older script stages</dd>
+          <dt>era_gap</dt><dd>Modern − older reading, paired, with interval and p-value</dd>
+        </dl></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap cols">
+    <div>Real palm leaves and their transcriptions: <b>Central Institute of Classical Tamil (CICT)</b>, <i>CICT Tirukkural Ground Truth Corpus</i>, data curator Kannan Krishnan, CC BY 4.0 — <a href="https://www.digitalarchives.cict.in/">CICT digital archive</a>. Benchmark data: synthetic items CC BY 4.0. Code: Apache-2.0.</div>
+    <div>Method: <a href="https://github.com/ChargingTrex/Tamil-OCR-HTR-Benchmark/blob/HEAD/docs/METHODOLOGY.md">docs/METHODOLOGY.md</a>. Generated <span id="gen-date"></span>.</div>
+  </div>
+</footer>
+
+<noscript><p class="wrap">This page needs JavaScript. The same scores are in data/scores-by-script.csv.</p></noscript>
+<!-- INLINE-DATA -->
+<script>
+(function () {
+  "use strict";
+  const $ = (s, root = document) => root.querySelector(s);
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const fmt = (v, nd = 1) => (v == null ? "—" : Number(v).toFixed(nd));
+  const pct = (v) => (v == null ? "—" : (100 * v).toFixed(1) + " %");
+  const signed = (v, nd = 2) => (v == null ? "—" : (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(nd));
+  const ciText = (ci) => (ci ? ci[0].toFixed(1) + "–" + ci[1].toFixed(1) : "n/a");
+  const GLYPH = {
+    "tamil-brahmi": ["𑀢𑀫𑀺𑀵𑁰", "g-brahmi", "ta-Brah"], "grantha": ["𑌸𑍍𑌵𑌸𑍍𑌤𑌿 𑌶𑍍𑌰𑍀", "g-grantha", "sa-Gran"],
+    "grantha-tamil": ["𑌗𑍍𑌰𑌨𑍍𑌥ம்", "g-mixed", "ta"], "tamil-pre-reform": ["ணா றா னை", "g-classical", "ta"],
+    "tamil-modern": ["ணா றா னை", "g-modern", "ta"],
+  };
+  const SHORT = {
+    "print-digital": "Born-digital", "print-scan": "Scanned print", "print-photo": "Photographed print",
+    "numerals-symbols": "Numerals & signs", "screen": "Screenshots", "handwriting": "Handwriting",
+    "scene": "Scene text", "pre-reform-print": "Pre-1978 print", "palm-leaf-synth": "Palm leaf (synth.)",
+    "palm-leaf-cict": "Palm leaf (real)", "grantha-tamil": "Grantha–Tamil", "stone": "Stone",
+    "copper-plate": "Copper & metal", "tamil-brahmi": "Tamil-Brahmi", "grantha": "Grantha",
+  };
+  // medium identification labels its items by answer label rather than by medium
+  const LABEL_MEDIA = { "printed-paper": "Printed paper", "handwritten-paper": "Handwritten paper", "scene-signage": "Scene text" };
+  let LB = null, sortKey = "older";
+
+  function bin(v) { return v < 10 ? 0 : v < 25 ? 1 : v < 40 ? 2 : v < 55 ? 3 : v < 70 ? 4 : v < 85 ? 5 : 6; }
+  function evaluated() { return LB.models.filter((m) => m.status === "evaluated"); }
+  function scripted() { return LB.lineage.filter((s) => evaluated().some((m) => (m.scripts || {})[s]) || (LB.coverage || {})[s]); }
+  function eraOf(s) { return (LB.scripts[s] || {}).era; }
+  function sname(s) { return (LB.scripts[s] || {}).name || s; }
+  function scoreCell(v, opts = {}) {
+    const td = el("td");
+    if (v == null) { td.append(el("span", "na", "—")); if (opts.title) td.title = opts.title; return td; }
+    const w = el("span", "score");
+    w.append(el("span", "v" + (opts.big ? " big" : ""), fmt(v)));
+    const bar = el("span", "bar" + (opts.era ? " " + opts.era : "")); const i = el("i"); i.style.width = Math.max(0, Math.min(100, v)) + "%"; bar.append(i); w.append(bar);
+    td.append(w); if (opts.title) td.title = opts.title; return td;
+  }
+  function emptyRow(tbody, cols, text) { const tr = el("tr"); const td = el("td", "l", text); td.colSpan = cols; tr.append(td); tbody.append(tr); }
+
+  // ------------------------------------------------------------- masthead
+  function renderFacts() {
+    const f = $("#facts");
+    const stages = scripted();
+    const older = stages.filter((s) => eraOf(s) === "older").length;
+    [[String(stages.length), "script stages scored"], [String(older), "older stages, equal weight"], ["½ + ½", "modern + older"],
+     [String(evaluated().length), "systems"]].forEach(([b, t]) => { const s = el("span"); s.append(el("b", null, b), document.createTextNode(" " + t)); f.append(s); });
+    $("#gen-date").textContent = (LB.generated_at || "").slice(0, 10);
+  }
+
+  // ------------------------------------------------------------- eras
+  function renderHalves() {
+    const box = $("#halves"); box.textContent = "";
+    ["modern", "older"].forEach((e) => {
+      const info = LB.eras[e]; const d = el("div", "half " + e);
+      const h = el("h3"); h.append(document.createTextNode(info.name), el("span", "w", "½ of OCR/HTR · ½ of Overall"));
+      d.append(h, el("p", null, info.description));
+      const st = el("div", "stages");
+      info.scripts.forEach((s) => {
+        const covered = scripted().includes(s);
+        const p = el("span", "pill" + (covered ? " era-" + e : ""), sname(s) + (covered ? "" : " · no data yet"));
+        st.append(p);
+      });
+      d.append(st);
+      const w = info.weights || {};
+      d.append(el("p", null, "Composite: " + Object.entries(w).map(([k, x]) => (x * 100).toFixed(1).replace(/\.0$/, "") + " % " + k).join(" + ") + "."));
+      box.append(d);
+    });
+    $("#formula").innerHTML = "";
+    const f = $("#formula");
+    const b1 = el("b", null, "OCR/HTR"), b2 = el("b", null, "Overall");
+    f.append(b1, document.createTextNode(" = ½ modern-script reading + ½ older-scripts reading, where older = mean(Tamil-Brahmi, Grantha, Grantha–Tamil, pre-reform Tamil). "),
+      b2, document.createTextNode(" = ½ modern composite + ½ older composite. Track columns on the leaderboard break the same items down by medium."));
+  }
+  function renderEraDumb() {
+    const box = $("#era-dumb"); box.textContent = "";
+    const keys = el("div", "legend"); keys.style.margin = "0 0 0.6rem";
+    const k1 = el("span", "key"); k1.append(el("i", "modern"), document.createTextNode("Modern script"));
+    const k2 = el("span", "key"); k2.append(el("i", "older"), document.createTextNode("Older scripts"));
+    keys.append(k1, k2, el("span", null, "Reading score, 0–100. Right column: gap (modern − older)."));
+    box.append(keys);
+    const ev = evaluated().filter((m) => m.modern_script != null && m.older_scripts != null)
+      .sort((a, b) => (b.recognition_avg || 0) - (a.recognition_avg || 0));
+    if (!ev.length) { box.append(el("p", "table-note", "No evaluated system yet.")); return; }
+    ev.forEach((m) => {
+      const a = m.modern_script, b = m.older_scripts, g = m.era_gap;
+      const r = el("div", "drow"); r.append(el("span", "lab", m.name));
+      const ax = el("span", "axis");
+      const seg = el("span", "seg"); seg.style.left = Math.min(a, b) + "%"; seg.style.width = Math.abs(a - b) + "%"; ax.append(seg);
+      const e1 = (m.eras || {}).modern || {}, e2 = (m.eras || {}).older || {};
+      const d1 = el("span", "dot modern"); d1.style.left = a + "%"; d1.title = m.name + " · modern script " + fmt(a) + " (95 % CI " + ciText(e1.reading_ci95) + ")";
+      const d2 = el("span", "dot older"); d2.style.left = b + "%"; d2.title = m.name + " · older scripts " + fmt(b) + " (95 % CI " + ciText(e2.reading_ci95) + ")";
+      ax.append(d1, d2); r.append(ax);
+      const gap = el("span", "gap", (a - b >= 0 ? "+" : "−") + Math.abs(a - b).toFixed(1) + (g && !g.separable ? " ≈" : ""));
+      if (g) gap.title = "Paired difference " + g.diff.toFixed(1) + ", 95 % CI " + g.ci95[0].toFixed(1) + " to " + g.ci95[1].toFixed(1) + ", p = " + g.p;
+      r.append(gap); box.append(r);
+    });
+    const ticks = el("div", "ticks"); ticks.append(el("span"));
+    const sc = el("span", "scale"); ["0", "25", "50", "75", "100"].forEach((x) => sc.append(el("span", null, x))); ticks.append(sc, el("span"));
+    box.append(ticks);
+  }
+  function renderEraTable() {
+    const cols = [["recognition_avg", "OCR/HTR", null], ["modern_script", "Modern script", "modern"], ["older_scripts", "Older scripts", "older"],
+      ["gap", "Gap", null], ["modern_comp", "Modern composite", "modern"], ["older_comp", "Older composite", "older"], ["overall", "Overall", null]];
+    const thead = $("#era-table thead"); thead.textContent = "";
+    const hr = el("tr"); hr.append(el("th", "l", "System")); cols.forEach(([, l, e]) => hr.append(el("th", e ? "era-" + e + "-h" : null, l))); thead.append(hr);
+    const tb = $("#era-table tbody"); tb.textContent = "";
+    const ev = evaluated().slice().sort((a, b) => (b.recognition_avg || 0) - (a.recognition_avg || 0));
+    if (!ev.length) { emptyRow(tb, cols.length + 1, "No evaluated system yet."); return; }
+    ev.forEach((m) => {
+      const tr = el("tr"); const e = m.eras || {}; const mo = e.modern || {}, ol = e.older || {};
+      const name = el("td", "l"); name.append(el("div", "model-name", m.name), el("div", "model-sub", m.org || "")); tr.append(name);
+      tr.append(scoreCell(m.recognition_avg, { big: true, title: "95 % CI " + ciText(m.recognition_avg_ci95) }));
+      tr.append(scoreCell(m.modern_script, { era: "modern", title: "95 % CI " + ciText(mo.reading_ci95) }));
+      tr.append(scoreCell(m.older_scripts, { era: "older", title: "95 % CI " + ciText(ol.reading_ci95) }));
+      const g = m.era_gap; const gtd = el("td", "num", g ? signed(g.diff, 1) + (g.separable ? "" : " ≈") : "—");
+      if (g) gtd.title = "95 % CI " + g.ci95[0].toFixed(1) + " to " + g.ci95[1].toFixed(1) + " · p = " + g.p; tr.append(gtd);
+      tr.append(scoreCell(mo.composite, { era: "modern", title: mo.composite == null ? "Needs identification and translation" : "95 % CI " + ciText(mo.composite_ci95) }));
+      tr.append(scoreCell(ol.composite, { era: "older", title: ol.composite == null ? "Needs identification" : "95 % CI " + ciText(ol.composite_ci95) }));
+      tr.append(scoreCell(m.overall, { title: m.overall == null ? "Needs every task" : "95 % CI " + ciText(m.overall_ci95) }));
+      tb.append(tr);
+    });
+  }
+
+  // ------------------------------------------------------------- every script
+  function stageColumns() {
+    const older = scripted().filter((s) => eraOf(s) === "older");
+    const modern = scripted().filter((s) => eraOf(s) === "modern");
+    return { older, modern };
+  }
+  function renderStages() {
+    const { older, modern } = stageColumns();
+    const cols = older.map((s) => ["s:" + s, sname(s), "older"]).concat([["older", "Older (mean)", "older"]])
+      .concat(modern.map((s) => ["s:" + s, sname(s), "modern"])).concat([["recognition_avg", "OCR/HTR", null]]);
+    const val = (m, k) => (k.startsWith("s:") ? (((m.scripts || {})[k.slice(2)]) || {}).score : k === "older" ? m.older_scripts : m[k]);
+    const thead = $("#stage-table thead"); thead.textContent = "";
+    const g = el("tr"); g.append(el("th"), el("th"));
+    const go = el("th", "grp era-older-h", "Older scripts"); go.colSpan = older.length + 1;
+    const gm = el("th", "grp era-modern-h", "Modern script"); gm.colSpan = modern.length;
+    g.append(go, gm, el("th")); thead.append(g);
+    const hr = el("tr"); hr.append(el("th", "l", "#"), el("th", "l", "System"));
+    cols.forEach(([k, label]) => {
+      const th = el("th"); const b = el("button", "sort", label); b.type = "button";
+      if (k === sortKey) b.setAttribute("aria-sort", "descending");
+      b.addEventListener("click", () => { sortKey = k; renderStages(); });
+      th.append(b); hr.append(th);
+    });
+    thead.append(hr);
+    const tb = $("#stage-table tbody"); tb.textContent = "";
+    const rows = evaluated().slice().sort((a, b) => { const x = val(a, sortKey), y = val(b, sortKey); return (y == null ? -1 : y) - (x == null ? -1 : x); });
+    if (!rows.length) { emptyRow(tb, cols.length + 2, "No evaluated system yet."); return; }
+    rows.forEach((m, i) => {
+      const tr = el("tr"); tr.append(el("td", "l rank" + (i === 0 ? " r1" : ""), String(i + 1)));
+      const name = el("td", "l"); name.append(el("div", "model-name", m.name), el("div", "model-sub", m.org || "")); tr.append(name);
+      cols.forEach(([k, label, era]) => {
+        const v = val(m, k);
+        let title = m.name + " · " + label + ": " + fmt(v);
+        if (k.startsWith("s:")) { const s = (m.scripts || {})[k.slice(2)] || {}; title += " (95 % CI " + ciText(s.ci95) + ", " + (s.n || 0) + " items)"; }
+        if (k === "older") title += " (95 % CI " + ciText(((m.eras || {}).older || {}).reading_ci95) + ")";
+        tr.append(scoreCell(v, { era: era || undefined, big: k === "older" || k === "recognition_avg", title }));
+      });
+      tb.append(tr);
+    });
+    const missing = LB.lineage.filter((s) => !scripted().includes(s));
+    const gaps = $("#gaps"); gaps.textContent = "";
+    if (missing.length) {
+      gaps.append(el("b", null, "Not yet covered: "), document.createTextNode(missing.map((s) => sname(s) + " (" + LB.scripts[s].period + ")").join(", ") +
+        ". They need real, licensed images with expert readings; until then they are left out of the older half rather than guessed."));
+    }
+  }
+  function stagesCSV() {
+    const { older, modern } = stageColumns();
+    const head = ["system"].concat(older.map(sname), ["older (mean)"], modern.map(sname), ["OCR/HTR"]);
+    const lines = [head];
+    evaluated().forEach((m) => {
+      const s = m.scripts || {};
+      lines.push([m.name].concat(older.map((x) => (s[x] || {}).score), [m.older_scripts], modern.map((x) => (s[x] || {}).score), [m.recognition_avg]));
+    });
+    return lines.map((r) => r.map((c) => (c == null ? "" : /[",\n]/.test(String(c)) ? '"' + String(c).replace(/"/g, '""') + '"' : String(c))).join(",")).join("\n");
+  }
+  function longCSV() {
+    const lines = [["model_id", "model", "era", "script", "level", "key", "score", "ci95_low", "ci95_high", "n"]];
+    evaluated().concat(LB.references || []).forEach((m) => {
+      Object.entries(m.eras || {}).forEach(([e, v]) => { const ci = v.reading_ci95 || []; lines.push([m.id, m.name, e, "", "era", "reading", v.reading, ci[0], ci[1], ""]); });
+      Object.entries(m.scripts || {}).forEach(([s, v]) => {
+        const ci = v.ci95 || []; lines.push([m.id, m.name, v.era, s, "script", s, v.score, ci[0], ci[1], v.n]);
+        Object.entries(v.tracks || {}).forEach(([t, x]) => lines.push([m.id, m.name, v.era, s, "track", t, x, "", "", ""]));
+        Object.entries(v.subsets || {}).forEach(([sid, x]) => { if (x) { const c = x.ci95 || []; lines.push([m.id, m.name, v.era, s, "subset", sid, x.score, c[0], c[1], x.n]); } });
+      });
+    });
+    return lines.map((r) => r.map((c) => (c == null ? "" : /[",\n]/.test(String(c)) ? '"' + String(c).replace(/"/g, '""') + '"' : String(c))).join(",")).join("\n");
+  }
+  function copyText(text, msgEl, pre) {
+    const done = () => { msgEl.textContent = "Copied " + text.split("\n").length + " lines."; setTimeout(() => (msgEl.textContent = ""), 2500); };
+    const fallback = () => {
+      let ta = document.getElementById(pre);
+      if (!ta) { ta = el("textarea"); ta.id = pre; ta.rows = 6; ta.style.width = "100%"; ta.style.marginTop = "0.5rem"; ta.readOnly = true; msgEl.parentNode.after(ta); }
+      ta.value = text; ta.select(); msgEl.textContent = "Select-all is ready: copy with your keyboard.";
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+  }
+
+  // ------------------------------------------------------------- script × medium
+  function trackName(id) { const t = LB.tracks.find((x) => x.id === id); return t ? t.name : id; }
+  function renderCards() {
+    const box = $("#cards"); box.textContent = "";
+    const ev = evaluated();
+    scripted().slice().reverse().forEach((s) => {
+      const info = LB.scripts[s]; const era = info.era;
+      const card = el("article", "card " + era);
+      const head = el("div", "card-head");
+      const gl = GLYPH[s]; const g = el("div", "glyph " + (gl ? gl[1] : ""), gl ? gl[0] : ""); if (gl) g.lang = gl[2]; g.setAttribute("aria-hidden", "true");
+      const t = el("div"); t.append(el("h3", null, info.name));
+      const ta = el("div", "ta", info.tamil); ta.lang = "ta"; t.append(ta);
+      const meta = el("div", "meta"); meta.append(el("span", "pill era-" + era, era === "modern" ? "Modern script" : "Older script"), el("span", null, info.period)); t.append(meta);
+      head.append(g, t); card.append(head);
+      card.append(el("p", "desc", info.description));
+      const cov = (LB.coverage || {})[s] || {};
+      const merged = {};
+      Object.entries(cov).forEach(([med, c]) => {
+        const n = (LB.media[med] || {}).name || LABEL_MEDIA[med] || med;
+        const m = merged[n] || (merged[n] = [n, 0, 0]); m[1] += (c.synthetic || 0) + (c.real || 0); m[2] += c.real || 0;
+      });
+      const parts = Object.values(merged).sort((a, b) => b[1] - a[1]);
+      const total = parts.reduce((a, p) => a + p[1], 0);
+      card.append(el("div", "items", total + " test items (reading and identification): " + parts.map(([n, k, r]) => n + " " + k + (r ? " (" + r + " real)" : "")).join(" · ")));
+      // slices: subsets of this script, grouped by track
+      const slices = [];
+      LB.tracks.forEach((tr) => tr.subsets.forEach((sid) => { if (ev.some((m) => ((m.scripts || {})[s] || {}).subsets && sid in m.scripts[s].subsets)) slices.push([tr.id, sid]); }));
+      if (ev.length && slices.length) {
+        const wrap = el("div", "heat-box"); const tbl = el("table", "heat slices");
+        const h1 = el("tr"), h2 = el("tr"); h1.append(el("th")); h2.append(el("th"));
+        const groups = []; slices.forEach(([tid]) => { const last = groups[groups.length - 1]; if (last && last[0] === tid) last[1]++; else groups.push([tid, 1]); });
+        groups.forEach(([tid, n]) => { const th = el("th", "grp", trackName(tid)); th.colSpan = n; h1.append(th); });
+        const tot = el("th", "grp", "Script"); h1.append(tot);
+        slices.forEach(([, sid]) => { const h = el("th", "sub", SHORT[sid] || sid); h2.append(h); });
+        h2.append(el("th", "sub", "Score"));
+        const thead = el("thead"); thead.append(h1, h2); tbl.append(thead);
+        const tb = el("tbody");
+        ev.forEach((m) => {
+          const sc = (m.scripts || {})[s]; const tr = el("tr"); tr.append(el("th", "row", m.name));
+          slices.forEach(([, sid]) => {
+            const x = sc && sc.subsets ? sc.subsets[sid] : null;
+            if (!x) { tr.append(el("td", "na", "—")); return; }
+            const td = el("td", "b" + bin(x.score), x.score.toFixed(0)); td.tabIndex = 0;
+            td.title = m.name + " · " + info.name + " · " + (SHORT[sid] || sid) + ": " + x.score.toFixed(1) + " (95 % CI " + ciText(x.ci95) + ", " + x.n + " items)";
+            tr.append(td);
+          });
+          const v = sc ? sc.score : null;
+          const td = el("td", v == null ? "na" : "total b" + bin(v), v == null ? "—" : v.toFixed(1));
+          if (v != null) td.title = m.name + " · " + info.name + ": " + v.toFixed(1) + " (95 % CI " + ciText(sc.ci95) + ")";
+          tr.append(td); tb.append(tr);
+        });
+        tbl.append(tb); wrap.append(tbl); card.append(wrap);
+        const ident = ev.map((m) => [m.name, ((m.scripts || {})[s] || {}).identification]).filter(([, x]) => x);
+        if (ident.length) card.append(el("div", "ident", "Identification · " + ident.map(([n, x]) => n + ": " + Object.entries(x).map(([k, v]) => k.replace(/_/g, " ") + " " + v.toFixed(1)).join(", ")).join(" · ")));
+      } else {
+        card.append(el("div", "ident", "No evaluated system yet."));
+      }
+      box.append(card);
+    });
+  }
+
+  // ------------------------------------------------------------- identification
+  function renderIdentification() {
+    const box = $("#id-box"); box.textContent = "";
+    const ev = evaluated().filter((m) => ((m.eras || {}).modern || {}).identification != null);
+    if (!ev.length) {
+      box.append(el("div", "notice", "None of the evaluated systems identifies scripts or media yet: the OCR engines on the leaderboard only read, so they have no identification scores and no Overall. A multimodal model run with all tasks fills this table: per-class F1 for each script stage, and each half's identification score."));
+      return;
+    }
+    const classes = scripted();
+    const wrap = el("div", "fail-box"); const tbl = el("table", "fail"); const thead = el("thead"); const hr = el("tr");
+    hr.append(el("th", "l", "System"), el("th", "era-modern-h", "Modern half"), el("th", "era-older-h", "Older half"));
+    classes.forEach((s) => hr.append(el("th", "grp-start", "F1 · " + sname(s))));
+    thead.append(hr); tbl.append(thead); const tb = el("tbody");
+    ev.forEach((m) => {
+      const tr = el("tr"); tr.append(el("td", "l", m.name));
+      tr.append(el("td", null, fmt(m.eras.modern.identification)), el("td", null, fmt(m.eras.older.identification)));
+      classes.forEach((s) => { const x = ((m.scripts || {})[s] || {}).identification || {}; tr.append(el("td", "grp-start", fmt(x.script_id_f1))); });
+      tb.append(tr);
+    });
+    tbl.append(tb); wrap.append(tbl); box.append(wrap);
+  }
+
+  // ------------------------------------------------------------- diagnostics
+  function headRow(thead, groups) {
+    const g = el("tr"); g.append(el("th"));
+    groups.forEach(([label, n, era]) => { const th = el("th", "grp-start" + (era ? " era-" + era + "-h" : ""), label); th.colSpan = n; g.append(th); });
+    thead.append(g);
+  }
+  function renderFailureModes() {
+    const metrics = [["empty_rate", "Empty"], ["overlong_rate", "Overlong"], ["repetition_rate", "Loops"], ["offscript_item_rate", "Wrong-script"]];
+    const thead = $("#fm-table thead"); thead.textContent = "";
+    headRow(thead, [["Modern script", metrics.length + 1, "modern"], ["Older scripts", metrics.length + 1, "older"]]);
+    const hr = el("tr"); hr.append(el("th", "l", "System"));
+    ["modern", "older"].forEach(() => { metrics.forEach(([, l], i) => hr.append(el("th", i === 0 ? "grp-start" : null, l))); hr.append(el("th", null, "Line tests passed")); });
+    thead.append(hr);
+    const tb = $("#fm-table tbody"); tb.textContent = "";
+    const ev = evaluated().filter((m) => m.failure_modes_by_era);
+    if (!ev.length) { emptyRow(tb, 2 * metrics.length + 3, "No evaluated system yet."); return; }
+    ev.forEach((m) => {
+      const tr = el("tr"); tr.append(el("td", "l", m.name));
+      ["modern", "older"].forEach((e) => {
+        const fm = m.failure_modes_by_era[e] || {};
+        metrics.forEach(([k], i) => { const v = fm[k]; tr.append(el("td", (i === 0 ? "grp-start " : "") + (v != null && v >= 0.05 ? "hot" : ""), pct(v))); });
+        const u = (m.unit_tests || {})[e]; const td = el("td", null, u ? pct(u.pass_rate) : "—");
+        if (u) td.title = u.tests + " tests on " + u.items + " multi-line items · present " + pct(u.present_rate) + " · in order " + pct(u.order_rate);
+        tr.append(td);
+      });
+      tb.append(tr);
+    });
+  }
+  function renderNonce() {
+    const thead = $("#nonce-table thead"); thead.textContent = "";
+    headRow(thead, [["Modern script", 3, "modern"], ["Older scripts", 3, "older"]]);
+    const hr = el("tr"); hr.append(el("th", "l", "System"));
+    ["modern", "older"].forEach(() => { hr.append(el("th", "grp-start", "Real text"), el("th", null, "Nonce words"), el("th", null, "Gap")); });
+    thead.append(hr);
+    const tb = $("#nonce-table tbody"); tb.textContent = "";
+    const ev = evaluated().filter((m) => (m.prior_reliance || {}).by_era);
+    if (!ev.length) { emptyRow(tb, 7, "No evaluated system yet."); return; }
+    ev.forEach((m) => {
+      const tr = el("tr"); tr.append(el("td", "l", m.name));
+      ["modern", "older"].forEach((e) => {
+        const x = m.prior_reliance.by_era[e] || {}; const a = x.corpus_text, b = x.nonce_words;
+        tr.append(el("td", "grp-start", fmt(a)), el("td", null, fmt(b)));
+        const g = a != null && b != null ? a - b : null; tr.append(el("td", g != null && g >= 5 ? "hot" : null, g == null ? "—" : (g >= 0 ? "+" : "−") + Math.abs(g).toFixed(1)));
+      });
+      tb.append(tr);
+    });
+  }
+  function renderPull() {
+    const stages = ["tamil-modern", "tamil-pre-reform", "grantha", "tamil-brahmi"];
+    const thead = $("#pull-table thead"); thead.textContent = "";
+    const hr = el("tr"); hr.append(el("th", "l", "System"), el("th", null, "All"), el("th", "grp-start era-modern-h", "Modern"), el("th", "era-older-h", "Older"));
+    stages.forEach((s, i) => hr.append(el("th", i === 0 ? "grp-start" : null, sname(s))));
+    hr.append(el("th", "grp-start", "Real leaves (CICT)"));
+    thead.append(hr);
+    const tb = $("#pull-table tbody"); tb.textContent = "";
+    const ev = evaluated().filter((m) => (m.prior_reliance || {}).prior_pull || ((m.prior_reliance || {}).recitation_index || {})["palm-leaf-cict"] != null);
+    if (!ev.length) { emptyRow(tb, 9, "No evaluated system yet."); return; }
+    const cell = (v, cls) => el("td", (cls || "") + (v != null && v > 0 ? " hot" : ""), signed(v));
+    ev.forEach((m) => {
+      const pp = (m.prior_reliance || {}).prior_pull || {}; const be = pp.by_era || {}, bs = pp.by_script || {};
+      const tr = el("tr"); tr.append(el("td", "l", m.name), cell(pp.index), cell(be.modern, "grp-start"), cell(be.older));
+      stages.forEach((s, i) => tr.append(cell(bs[s], i === 0 ? "grp-start" : "")));
+      tr.append(cell(((m.prior_reliance || {}).recitation_index || {})["palm-leaf-cict"], "grp-start"));
+      tb.append(tr);
+    });
+  }
+  function renderHallucination() {
+    const thead = $("#hal-table thead"); thead.textContent = "";
+    const hr = el("tr"); hr.append(el("th", "l", "System"), el("th", null, "All"), el("th", "grp-start era-modern-h", "Modern media"), el("th", "era-older-h", "Older media"),
+      el("th", "grp-start", "Blank"), el("th", null, "Effaced"), el("th", "grp-start", "Answered “[no text]”"));
+    thead.append(hr);
+    const tb = $("#hal-table tbody"); tb.textContent = "";
+    const ev = evaluated().filter((m) => m.hallucination);
+    if (!ev.length) { emptyRow(tb, 7, "No evaluated system has been run on the controls yet."); return; }
+    const rate = (x) => (x ? x.hallucination_rate : null);
+    ev.forEach((m) => {
+      const h = m.hallucination; const be = h.by_era || {}, bc = h.by_control || {};
+      const c = (v, cls) => el("td", (cls || "") + (v != null && v >= 0.05 ? " hot" : v === 0 ? " good" : ""), pct(v));
+      const tr = el("tr"); tr.append(el("td", "l", m.name));
+      const all = c(h.rate); all.title = "95 % CI " + pct(h.rate_ci95[0]) + " to " + pct(h.rate_ci95[1]) + " · " + h.n + " items"; tr.append(all);
+      tr.append(c(rate(be.modern), "grp-start"), c(rate(be.older)), c(rate(bc.blank), "grp-start"), c(rate(bc.effaced)));
+      tr.append(el("td", "grp-start", String(h.abstained || 0)));
+      tb.append(tr);
+    });
+  }
+
+  // ------------------------------------------------------------- reliability
+  function renderSNR() {
+    const box = $("#snr-box"); box.textContent = "";
+    const snr = (LB.diagnostics || {}).signal_to_noise;
+    if (!snr) { box.append(el("div", "notice", "Needs at least three evaluated systems.")); return; }
+    $("#snr-note").textContent = "Signal is the standard deviation of a score across the " + snr.n_systems + " evaluated systems; noise is its mean bootstrap standard error (95 % interval width ÷ 3.92). Below about 1 a score cannot yet tell those systems apart. With few, similar systems (here OCR engines) these values are indicative only.";
+    const wrap = el("div", "fail-box"); const tbl = el("table", "fail"); const thead = el("thead"); const hr = el("tr");
+    ["Score", "Signal", "Noise", "Signal ÷ noise"].forEach((h, i) => hr.append(el("th", i === 0 ? "l" : null, h)));
+    thead.append(hr); tbl.append(thead); const tb = el("tbody");
+    const add = (label, x, cls) => { if (!x) return; const tr = el("tr", cls || null); tr.append(el("td", "l", label), el("td", null, fmt(x.signal, 2)), el("td", null, fmt(x.noise, 2)), el("td", x.snr != null && x.snr < 1 ? "hot" : x.snr != null && x.snr >= 3 ? "good" : null, fmt(x.snr, 2))); tb.append(tr); };
+    const hl = snr.headline || {};
+    add("OCR/HTR", hl.recognition_avg); add("Modern script", hl.modern_reading); add("Older scripts", hl.older_reading); add("Overall", hl.overall);
+    LB.lineage.slice().reverse().forEach((s) => add(sname(s), (snr.scripts || {})[s]));
+    tbl.append(tb); wrap.append(tbl); box.append(wrap);
+    const more = el("details", "more-rows"); const sum = el("summary", null, "Per subset");
+    const w2 = el("div", "fail-box"); const t2 = el("table", "fail"); const th2 = el("thead"); const h2 = el("tr");
+    ["Subset", "Signal", "Noise", "Signal ÷ noise"].forEach((h, i) => h2.append(el("th", i === 0 ? "l" : null, h)));
+    th2.append(h2); t2.append(th2); const tb2 = el("tbody");
+    LB.tracks.forEach((t) => t.subsets.forEach((sid) => {
+      const x = (snr.subsets || {})[sid]; if (!x) return;
+      const tr = el("tr"); tr.append(el("td", "l", SHORT[sid] || sid), el("td", null, fmt(x.signal, 2)), el("td", null, fmt(x.noise, 2)),
+        el("td", x.snr != null && x.snr < 1 ? "hot" : x.snr != null && x.snr >= 3 ? "good" : null, fmt(x.snr, 2)));
+      tb2.append(tr);
+    }));
+    t2.append(tb2); w2.append(t2); more.append(sum, w2); box.append(more);
+  }
+  function renderHumans() {
+    const box = $("#human-box"); box.textContent = "";
+    const refs = LB.references || [];
+    if (!refs.length) {
+      const n = el("div", "notice");
+      n.append(document.createTextNode("No human baseline yet. To add one, give an expert reader the quick-check items as a sheet, then import their answers; they appear here beside every system scored on the same items: "));
+      const c = el("code", null, "tamilbench reading-sheet --split lite --out sheet.csv · tamilbench import-predictions --kind human --split lite --model reader-1 --file sheet.csv");
+      n.append(c); box.append(n); return;
+    }
+    const stages = scripted();
+    const wrap = el("div", "fail-box"); const tbl = el("table", "fail"); const thead = el("thead"); const hr = el("tr");
+    hr.append(el("th", "l", "Reader / system"), el("th", null, "Items"), el("th", "era-modern-h", "Modern"), el("th", "era-older-h", "Older"));
+    stages.forEach((s, i) => hr.append(el("th", i === 0 ? "grp-start" : null, sname(s))));
+    thead.append(hr); tbl.append(thead); const tb = el("tbody");
+    refs.forEach((r) => {
+      const tr = el("tr"); const who = el("td", "l"); who.append(el("div", "model-name", r.name + " (human)"));
+      if (r.reader && r.reader.expertise) who.append(el("div", "model-sub", r.reader.expertise));
+      tr.append(who, el("td", null, String(r.n_items)), el("td", null, fmt(r.modern_script)), el("td", null, fmt(r.older_scripts)));
+      stages.forEach((s, i) => tr.append(el("td", i === 0 ? "grp-start" : null, fmt(((r.scripts || {})[s] || {}).score))));
+      tb.append(tr);
+      Object.entries(r.models_on_same_items || {}).forEach(([mid, x]) => {
+        const m = LB.models.find((y) => y.id === mid) || { name: mid };
+        const t2 = el("tr"); t2.append(el("td", "l", "  " + m.name + " (same items)"), el("td", null, String(r.n_items)), el("td", null, fmt(x.modern_script)), el("td", null, fmt(x.older_scripts)));
+        stages.forEach((s, i) => t2.append(el("td", i === 0 ? "grp-start" : null, fmt((x.scripts || {})[s]))));
+        tb.append(t2);
+      });
+    });
+    tbl.append(tb); wrap.append(tbl); box.append(wrap);
+  }
+  function renderRobust() {
+    const box = $("#robust-box"); box.textContent = "";
+    const ev = LB.models.filter((m) => m.robustness);
+    if (!ev.length) {
+      const n = el("div", "notice"); n.append(document.createTextNode("Not measured yet. OCR engines ignore prompts; for a prompted model run "));
+      n.append(el("code", null, "tamilbench robustness --model <id> --split lite --repeats 1"));
+      n.append(document.createTextNode(" — three paraphrases of every prompt plus one repeat of the canonical prompt."));
+      box.append(n); return;
+    }
+    const wrap = el("div", "fail-box"); const tbl = el("table", "fail"); const thead = el("thead"); const hr = el("tr");
+    ["System", "Split", "OCR/HTR range (prompts)", "Modern range", "Older range", "OCR/HTR range (repeats)", "Answers changed between repeats"].forEach((h, i) => hr.append(el("th", i === 0 ? "l" : null, h)));
+    thead.append(hr); tbl.append(thead); const tb = el("tbody");
+    ev.forEach((m) => {
+      const r = m.robustness; const p = r.prompt_spread || {}, q = r.repeat_spread || {};
+      const rg = (x) => (x ? "±" + (x.range / 2).toFixed(1) : "—");
+      const tr = el("tr"); tr.append(el("td", "l", m.name), el("td", null, r.split), el("td", null, rg(p.recognition_avg)), el("td", null, rg(p.modern_reading)), el("td", null, rg(p.older_reading)), el("td", null, rg(q.recognition_avg)), el("td", null, r.answers_changed_between_repeats == null ? "—" : pct(r.answers_changed_between_repeats)));
+      tb.append(tr);
+    });
+    tbl.append(tb); wrap.append(tbl); box.append(wrap);
+  }
+
+  function renderAll() {
+    renderFacts(); renderHalves(); renderEraDumb(); renderEraTable(); renderStages(); renderCards(); renderIdentification();
+    renderFailureModes(); renderNonce(); renderPull(); renderHallucination(); renderSNR(); renderHumans(); renderRobust();
+    $("#copy-stages").addEventListener("click", () => copyText(stagesCSV(), $("#copy-msg"), "stages-csv"));
+    $("#copy-long").addEventListener("click", () => copyText(longCSV(), $("#copy-long-msg"), "long-csv"));
+  }
+
+  if (window.__LEADERBOARD__) { LB = window.__LEADERBOARD__; renderAll(); }
+  else fetch("data/leaderboard.json").then((r) => r.json()).then((d) => { LB = d; renderAll(); })
+    .catch(() => { $("#facts").textContent = "Could not load data/leaderboard.json."; });
+})();
+</script>
+
+</body>
+</html>

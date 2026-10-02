@@ -23,23 +23,33 @@ def test_checksums_of_a_sample(lite_manifest):
 def test_every_item_has_a_reference(lite_manifest):
     for row in lite_manifest:
         spec = S.get(row["subset"])
-        assert row.get(spec.target), row["id"]
+        target = S.presentation(row).target
+        if spec.scoring == "abstention":          # blank and effaced controls: nothing to read
+            assert row.get(target) == "" and row["control"] in ("blank", "effaced"), row["id"]
+            continue
+        assert row.get(target), row["id"]
         if spec.labels:
             assert row[spec.target] in spec.labels
 
 
 def _oracle(manifest):
-    return {r["id"]: r[S.get(r["subset"]).target] for r in manifest}
+    return {r["id"]: r[S.presentation(r).target] for r in manifest}
 
 
 def test_oracle_scores_100_and_blank_scores_0(lite_manifest):
     best = score_run(lite_manifest, _oracle(lite_manifest), n_boot=20, keep_per_sample=False)
     worst = score_run(lite_manifest, {r["id"]: "" for r in lite_manifest}, n_boot=20, keep_per_sample=False)
+    invent = score_run(lite_manifest, {r["id"]: "தமிழ்" for r in lite_manifest}, n_boot=20, keep_per_sample=False)
     for sid, sub in best["subsets"].items():
         assert sub["score"] == pytest.approx(100.0), sid
-        assert worst["subsets"][sid]["score"] == pytest.approx(0.0), sid
+        if S.get(sid).scoring == "abstention":   # saying nothing is right on a blank surface
+            assert worst["subsets"][sid]["score"] == pytest.approx(100.0)
+            assert invent["subsets"][sid]["score"] == pytest.approx(0.0)
+        else:
+            assert worst["subsets"][sid]["score"] == pytest.approx(0.0), sid
     assert best["overall"] == pytest.approx(100.0)
     assert worst["overall"] == pytest.approx(0.0)
+    assert best["hallucination"]["rate"] == 0 and invent["hallucination"]["rate"] == 1
 
 
 def test_missing_predictions_count_as_empty(lite_manifest):

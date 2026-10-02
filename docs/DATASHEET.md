@@ -18,9 +18,13 @@ the BetterBench criteria (Reuel et al., 2024) at the end.
 
 ## Composition
 
-* **Instances.** 1,654 test images in 18 subsets: 15 reading subsets, 2 identification
-  subsets and 1 image-to-English subset (methodology §2.4). A `lite` split of 371 items is
-  a subset of `test`.
+* **Instances.** 2,008 test images: 1,832 in 18 ranked subsets (15 reading subsets, 2
+  identification subsets and 1 image-to-English subset) and 176 in 2 unranked control
+  subsets (methodology §2.4, §3.10). A `lite` split of 414 items is a subset of `test`.
+* **Balance across the script's history.** Ranked reading items: modern Tamil 766,
+  pre-reform Tamil 340, Grantha–Tamil 100, Grantha 100, Tamil-Brahmi 120. Scores weigh
+  the modern script and the older scripts equally, whatever these counts (§5.7).
+  Vatteluttu and medieval Tamil letterforms have no items yet.
 * **Real vs synthetic.** 26 items are real: leaves of a Tirukkural palm-leaf manuscript
   from the *CICT Tirukkural Ground Truth Corpus* (Central Institute of Classical Tamil,
   CC BY 4.0, data curator Kannan Krishnan), with CICT's expert diplomatic
@@ -32,11 +36,14 @@ the BetterBench criteria (Reuel et al., 2024) at the end.
   common names, not records of individuals.
 * **Labels.** Each item has a reference (Tamil Unicode, IAST for Grantha, Tamil + IAST for
   Grantha–Tamil, an English translation, or a class label) and metadata: script, medium,
-  granularity, provenance, lexical kind (corpus / random words / nonce), source text,
-  rendering parameters, licence, and the contamination canary. CICT leaves also carry the
-  source DOI and the standard edition text of their couplets.
+  granularity, provenance, lexical kind (corpus / random words / nonce / perturbed /
+  control), source text, rendering parameters, licence, and the contamination canary.
+  CICT leaves also carry the source DOI and the standard edition text of their couplets;
+  perturbed items carry their unperturbed original; control items name the subset they
+  imitate (`as_subset`) and blank ones their condition (`control`).
 * **Known errors.** Synthetic references are exact. CICT transcriptions reflect their
   editors' conventions; the scoring policy neutralises spacing, puḷḷi and vowel length.
+  Effaced controls are blurred beyond reading on purpose and have no reference.
 * **Splits.** `test` (ranked), `lite` (quick checks), and a regenerable `private` split
   with a secret seed for verifying suspicious results.
 
@@ -44,7 +51,8 @@ the BetterBench criteria (Reuel et al., 2024) at the end.
 
 * **Rendering.** HarfBuzz-shaped text in 33 OFL fonts, with medium simulators for print,
   screens (real Chromium renders), handwriting, scene text, palm leaves, stone,
-  estampages, copper plates and pottery. Degradation never erases letters (§3.6).
+  estampages, copper plates and pottery. Degradation never erases letters (§3.6), except
+  in the effaced controls, where erasing them is the point.
 * **Real data processing.** CICT leaves are cropped to the leaf outline and the
   digitiser's red caption is painted out, so that verse numbers cannot be read off the
   caption. Only leaves in the corpus's held-out `val` and `test` splits are used.
@@ -78,7 +86,7 @@ attribution to CICT; fonts SIL OFL 1.1 ([`DATA_LICENSE.md`](../DATA_LICENSE.md))
 
 | Stage | What is in place | What is missing |
 |---|---|---|
-| Design | Stated purpose and scope; taxonomy of scripts, media and tasks; nonce controls; real-data anchor; documented gaps | Review by Tamil epigraphists and palaeographers; human expert baselines |
-| Implementation | Open evaluation code; deterministic data build; checksums; adapters for API and local systems; unit tests including the documented worked examples | Repeated-run stability checks for stochastic models |
+| Design | Stated purpose and scope; taxonomy of scripts, media and tasks; equal weight for the older scripts; nonce, perturbed-text and blank controls; real-data anchor; documented gaps | Review by Tamil epigraphists and palaeographers; human expert baselines (tooling in place, readers needed) |
+| Implementation | Open evaluation code; deterministic data build; checksums; adapters for API and local systems; paired statistics; signal-to-noise; prompt-robustness and repeat-run tooling; unit tests including the documented worked examples | Robustness numbers for prompted models (needs API runs) |
 | Documentation | Methodology with prompts verbatim; rubric; datasheet; licences; related work; per-item provenance | A paper with an external peer review |
 | Maintenance | Versioning policy; feedback channel; private split; canary; CI | A named maintainer group and a release schedule |

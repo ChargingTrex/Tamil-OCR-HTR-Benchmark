@@ -9,6 +9,8 @@ The subset score shown on the leaderboard is ``100 × max(0, 1 − CER)``.
 
 from __future__ import annotations
 
+import re
+import unicodedata
 from dataclasses import dataclass
 
 from ..text.grantha import normalize_iast
@@ -39,6 +41,31 @@ class TextPolicy:
     @classmethod
     def from_dict(cls, d: dict | None) -> "TextPolicy":
         return cls(**(d or {}))
+
+
+# An explicit "nothing to read" answer. Prompts ask for "[no text]"; a few plain phrasings
+# of the same are accepted. It scores as an empty answer: wrong on a test item, correct on
+# a blank or effaced control.
+_ABSTENTION = re.compile(
+    r"^[\s\[\(<{\"'“”‘’*_`-]*(?:"
+    r"no\s+(?:legible\s+|readable\s+|visible\s+)?text(?:\s+(?:found|visible|present|detected))?"
+    r"|(?:the\s+)?(?:text\s+(?:is\s+)?)?(?:illegible|unreadable|not\s+legible|not\s+readable)"
+    r"|blank(?:\s+image)?|empty)"
+    r"[\s\]\)>}.!\"'“”‘’*_`-]*$", re.I)
+
+
+def is_abstention(text: str | None) -> bool:
+    return bool(text) and bool(_ABSTENTION.match(text.strip()))
+
+
+def answer_text(text: str | None) -> str:
+    """The answer as scored: missing answers and abstentions count as empty."""
+    return "" if not text or is_abstention(text) else text
+
+
+def letter_count(text: str) -> int:
+    """Letters, marks and digits in an answer — what a blank control should not contain."""
+    return sum(1 for ch in text if unicodedata.category(ch)[0] in "LMN")
 
 
 def sample_stats(ref: str, hyp: str, policy: TextPolicy = TextPolicy()) -> dict:

@@ -19,6 +19,7 @@ benchmark version · 📦 data candidate (licence to confirm before use).
 
 | Finding | Sources | Change in tamilbench | Status |
 |---|---|---|---|
+| Averages over many items hide failures on rare scripts: models that do well on common scripts fail on most others, and a pooled score is dominated by the plentiful modern material. Results should be disaggregated. | GlotOCR Bench 2026; Devanagari stress test 2026; BetterBench | **Script-balanced scoring**: the modern script and the older scripts are each half of OCR/HTR and Overall, every older script stage counts equally; per-script scores with intervals on a separate page and in a CSV; older subsets enlarged to ≥ 100 items each | ✅ |
 | Benchmark items drawn from the same source are correlated; naive intervals are too narrow. Models should be compared on paired, item-level differences. | Miller 2024 | Cluster bootstrap over source texts; `tamilbench compare` (paired differences, intervals, p-values); ties marked ≈ on the leaderboard | ✅ |
 | Low CER can hide hallucination: normalisation, invented content, repetition loops, Markdown, text in the wrong script. | "When Low CER is Not Enough" 2026; Karamolegkou et al. 2026; CC-OCR; Devanagari stress test 2026 | Failure-mode diagnostics per subset and per run: empty, overlong, repetition, markup, wrong-script letters | ✅ |
 | Most model errors on hard handwriting are prior-driven: fluent text that the image does not support. | WildHandBench 2026; Karamolegkou et al. 2026 | **Recitation index** on the real Tirukkural leaves: does the answer move from the scribe's text towards the standard edition? | ✅ |
@@ -27,10 +28,12 @@ benchmark version · 📦 data candidate (licence to confirm before use).
 | Benchmarks should state a contamination policy; canary strings let data be filtered from training sets. | BIG-bench; contamination survey 2025 | Canary GUID in every manifest row and in the dataset card; private split already exists | ✅ |
 | Leaderboards are distorted by private testing of many variants and selective disclosure. | Singh et al. 2025 | Admission rule: report every configuration evaluated for submission; never withdraw low results | ✅ |
 | Document the dataset and assess the benchmark against a quality checklist. | Gebru et al. 2021; Reuel et al. 2024 | `docs/DATASHEET.md` with a BetterBench self-assessment | ✅ |
-| Calibrated human baselines show how far models are from expert readers. | WildHandBench 2026 | Expert readers on the `lite` split | 🔜 |
-| One prompt per task is fragile. | Mizrahi et al. 2024 | Prompt-paraphrase robustness on `lite` | 🔜 |
-| Some subsets may not separate models; their noise should be measured. | Heineman et al. 2025 | Signal-to-noise per subset once enough systems are scored | 🔜 |
-| Binary "unit tests" are a robust alternative to edit distance for long documents. | olmOCR-Bench | Presence/order tests for screens and long blocks | 🔜 |
+| Models drift from the page towards what they expect under controlled character perturbations. | Karamolegkou et al. 2026 | **Perturbed famous texts** (96 control items, half older scripts) and the prior-pull index per script stage | ✅ |
+| OCR systems invent text on degraded or empty regions. | KIE-HVQA 2025; CC-OCR | **Blank and effaced surfaces** (80 control items, half older media) and an explicit “[no text]” answer; hallucination rate per era, medium and condition | ✅ |
+| Calibrated human baselines show how far models are from expert readers. | WildHandBench 2026 | `tamilbench reading-sheet` and `import-predictions --kind human`; human readers shown as unranked references next to every system re-scored on the same items | 🟡 tooling done; readers needed |
+| One prompt per task is fragile; single runs of stochastic models are not stable. | Mizrahi et al. 2024; Levchenko 2025 | Two paraphrases of every prompt and `tamilbench robustness` (prompt and repeat-run spread, changed answers) | 🟡 tooling done; no prompted model run yet |
+| Some subsets may not separate models; their noise should be measured. | Heineman et al. 2025 | Signal-to-noise per subset, script stage and headline score on the leaderboard | ✅ |
+| Binary "unit tests" are a robust alternative to edit distance for long documents. | olmOCR-Bench | Line presence and order tests on every multi-line reference, per subset and per era | ✅ |
 
 ---
 
@@ -60,12 +63,15 @@ benchmark version · 📦 data candidate (licence to confirm before use).
 * **State of What Art? A Call for Multi-Prompt LLM Evaluation** — Mizrahi, Kaplan, Malkin,
   Dror, Shahaf, Stanovsky, *TACL* 12, 2024 ([ACL Anthology](https://aclanthology.org/2024.tacl-1.52/)).
   Single-template benchmarks are brittle; evaluate across instruction paraphrases.
-  *For us:* 🔜 prompt-robustness diagnostic on `lite`.
+  *For us:* 🟡 two paraphrases of every prompt (methodology Appendix A) and
+  `tamilbench robustness`; numbers await the first prompted model.
 * **Signal and Noise** — Heineman, Hofmann, Magnusson, Gu, Smith, Hajishirzi, Lo, Dodge,
   NeurIPS 2025 ([arXiv:2508.13144](https://arxiv.org/abs/2508.13144)). A benchmark's
   ability to separate models (signal) against its random variability (noise) predicts how
-  reliable decisions based on it are. *For us:* 🔜 per-subset signal-to-noise once enough
-  systems are scored; small subsets (26 real leaves) are the likely weak spots.
+  reliable decisions based on it are. *For us:* ✅ signal-to-noise per subset, script
+  stage and headline score (noise = bootstrap standard error). With three similar OCR
+  engines most single subsets and Grantha–Tamil are below 1, while pre-reform Tamil, the
+  older-scripts score and OCR/HTR are above.
 * **The Leaderboard Illusion** — Singh et al., NeurIPS 2025 ([arXiv:2504.20879](https://arxiv.org/pdf/2504.20879)).
   Undisclosed private testing of many variants and selective score disclosure biased
   Chatbot Arena rankings. *For us:* ✅ admission rule in the methodology (§6.3).
@@ -99,7 +105,7 @@ benchmark version · 📦 data candidate (licence to confirm before use).
 * **olmOCR-Bench / olmOCR 2** — Poznanski, Soldaini et al., 2025
   ([arXiv:2510.19817](https://arxiv.org/abs/2510.19817)). 7,010 binary unit tests (text
   present, absent, in order; tables) over 1,402 PDFs instead of fuzzy matching. *For us:*
-  🔜 presence and order tests for screenshots and long blocks, where one layout slip
+  ✅ presence and order tests on every multi-line reference, where one layout slip
   dominates CER.
 * **Language-specific OCR benchmarks for VLMs.** KITAB-Bench for Arabic (ACL Findings
   2025; [code](https://github.com/mbzuai-oryx/KITAB-Bench)), ThaiOCRBench (IJCNLP-AACL 2025;
@@ -113,7 +119,8 @@ benchmark version · 📦 data candidate (licence to confirm before use).
 * **GlotOCR Bench** — ICML 2026 ([arXiv:2604.12978](https://arxiv.org/abs/2604.12978)).
   158 scripts, clean and degraded renderings; on 148 of them every model scores below
   10 % Acc@5. *For us:* motivates testing scripts beyond modern Tamil (Tamil-Brahmi,
-  Grantha) and degraded renderings.
+  Grantha) and degraded renderings, and reporting each script separately: ✅ the older
+  scripts are half of every headline score and each stage is scored on its own.
 * **Multilingual document parsing.** MORE (ICML 2026; 149 languages, real documents;
   [arXiv:2607.02956](https://arxiv.org/abs/2607.02956)) and MDPBench
   ([code](https://github.com/Yuliang-Liu/MultimodalOCR/blob/main/MDPBench/README.md)).
@@ -129,16 +136,19 @@ benchmark version · 📦 data candidate (licence to confirm before use).
   ([arXiv:2605.27750](https://arxiv.org/abs/2605.27750)). On Ancient Greek and Arabic
   editions, VLMs show repetition collapse, markup emission and **off-script generation**,
   and under controlled character perturbations drift further from the page than
-  traditional recognisers. *For us:* ✅ markup and wrong-script detectors; 🔜 perturbed-text
-  items that generalise the recitation index.
+  traditional recognisers. *For us:* ✅ markup and wrong-script detectors; ✅ perturbed
+  famous texts in modern and older scripts with a prior-pull index that generalises the
+  recitation index.
 * **WildHandBench** — 2026 ([arXiv:2608.22959](https://arxiv.org/abs/2608.22959)). 500
   handwritten documents with calibrated **human baselines** (humans 77.09 vs best model
   71.85) and a **Prior-Driven Error** metric: 63–91 % of model errors come from language
   priors, against 49 % for humans. *For us:* ✅ the recitation index is our prior-driven
-  measure on a famous text; 🔜 human baselines.
+  measure on a famous text; 🟡 human-baseline tooling (reading sheets, `--kind human`
+  imports, unranked reference rows).
 * **Seeing is Believing? (KIE-HVQA)** — NeurIPS 2025 ([arXiv:2506.20168](https://arxiv.org/abs/2506.20168)).
-  OCR hallucination under document degradation. *For us:* 🔜 blank and illegible
-  controls whose correct answer is empty.
+  OCR hallucination under document degradation. *For us:* ✅ blank and effaced
+  controls whose correct answer is “[no text]”. Tesseract writes letters on 61–69 % of
+  them.
 * **Can OCR-VLMs Read Devanagari?** — 2026 ([arXiv:2606.29213](https://arxiv.org/abs/2606.29213),
   [code](https://github.com/Aditya-PS-05/devanagari-ocr-benchmark)). Ten systems, from
   EasyOCR to frontier models: on clean synthetic text all score chrF++ 91–98, but on real
@@ -149,7 +159,7 @@ benchmark version · 📦 data candidate (licence to confirm before use).
   ([ACL Anthology](https://aclanthology.org/2025.lm4dh-1.7/)). Period-specific metrics
   (historical character preservation, archaic insertion) and protocols for contamination
   control and stability testing on 18th-century Russian print; LLM post-correction made
-  results worse. *For us:* 🔜 stability (repeat-run) testing; our pre-reform and palm-leaf
+  results worse. *For us:* 🟡 repeat-run stability in `tamilbench robustness`; our pre-reform and palm-leaf
   policies already decide which historical conventions count.
 * **How Far Can Synthetic Data Take Thai OCR?** — 2026 ([arXiv:2609.03595](https://arxiv.org/abs/2609.03595)).
   Typeface diversity, two-dimensional structure and real handwriting glyphs drive transfer
@@ -255,10 +265,12 @@ reason the real data listed above needs line-level transcriptions before it can 
 ## Next steps, in priority order
 
 1. **Real data for every proxy** (largest validity gain): IHDR Tamil pages for
-   handwriting, Bharat Scene Text and IndicSTR12 for scene text, Mozhi for print, and more
-   CICT leaves, each after a licence check (`real-data.md`).
-2. **Perturbed real text**, generalising the recitation index to all reading subsets.
-3. **Blank and illegible controls** for hallucination.
-4. **Human baselines** on `lite` from expert readers of Tamil, Tamil-Brahmi and Grantha.
-5. **Prompt-robustness and stability** diagnostics.
-6. **Signal-to-noise per subset** once enough systems are scored.
+   handwriting, Bharat Scene Text and IndicSTR12 for scene text, Mozhi for print, more
+   CICT leaves, and real Vatteluttu and medieval inscriptions (the two older stages with
+   no items yet), each after a licence check (`real-data.md`).
+2. **Human baselines** on `lite` from expert readers of Tamil, Tamil-Brahmi and Grantha:
+   the tooling is in place.
+3. **Robustness numbers** for every prompted system, with `tamilbench robustness`.
+4. **Real controls**: photographs of blank and worn-out leaves and stones, and perturbed
+   lines of real manuscripts.
+5. **More systems**, so that signal-to-noise can show which subsets to enlarge.

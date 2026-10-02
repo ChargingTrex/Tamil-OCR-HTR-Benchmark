@@ -11,8 +11,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Tamil:wdth,wght@75..125,400..800&family=Hind+Madurai:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Brahmi&family=Noto+Sans+Grantha&display=swap">
 <style>
-/* Layout: a palm-leaf masthead (the subject's own writing surface) over a ledger-like page —
-   one wide ranking table, then small multiples, a subset heatmap, examples and coverage. */
+/* Shared by index.html (the leaderboard) and scripts.html (scores by script stage).
+   Layout: a palm-leaf masthead (the subject's own writing surface) over a ledger-like page. */
 :root {
   --ground: #f3f4ef;
   --surface: #fcfcfa;
@@ -34,6 +34,10 @@
   --verdigris-wash: rgba(43, 122, 105, 0.12);
   --error: #c43d3d;
   --error-wash: rgba(196, 61, 61, 0.14);
+  /* modern script vs older scripts: validated categorical pair (CVD ΔE ≥ 26 in both themes) */
+  --era-modern: #2a78d6;
+  --era-older: #b8790f;
+  --era-older-wash: rgba(184, 121, 15, 0.12);
   --h0: #eef4fd; --h1: #cde2fb; --h2: #9ec5f4; --h3: #6da7ec; --h4: #3987e5; --h5: #256abf; --h6: #104281;
   --h-ink-lo: #17160f; --h-ink-hi: #ffffff;
   --font-display: "Anek Tamil", "Hind Madurai", system-ui, sans-serif;
@@ -54,6 +58,7 @@
     --accent: #3987e5; --accent-strong: #86b6ef; --accent-soft: #1c5cab; --accent-wash: rgba(57, 135, 229, 0.16);
     --verdigris: #5fc0a8; --verdigris-wash: rgba(95, 192, 168, 0.14);
     --error: #ef7a7a; --error-wash: rgba(239, 122, 122, 0.18);
+    --era-modern: #3987e5; --era-older: #b98526; --era-older-wash: rgba(185, 133, 38, 0.16);
     --h0: #16202c; --h1: #10345e; --h2: #1c5cab; --h3: #2a78d6; --h4: #5598e7; --h5: #9ec5f4; --h6: #dbe9fc;
     --h-ink-lo: #f1eee4; --h-ink-hi: #0d1520;
     color-scheme: dark;
@@ -66,6 +71,7 @@
   --accent: #3987e5; --accent-strong: #86b6ef; --accent-soft: #1c5cab; --accent-wash: rgba(57, 135, 229, 0.16);
   --verdigris: #5fc0a8; --verdigris-wash: rgba(95, 192, 168, 0.14);
   --error: #ef7a7a; --error-wash: rgba(239, 122, 122, 0.18);
+  --era-modern: #3987e5; --era-older: #b98526; --era-older-wash: rgba(185, 133, 38, 0.16);
   --h0: #16202c; --h1: #10345e; --h2: #1c5cab; --h3: #2a78d6; --h4: #5598e7; --h5: #9ec5f4; --h6: #dbe9fc;
   --h-ink-lo: #f1eee4; --h-ink-hi: #0d1520;
   color-scheme: dark;
@@ -129,7 +135,9 @@ nav.jump a:hover { color: var(--ink); }
 /* ---------------- leaderboard table ---------------- */
 .table-box { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); }
 table.lb { width: 100%; border-collapse: collapse; min-width: 980px; }
-table.lb th, table.lb td { padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--rule); text-align: right; vertical-align: middle; }
+table.lb th, table.lb td { padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--rule); text-align: right; vertical-align: middle; }
+table.lb th:first-child, table.lb td:first-child { padding-left: 0.8rem; }
+table.lb td.l .model-name { min-width: 11rem; }
 table.lb thead th { font-size: 0.74rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--surface); position: sticky; top: 0; }
 table.lb th.l, table.lb td.l { text-align: left; }
 table.lb tbody tr { cursor: pointer; }
@@ -266,6 +274,17 @@ td.gap-cell { color: var(--muted); font-style: italic; text-align: left; }
 .copy { position: absolute; top: 0.45rem; right: 0.45rem; font: inherit; font-size: 0.74rem; padding: 0.15rem 0.55rem; border-radius: 4px; border: 1px solid var(--rule-strong); background: var(--surface); color: var(--ink-2); cursor: pointer; }
 footer { margin-top: 3rem; border-top: 1px solid var(--rule); padding-block: 1.4rem 2.4rem; color: var(--muted); font-size: 0.84rem; }
 footer .cols { gap: 0.6rem 2rem; }
+/* ---------------- eras (shared by both pages) ---------------- */
+.score .bar.modern i { background: var(--era-modern); }
+.score .bar.older i { background: var(--era-older); }
+.dot.modern { background: var(--era-modern); } .dot.older { background: var(--era-older); }
+.key i.modern { background: var(--era-modern); } .key i.older { background: var(--era-older); }
+.pill.era-modern { border-color: var(--era-modern); color: var(--accent-strong); background: var(--accent-wash); }
+.pill.era-older { border-color: var(--era-older); color: var(--gold); background: var(--era-older-wash); }
+th.era-older-h { box-shadow: inset 0 -2px 0 var(--era-older); }
+th.era-modern-h { box-shadow: inset 0 -2px 0 var(--era-modern); }
+.cta { display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 600; font-size: 0.92rem; text-decoration: none; color: var(--accent-strong); border: 1px solid var(--rule-strong); background: var(--surface); padding: 0.35rem 0.8rem; border-radius: 999px; white-space: nowrap; }
+.cta:hover { border-color: var(--accent); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
 @media (max-width: 560px) {
   .brow { grid-template-columns: minmax(0, 6.5rem) minmax(0, 1fr) 2.4rem; }
@@ -291,7 +310,7 @@ footer .cols { gap: 0.6rem 2rem; }
   </div>
   <nav class="jump" aria-label="Sections">
     <div class="wrap">
-      <a href="#leaderboard">Leaderboard</a><a href="#tracks">By track</a><a href="#subsets">By subset</a>
+      <a href="#leaderboard">Leaderboard</a><a href="scripts.html">By script ↗</a><a href="#tracks">By track</a><a href="#subsets">By subset</a>
       <a href="#prior">Reading vs guessing</a><a href="#failures">Failure modes</a><a href="#examples">Examples</a><a href="#coverage">Coverage</a>
       <a href="#method">Scoring</a><a href="#run">Evaluate a model</a>
     </div>
@@ -304,8 +323,9 @@ footer .cols { gap: 0.6rem 2rem; }
       <div>
         <div class="eyebrow">Benchmark <span id="bver">v1</span> · public test split</div>
         <h2 id="h-lb">Leaderboard</h2>
-        <p class="lede">Scores are 0–100, higher is better. Reading tracks score 100·(1−CER); identification is macro-F1; translation is chrF++. Select a row to highlight that model in every chart.</p>
+        <p class="lede">Scores are 0–100, higher is better. The modern script and the older scripts count equally: OCR/HTR is half modern-script reading and half older-script reading, and the older half weighs Tamil-Brahmi, Grantha, Grantha–Tamil and pre-reform Tamil the same. Select a row to highlight that model in every chart.</p>
       </div>
+      <a class="cta" href="scripts.html">Scores by script →</a>
     </div>
     <div class="table-box"><table class="lb" id="lb-table"><thead></thead><tbody></tbody></table></div>
     <p class="table-note" id="lb-note"></p>
@@ -349,7 +369,7 @@ footer .cols { gap: 0.6rem 2rem; }
       <p class="lede">How often a system's answer fails in ways a character error rate hides: nothing at all, far too much, the same phrase looping, Markdown or HTML, or letters from a script the image does not use (Devanagari for Grantha, Malayalam for Tamil-Brahmi). The last column shows whether a system reads the real Tirukkural leaves or recites the standard text.</p>
     </div></div>
     <div class="fail-box"><table class="fail" id="fail-table"><thead></thead><tbody></tbody></table></div>
-    <p class="table-note">Shares of reading items, all reading subsets pooled. Wrong-script letters are counted against the scripts each subset's references use. Recitation runs from −1 (writes what the scribe wrote) to +1 (writes the standard edition instead); it is measured on the real leaves and diplomatic transcriptions of the Central Institute of Classical Tamil (CICT Tirukkural Ground Truth Corpus, CC BY 4.0).</p>
+    <p class="table-note">Shares of reading items, all ranked reading subsets pooled. Wrong-script letters are counted against the scripts each subset's references use. Recitation runs from −1 (writes what the scribe wrote) to +1 (writes the standard edition instead); it is measured on the real leaves and diplomatic transcriptions of the Central Institute of Classical Tamil (CICT Tirukkural Ground Truth Corpus, CC BY 4.0). Prior pull is the same measure on famous texts with letters deliberately changed; invented text is the share of blank or effaced surfaces answered with letters. The modern/older split of every column is on the <a href="scripts.html#diagnostics">scripts page</a>.</p>
   </section>
 
   <section id="examples" aria-labelledby="h-ex">
@@ -389,7 +409,7 @@ footer .cols { gap: 0.6rem 2rem; }
         <li>95 % intervals on every subset score from a cluster bootstrap over source texts; rank differences are tested with paired resampling.</li>
       </ul></div>
       <div class="panel"><h3>Aggregation</h3><ul>
-        <li>Track = mean of its subsets. Overall = mean of 8 tracks. OCR/HTR = mean of the 6 reading tracks.</li>
+        <li>OCR/HTR = ½ modern-script reading + ½ older-script reading; the older half is the mean of four script stages. Overall = ½ modern composite + ½ older composite (¾ reading, ¼ identification and translation in each). Track = mean of its subsets.</li>
         <li>Tasks a system does not perform are “—”, never zero. Refusals and errors score as empty answers.</li>
         <li>Same images, prompts and scoring for every model; settings such as reasoning effort are fixed per entry.</li>
       </ul></div>
@@ -450,7 +470,7 @@ tamilbench leaderboard</pre></div>
     const total = Object.values(counts).reduce((a, b) => a + b, 0);
     const real = Object.entries(LB.coverage || {}).reduce((a, [, media]) => a + Object.values(media).reduce((s, c) => s + (c.real || 0), 0), 0);
     const f = $("#facts");
-    [[total.toLocaleString("en"), "test images"], [String(LB.benchmark.subsets.length), "subsets"], ["8", "tracks"],
+    [[total.toLocaleString("en"), "test images"], [String(LB.benchmark.subsets.filter((x) => x.ranked !== false).length), "ranked subsets"], ["½ + ½", "modern + older scripts"],
      [String(evaluated().length), "models scored"], [String(real), "real palm leaves (CICT)"]].forEach(([b, t]) => {
       const s = el("span"); s.append(el("b", null, b), document.createTextNode(" " + t)); f.append(s);
     });
@@ -459,21 +479,23 @@ tamilbench leaderboard</pre></div>
   }
 
   // ------------------------------------------------------------- leaderboard table
-  function scoreCell(v, big) {
+  function scoreCell(v, big, era) {
     const td = el("td");
     if (v == null) { td.append(el("span", "na", "—")); return td; }
     const w = el("span", "score");
     w.append(el("span", "v" + (big ? " big" : ""), fmt(v)));
-    const bar = el("span", "bar"); const i = el("i"); i.style.width = Math.max(0, Math.min(100, v)) + "%"; bar.append(i); w.append(bar);
+    const bar = el("span", "bar" + (era ? " " + era : "")); const i = el("i"); i.style.width = Math.max(0, Math.min(100, v)) + "%"; bar.append(i); w.append(bar);
     td.append(w); return td;
   }
+  const ERA_COL = { modern_script: "modern", older_scripts: "older" };
   function renderTable() {
-    const cols = [["overall", "Overall"], ["recognition_avg", "OCR/HTR"]].concat(LB.tracks.map((t) => ["t:" + t.id, t.name]));
+    const cols = [["overall", "Overall"], ["recognition_avg", "OCR/HTR"], ["modern_script", "Modern script"], ["older_scripts", "Older scripts"]]
+      .concat(LB.tracks.map((t) => ["t:" + t.id, t.name]));
     const thead = $("#lb-table thead"); thead.textContent = "";
     const hr = el("tr");
     hr.append(el("th", "l", "#"), el("th", "l", "Model"));
     cols.forEach(([k, label]) => {
-      const th = el("th"); const b = el("button", "sort", label); b.type = "button";
+      const th = el("th", ERA_COL[k] ? "era-" + ERA_COL[k] + "-h" : null); const b = el("button", "sort", label); b.type = "button";
       if (k === sortKey) b.setAttribute("aria-sort", "descending");
       b.addEventListener("click", () => { sortKey = k; renderTable(); });
       th.append(b); hr.append(th);
@@ -505,11 +527,12 @@ tamilbench leaderboard</pre></div>
       const p = m.params || {}; const knobs = Object.entries(p).filter(([, v]) => v != null && v !== "").map(([k, v]) => k + " " + v).join(" · ");
       if (knobs) sub.append(el("span", null, knobs));
       name.append(sub); tr.append(name);
-      cols.forEach(([k], i) => tr.append(scoreCell(val(m, k), i < 2)));
+      cols.forEach(([k], i) => tr.append(scoreCell(val(m, k), i < 2, ERA_COL[k])));
       tbody.append(tr);
     });
     $("#lb-note").textContent = "Ranks in parentheses are OCR/HTR ranks for systems that only read (no identification or translation), so they have no Overall. " +
-      "Overall is the unweighted mean of the eight tracks; OCR/HTR is the mean of the six reading tracks. " +
+      "OCR/HTR = ½ Modern script + ½ Older scripts; Older scripts is the mean of pre-reform Tamil, Grantha–Tamil, Grantha and Tamil-Brahmi, each weighted equally. " +
+      "Overall = ½ modern composite + ½ older composite (¾ reading, ¼ identification and translation in each half). Track columns break the same items down by medium. " +
       "≈ marks a rank that is not statistically separable from the next one (paired cluster bootstrap, 95 %).";
   }
   function renderPending() {
@@ -631,7 +654,8 @@ tamilbench leaderboard</pre></div>
   }
   function renderExFilter() {
     const box = $("#ex-filter"); box.textContent = "";
-    [["all", "All"]].concat(LB.tracks.map((t) => [t.id, t.name])).forEach(([id, name]) => {
+    const controls = LB.controls ? [[LB.controls.id, "Controls (not ranked)"]] : [];
+    [["all", "All"]].concat(LB.tracks.map((t) => [t.id, t.name]), controls).forEach(([id, name]) => {
       const b = el("button", "chip", name); b.type = "button"; b.setAttribute("aria-pressed", id === exFilter ? "true" : "false");
       b.addEventListener("click", () => { exFilter = id; renderExFilter(); renderExamples(); });
       box.append(b);
@@ -644,6 +668,7 @@ tamilbench leaderboard</pre></div>
     "palm-leaf-cict": "Palm leaf (real)", "grantha-tamil": "Grantha–Tamil", "stone": "Stone",
     "copper-plate": "Copper & metal", "tamil-brahmi": "Tamil-Brahmi", "grantha": "Grantha",
     "script-id": "Script ID", "medium-id": "Medium ID", "translate-en": "Image → English",
+    "perturbed": "Perturbed text", "blank-controls": "Blank & effaced",
   };
 
   // Long transcriptions (whole palm leaves) are clamped; a button reveals the rest.
@@ -664,6 +689,7 @@ tamilbench leaderboard</pre></div>
     // "All" shows one item per subset; picking a track shows every example for it.
     const items = LB.examples.filter((x) => {
       if (exFilter !== "all") return (subsets[x.subset] || {}).track === exFilter;
+      if ((subsets[x.subset] || {}).ranked === false) return false;
       if (seen.has(x.subset)) return false; seen.add(x.subset); return true;
     });
     items.forEach((x) => {
@@ -675,21 +701,26 @@ tamilbench leaderboard</pre></div>
       const scr = (LB.scripts[x.script] || {}).name, med = (LB.media[x.medium] || {}).name;
       if (scr) meta.append(el("span", "pill", scr)); if (med) meta.append(el("span", "pill", med));
       if (x.provenance === "real") meta.append(el("span", "pill real", "Real artefact"));
+      if (x.as_subset) meta.append(el("span", "pill", "shown as " + ((subsets[x.as_subset] || {}).title || x.as_subset)));
       body.append(meta);
+      const shown = subsets[x.as_subset] || s;
       const refWrap = el("div"); refWrap.append(el("div", "lbl", s.task === "translation" ? "Reference translation" : (s.task === "recognition" ? "Reference" : "Correct label")));
-      const ref = el("div", "ref", x.reference); if (s.task === "recognition" && s.target !== "iast") ref.lang = "ta"; refWrap.append(clampable(ref));
-      if (x.text_native && s.id === "tamil-brahmi") { const nat = el("div", "ref native g-brahmi", x.text_native); refWrap.append(nat); }
-      if (x.text_native && (s.id === "grantha" || s.id === "grantha-tamil")) { const nat = el("div", "ref native g-mixed", x.text_native); refWrap.append(nat); }
+      const ref = el("div", "ref" + (x.control ? " native" : ""), x.control ? "No legible text (" + x.control + " surface). Correct answer: [no text]" : x.reference);
+      if (s.task === "recognition" && shown.target !== "iast" && !x.control) ref.lang = "ta"; refWrap.append(clampable(ref));
+      if (x.text_canonical && x.lexical === "perturbed") { refWrap.append(el("div", "lbl", "Famous original (not in the image)")); const o = el("div", "ref native", x.text_canonical); refWrap.append(clampable(o)); }
+      if (x.text_native && shown.id === "tamil-brahmi") { const nat = el("div", "ref native g-brahmi", x.text_native); refWrap.append(nat); }
+      if (x.text_native && (shown.id === "grantha" || shown.id === "grantha-tamil")) { const nat = el("div", "ref native g-mixed", x.text_native); refWrap.append(nat); }
       body.append(refWrap);
       Object.entries(x.predictions || {}).forEach(([mid, p]) => {
         const pr = el("div", "pred"); const who = el("div", "who"); who.append(el("b", null, names[mid] || mid));
-        if (p.cer != null) who.append(el("span", "num", "CER " + p.cer.toFixed(2)));
+        if (p.hallucinated != null) who.append(el("span", p.hallucinated ? "bad" : "ok", p.hallucinated ? "invented " + p.letters + " letters" : "no text: correct"));
+        else if (p.cer != null) who.append(el("span", "num", "CER " + p.cer.toFixed(2)));
         else if (p.ok != null) who.append(el("span", p.ok ? "ok" : "bad", p.ok ? "correct" : "wrong"));
         else if (p.chrf != null) who.append(el("span", "num", "chrF++ " + p.chrf.toFixed(1)));
         pr.append(who);
         const txt = el("div", "txt" + (p.text ? "" : " empty"));
         if (!p.text) txt.textContent = "(no answer)";
-        else if (s.task === "recognition") diffMarks(x.reference, p.text).forEach(([chunk, bad]) => txt.append(bad ? el("mark", null, chunk) : document.createTextNode(chunk)));
+        else if (s.task === "recognition" && !x.control) diffMarks(x.reference, p.text).forEach(([chunk, bad]) => txt.append(bad ? el("mark", null, chunk) : document.createTextNode(chunk)));
         else txt.textContent = p.text;
         pr.append(clampable(txt)); body.append(pr);
       });
@@ -739,11 +770,11 @@ tamilbench leaderboard</pre></div>
     const thead = $("#fail-table thead"); thead.textContent = "";
     const hr = el("tr"); hr.append(el("th", "l", "Model"));
     cols.forEach(([, label]) => hr.append(el("th", null, label)));
-    hr.append(el("th", null, "Recitation (real leaves)"));
+    hr.append(el("th", null, "Recitation (real leaves)"), el("th", null, "Prior pull (perturbed)"), el("th", null, "Invented text (blank)"));
     thead.append(hr);
     const tbody = $("#fail-table tbody"); tbody.textContent = "";
     const ev = evaluated().filter((m) => m.failure_modes);
-    if (!ev.length) { const tr = el("tr"); const td = el("td", "l", "No evaluated model yet."); td.colSpan = cols.length + 2; tr.append(td); tbody.append(tr); return; }
+    if (!ev.length) { const tr = el("tr"); const td = el("td", "l", "No evaluated model yet."); td.colSpan = cols.length + 4; tr.append(td); tbody.append(tr); return; }
     ev.forEach((m) => {
       const tr = el("tr", selected && selected !== m.id ? "dim" : null);
       tr.append(el("td", "l", m.name));
@@ -751,8 +782,13 @@ tamilbench leaderboard</pre></div>
         const v = m.failure_modes[k];
         tr.append(el("td", v != null && v >= 0.05 ? "hot" : null, v == null ? "—" : (100 * v).toFixed(1) + " %"));
       });
+      const sgn = (v) => (v == null ? "—" : (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(2));
       const ri = ((m.prior_reliance || {}).recitation_index || {})["palm-leaf-cict"];
-      tr.append(el("td", ri != null && ri > 0 ? "hot" : null, ri == null ? "—" : (ri > 0 ? "+" : ri < 0 ? "−" : "") + Math.abs(ri).toFixed(2)));
+      tr.append(el("td", ri != null && ri > 0 ? "hot" : null, sgn(ri)));
+      const pp = ((m.prior_reliance || {}).prior_pull || {}).index;
+      tr.append(el("td", pp != null && pp > 0 ? "hot" : null, sgn(pp)));
+      const h = (m.hallucination || {}).rate;
+      tr.append(el("td", h != null && h >= 0.05 ? "hot" : null, h == null ? "—" : (100 * h).toFixed(1) + " %"));
       tbody.append(tr);
     });
   }

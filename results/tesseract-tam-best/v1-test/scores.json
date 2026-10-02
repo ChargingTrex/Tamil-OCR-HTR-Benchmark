@@ -1,13 +1,282 @@
 {
   "overall": null,
-  "recognition_avg": 53.4,
+  "overall_ci95": null,
+  "recognition_avg": 38.99,
+  "recognition_avg_ci95": [
+    36.88,
+    40.73
+  ],
+  "eras": {
+    "modern": {
+      "name": "Modern script",
+      "scripts": [
+        "tamil-modern"
+      ],
+      "reading": 63.74,
+      "reading_ci95": [
+        59.55,
+        67.09
+      ],
+      "identification": null,
+      "identification_ci95": null,
+      "translation": null,
+      "translation_ci95": null,
+      "composite": null,
+      "composite_ci95": null
+    },
+    "older": {
+      "name": "Older scripts",
+      "scripts": [
+        "tamil-pre-reform",
+        "grantha-tamil",
+        "tamil-brahmi",
+        "grantha"
+      ],
+      "reading": 14.24,
+      "reading_ci95": [
+        12.98,
+        15.46
+      ],
+      "identification": null,
+      "identification_ci95": null,
+      "composite": null,
+      "composite_ci95": null
+    }
+  },
+  "era_gap": {
+    "diff": 49.49,
+    "ci95": [
+      45.16,
+      53.08
+    ],
+    "p": 0.0,
+    "separable": true
+  },
+  "scripts": {
+    "tamil-modern": {
+      "era": "modern",
+      "score": 63.74,
+      "ci95": [
+        59.55,
+        67.09
+      ],
+      "n": 766,
+      "tracks": {
+        "print": 83.84,
+        "screen": 87.96,
+        "handwriting": 81.41,
+        "scene": 16.88,
+        "epigraphy": 48.6
+      },
+      "subsets": {
+        "print-digital": {
+          "n": 100,
+          "score": 97.0193,
+          "ci95": [
+            95.4,
+            98.29
+          ]
+        },
+        "print-scan": {
+          "n": 100,
+          "score": 95.6553,
+          "ci95": [
+            93.54,
+            97.43
+          ]
+        },
+        "print-photo": {
+          "n": 100,
+          "score": 81.7248,
+          "ci95": [
+            75.49,
+            86.75
+          ]
+        },
+        "numerals-symbols": {
+          "n": 80,
+          "score": 60.9628,
+          "ci95": [
+            57.99,
+            63.91
+          ]
+        },
+        "screen": {
+          "n": 120,
+          "score": 87.9563,
+          "ci95": [
+            84.89,
+            90.75
+          ]
+        },
+        "handwriting": {
+          "n": 100,
+          "score": 81.4069,
+          "ci95": [
+            76.13,
+            85.95
+          ]
+        },
+        "scene": {
+          "n": 100,
+          "score": 16.8846,
+          "ci95": [
+            11.08,
+            23.81
+          ]
+        },
+        "stone": {
+          "n": 48,
+          "score": 36.3086,
+          "ci95": [
+            0.0,
+            62.27
+          ]
+        },
+        "copper-plate": {
+          "n": 18,
+          "score": 60.8911,
+          "ci95": [
+            45.91,
+            69.94
+          ]
+        }
+      },
+      "identification": null
+    },
+    "tamil-pre-reform": {
+      "era": "older",
+      "score": 32.66,
+      "ci95": [
+        30.24,
+        34.87
+      ],
+      "n": 340,
+      "tracks": {
+        "manuscripts": 41.43,
+        "epigraphy": 23.89
+      },
+      "subsets": {
+        "pre-reform-print": {
+          "n": 100,
+          "score": 64.3316,
+          "ci95": [
+            57.47,
+            70.55
+          ]
+        },
+        "palm-leaf-synth": {
+          "n": 100,
+          "score": 51.9764,
+          "ci95": [
+            44.46,
+            59.37
+          ]
+        },
+        "palm-leaf-cict": {
+          "n": 26,
+          "score": 7.9674,
+          "ci95": [
+            4.31,
+            11.47
+          ]
+        },
+        "stone": {
+          "n": 52,
+          "score": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "copper-plate": {
+          "n": 62,
+          "score": 47.7742,
+          "ci95": [
+            41.43,
+            53.27
+          ]
+        }
+      },
+      "identification": null
+    },
+    "grantha-tamil": {
+      "era": "older",
+      "score": 22.11,
+      "ci95": [
+        17.84,
+        26.15
+      ],
+      "n": 100,
+      "tracks": {
+        "manuscripts": 22.11
+      },
+      "subsets": {
+        "grantha-tamil": {
+          "n": 100,
+          "score": 22.1113,
+          "ci95": [
+            17.84,
+            26.15
+          ]
+        }
+      },
+      "identification": null
+    },
+    "tamil-brahmi": {
+      "era": "older",
+      "score": 2.21,
+      "ci95": [
+        1.41,
+        2.99
+      ],
+      "n": 120,
+      "tracks": {
+        "epigraphy": 2.21
+      },
+      "subsets": {
+        "tamil-brahmi": {
+          "n": 120,
+          "score": 2.2102,
+          "ci95": [
+            1.41,
+            2.99
+          ]
+        }
+      },
+      "identification": null
+    },
+    "grantha": {
+      "era": "older",
+      "score": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "n": 100,
+      "tracks": {
+        "epigraphy": 0.0
+      },
+      "subsets": {
+        "grantha": {
+          "n": 100,
+          "score": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "identification": null
+    }
+  },
   "tracks": {
     "print": 83.84,
     "screen": 87.96,
     "handwriting": 81.41,
     "scene": 16.88,
-    "manuscripts": 36.8,
-    "epigraphy": 13.53,
+    "manuscripts": 36.6,
+    "epigraphy": 12.95,
     "classification": null,
     "translation": null
   },
@@ -21,12 +290,29 @@
       "score": 97.01932525384868,
       "ci95": [
         95.4,
-        98.33
+        98.29
       ],
+      "by_script": {
+        "tamil-modern": {
+          "n": 100,
+          "score": 97.0193,
+          "ci95": [
+            95.4,
+            98.29
+          ]
+        }
+      },
       "slices": {
         "corpus": 96.7,
         "lexicon": 100.0,
         "nonce": 97.98
+      },
+      "slices_by_era": {
+        "modern": {
+          "corpus": 96.7,
+          "lexicon": 100.0,
+          "nonce": 97.98
+        }
       },
       "diagnostics": {
         "empty_rate": 0.0,
@@ -188,6 +474,13 @@
           ]
         ]
       },
+      "unit_tests": {
+        "items": 18,
+        "tests": 68,
+        "pass_rate": 1.0,
+        "present_rate": 1.0,
+        "order_rate": 1.0
+      },
       "missing": 0
     },
     "print-scan": {
@@ -198,13 +491,30 @@
       "exact_match": 0.63,
       "score": 95.6552876581523,
       "ci95": [
-        93.46,
-        97.44
+        93.54,
+        97.43
       ],
+      "by_script": {
+        "tamil-modern": {
+          "n": 100,
+          "score": 95.6553,
+          "ci95": [
+            93.54,
+            97.43
+          ]
+        }
+      },
       "slices": {
         "nonce": 87.96,
         "corpus": 97.37,
         "lexicon": 96.22
+      },
+      "slices_by_era": {
+        "modern": {
+          "nonce": 87.96,
+          "corpus": 97.37,
+          "lexicon": 96.22
+        }
       },
       "diagnostics": {
         "empty_rate": 0.0,
@@ -382,6 +692,13 @@
           ]
         ]
       },
+      "unit_tests": {
+        "items": 57,
+        "tests": 185,
+        "pass_rate": 0.9568,
+        "present_rate": 0.9669,
+        "order_rate": 0.9375
+      },
       "missing": 0
     },
     "print-photo": {
@@ -392,13 +709,30 @@
       "exact_match": 0.39,
       "score": 81.72484599589322,
       "ci95": [
-        75.47,
-        86.91
+        75.49,
+        86.75
       ],
+      "by_script": {
+        "tamil-modern": {
+          "n": 100,
+          "score": 81.7248,
+          "ci95": [
+            75.49,
+            86.75
+          ]
+        }
+      },
       "slices": {
         "lexicon": 85.22,
         "corpus": 83.01,
         "nonce": 72.13
+      },
+      "slices_by_era": {
+        "modern": {
+          "lexicon": 85.22,
+          "corpus": 83.01,
+          "nonce": 72.13
+        }
       },
       "diagnostics": {
         "empty_rate": 0.01,
@@ -576,6 +910,13 @@
           ]
         ]
       },
+      "unit_tests": {
+        "items": 58,
+        "tests": 192,
+        "pass_rate": 0.9583,
+        "present_rate": 0.96,
+        "order_rate": 0.9552
+      },
       "missing": 0
     },
     "numerals-symbols": {
@@ -586,11 +927,26 @@
       "exact_match": 0.0,
       "score": 60.96284667713239,
       "ci95": [
-        58.24,
-        63.57
+        57.99,
+        63.91
       ],
+      "by_script": {
+        "tamil-modern": {
+          "n": 80,
+          "score": 60.9628,
+          "ci95": [
+            57.99,
+            63.91
+          ]
+        }
+      },
       "slices": {
         "numerals": 60.96
+      },
+      "slices_by_era": {
+        "modern": {
+          "numerals": 60.96
+        }
       },
       "diagnostics": {
         "empty_rate": 0.0,
@@ -768,6 +1124,13 @@
           ]
         ]
       },
+      "unit_tests": {
+        "items": 46,
+        "tests": 176,
+        "pass_rate": 0.0284,
+        "present_rate": 0.045,
+        "order_rate": 0.0
+      },
       "missing": 0
     },
     "screen": {
@@ -778,12 +1141,28 @@
       "exact_match": 0.08333333333333333,
       "score": 87.95631509758317,
       "ci95": [
-        85.02,
-        90.62
+        84.89,
+        90.75
       ],
+      "by_script": {
+        "tamil-modern": {
+          "n": 120,
+          "score": 87.9563,
+          "ci95": [
+            84.89,
+            90.75
+          ]
+        }
+      },
       "slices": {
         "corpus": 87.31,
         "nonce": 92.61
+      },
+      "slices_by_era": {
+        "modern": {
+          "corpus": 87.31,
+          "nonce": 92.61
+        }
       },
       "diagnostics": {
         "empty_rate": 0.0,
@@ -961,6 +1340,13 @@
           ]
         ]
       },
+      "unit_tests": {
+        "items": 99,
+        "tests": 703,
+        "pass_rate": 0.6956,
+        "present_rate": 0.7681,
+        "order_rate": 0.5993
+      },
       "missing": 0
     },
     "handwriting": {
@@ -971,13 +1357,30 @@
       "exact_match": 0.22,
       "score": 81.40687945460179,
       "ci95": [
-        76.34,
-        85.79
+        76.13,
+        85.95
       ],
+      "by_script": {
+        "tamil-modern": {
+          "n": 100,
+          "score": 81.4069,
+          "ci95": [
+            76.13,
+            85.95
+          ]
+        }
+      },
       "slices": {
         "corpus": 82.11,
         "lexicon": 79.21,
         "nonce": 80.19
+      },
+      "slices_by_era": {
+        "modern": {
+          "corpus": 82.11,
+          "lexicon": 79.21,
+          "nonce": 80.19
+        }
       },
       "diagnostics": {
         "empty_rate": 0.06,
@@ -1155,6 +1558,13 @@
           ]
         ]
       },
+      "unit_tests": {
+        "items": 58,
+        "tests": 200,
+        "pass_rate": 0.62,
+        "present_rate": 0.6822,
+        "order_rate": 0.507
+      },
       "missing": 0
     },
     "scene": {
@@ -1165,12 +1575,28 @@
       "exact_match": 0.03,
       "score": 16.88459351904491,
       "ci95": [
-        11.01,
-        23.73
+        11.08,
+        23.81
       ],
+      "by_script": {
+        "tamil-modern": {
+          "n": 100,
+          "score": 16.8846,
+          "ci95": [
+            11.08,
+            23.81
+          ]
+        }
+      },
       "slices": {
         "nonce": 14.69,
         "corpus": 17.24
+      },
+      "slices_by_era": {
+        "modern": {
+          "nonce": 14.69,
+          "corpus": 17.24
+        }
       },
       "diagnostics": {
         "empty_rate": 0.13,
@@ -1332,6 +1758,13 @@
           ]
         ]
       },
+      "unit_tests": {
+        "items": 16,
+        "tests": 48,
+        "pass_rate": 0.0208,
+        "present_rate": 0.0312,
+        "order_rate": 0.0
+      },
       "missing": 0
     },
     "pre-reform-print": {
@@ -1342,12 +1775,28 @@
       "exact_match": 0.07,
       "score": 64.33164905833716,
       "ci95": [
-        57.2,
-        70.41
+        57.47,
+        70.55
       ],
+      "by_script": {
+        "tamil-pre-reform": {
+          "n": 100,
+          "score": 64.3316,
+          "ci95": [
+            57.47,
+            70.55
+          ]
+        }
+      },
       "slices": {
         "nonce": 53.8,
         "corpus": 68.69
+      },
+      "slices_by_era": {
+        "older": {
+          "nonce": 53.8,
+          "corpus": 68.69
+        }
       },
       "diagnostics": {
         "empty_rate": 0.13,
@@ -1525,45 +1974,83 @@
           ]
         ]
       },
+      "unit_tests": {
+        "items": 57,
+        "tests": 189,
+        "pass_rate": 0.8307,
+        "present_rate": 0.878,
+        "order_rate": 0.7424
+      },
       "missing": 0
     },
     "palm-leaf-synth": {
-      "n": 80,
-      "cer": 0.45826235093696766,
-      "aer": 0.5003164843114206,
+      "n": 100,
+      "cer": 0.4802362562471604,
+      "aer": 0.5215629522431259,
       "wer": 1.0,
       "exact_match": 0.0,
-      "score": 54.173764906303234,
+      "score": 51.97637437528396,
       "ci95": [
-        45.9,
-        62.55
+        44.46,
+        59.37
       ],
+      "by_script": {
+        "tamil-pre-reform": {
+          "n": 100,
+          "score": 51.9764,
+          "ci95": [
+            44.46,
+            59.37
+          ]
+        }
+      },
       "slices": {
-        "corpus": 53.78,
-        "nonce": 58.0
+        "corpus": 53.09,
+        "nonce": 43.77
+      },
+      "slices_by_era": {
+        "older": {
+          "corpus": 53.09,
+          "nonce": 43.77
+        }
       },
       "diagnostics": {
-        "empty_rate": 0.0,
+        "empty_rate": 0.01,
         "overlong_rate": 0.0,
         "repetition_rate": 0.0,
         "markup_rate": 0.0,
         "offscript_item_rate": 0.0,
         "offscript_letter_rate": 0.0,
-        "cer_nospace": 0.4583,
-        "bag_cer": 0.395,
-        "order_gap": 0.0632,
-        "ned": 0.4464
+        "cer_nospace": 0.4802,
+        "bag_cer": 0.4184,
+        "order_gap": 0.0618,
+        "ned": 0.4682
       },
       "confusions": {
         "substitutions": [
           [
             "க",
             "த",
-            13
+            14
           ],
           [
             "நீ",
             "ந",
+            13
+          ],
+          [
+            "ன",
+            "ள",
+            9
+          ],
+          [
+            "த",
+            "க",
+            9
+          ],
+          [
+            "ம",
+            "ப",
             9
           ],
           [
@@ -1572,24 +2059,24 @@
             8
           ],
           [
-            "த",
-            "க",
-            8
-          ],
-          [
-            "ம",
-            "ப",
-            8
-          ],
-          [
             "ன",
             "வ",
-            7
+            8
+          ],
+          [
+            "எ",
+            "ள",
+            8
           ],
           [
             "ன",
-            "ள",
+            "ல",
             7
+          ],
+          [
+            "ழு",
+            "மு",
+            6
           ],
           [
             "ன",
@@ -1597,127 +2084,113 @@
             6
           ],
           [
-            "ன",
-            "ல",
+            "ஞ",
+            "ஞா",
             6
-          ],
-          [
-            "எ",
-            "ள",
-            6
-          ],
-          [
-            "ய",
-            "ப",
-            6
-          ],
-          [
-            "ம",
-            "மை",
-            5
           ]
         ],
         "deleted": [
           [
             "ம",
-            217
+            278
           ],
           [
             "க",
-            204
+            248
           ],
           [
             "ன",
-            159
-          ],
-          [
-            "த",
-            148
+            208
           ],
           [
             "ல",
-            147
+            191
+          ],
+          [
+            "த",
+            185
           ],
           [
             "ர",
-            106
+            152
           ],
           [
             "ய",
-            95
+            126
           ],
           [
             "ப",
-            90
+            119
           ],
           [
             "ற",
-            82
+            110
           ],
           [
             "ந",
-            78
-          ],
-          [
-            "ண",
-            72
+            96
           ],
           [
             "இ",
-            72
+            93
+          ],
+          [
+            "ண",
+            92
           ]
         ],
         "inserted": [
           [
             ".",
-            109
+            148
           ],
           [
             "ட",
-            73
+            98
           ],
           [
             "இ",
-            53
+            63
           ],
           [
             "த",
-            45
-          ],
-          [
-            "ப",
-            35
+            55
           ],
           [
             "ன",
-            35
+            53
           ],
           [
-            "வ",
-            35
+            "ப",
+            49
           ],
           [
             "ந",
-            33
+            46
+          ],
+          [
+            "வ",
+            45
           ],
           [
             "க",
-            33
-          ],
-          [
-            "ம",
-            25
+            43
           ],
           [
             "ல",
-            25
+            41
+          ],
+          [
+            "ம",
+            34
           ],
           [
             "-",
-            24
+            28
           ]
         ]
       },
+      "unit_tests": null,
       "missing": 0
     },
     "palm-leaf-cict": {
@@ -1728,11 +2201,26 @@
       "exact_match": 0.0,
       "score": 7.967406066093252,
       "ci95": [
-        4.23,
-        11.35
+        4.31,
+        11.47
       ],
+      "by_script": {
+        "tamil-pre-reform": {
+          "n": 26,
+          "score": 7.9674,
+          "ci95": [
+            4.31,
+            11.47
+          ]
+        }
+      },
       "slices": {
         "corpus": 7.97
+      },
+      "slices_by_era": {
+        "older": {
+          "corpus": 7.97
+        }
       },
       "diagnostics": {
         "empty_rate": 0.0385,
@@ -1910,148 +2398,177 @@
           ]
         ]
       },
+      "unit_tests": {
+        "items": 26,
+        "tests": 492,
+        "pass_rate": 0.0,
+        "present_rate": 0.0,
+        "order_rate": 0.0
+      },
       "recitation_index": -0.0486,
       "scribe_vs_edition_cer": 0.1396,
+      "recitation_by_script": {
+        "tamil-pre-reform": -0.0486
+      },
+      "recitation_by_era": {
+        "older": -0.0486
+      },
       "missing": 0
     },
     "grantha-tamil": {
-      "n": 60,
-      "cer": 0.792916871618298,
-      "aer": 0.840571742715778,
+      "n": 100,
+      "cer": 0.7788873038516405,
+      "aer": 0.8299162060973435,
       "wer": 1.0,
       "exact_match": 0.0,
-      "score": 20.708312838170194,
+      "score": 22.111269614835948,
       "ci95": [
-        16.1,
-        25.54
+        17.84,
+        26.15
       ],
+      "by_script": {
+        "grantha-tamil": {
+          "n": 100,
+          "score": 22.1113,
+          "ci95": [
+            17.84,
+            26.15
+          ]
+        }
+      },
       "slices": {
-        "nonce": 22.57,
-        "corpus": 20.57
+        "nonce": 24.11,
+        "corpus": 21.98
+      },
+      "slices_by_era": {
+        "older": {
+          "nonce": 24.11,
+          "corpus": 21.98
+        }
       },
       "diagnostics": {
-        "empty_rate": 0.0833,
+        "empty_rate": 0.11,
         "overlong_rate": 0.0,
         "repetition_rate": 0.0,
         "markup_rate": 0.0,
         "offscript_item_rate": 0.0,
         "offscript_letter_rate": 0.0,
-        "cer_nospace": 0.7929,
-        "bag_cer": 0.7359,
-        "order_gap": 0.0571,
-        "ned": 0.783
+        "cer_nospace": 0.7789,
+        "bag_cer": 0.7299,
+        "order_gap": 0.049,
+        "ned": 0.7734
       },
       "confusions": {
         "substitutions": [
           [
             "a",
             "வ",
-            19
+            29
           ],
           [
             "p",
             "வ",
-            17
+            28
+          ],
+          [
+            "r",
+            "ர",
+            15
+          ],
+          [
+            "ā",
+            "ய",
+            14
           ],
           [
             "a",
             "க",
+            14
+          ],
+          [
+            "a",
+            "ட",
+            12
+          ],
+          [
+            "a",
+            "த",
+            12
+          ],
+          [
+            "ā",
+            "க",
             11
           ],
           [
-            "r",
+            "a",
             "ர",
             10
           ],
           [
             "a",
-            "ட",
-            9
-          ],
-          [
-            "r",
-            "ப",
-            9
-          ],
-          [
-            "ā",
-            "ய",
-            8
-          ],
-          [
-            "ā",
-            "க",
-            8
-          ],
-          [
-            "a",
-            "த",
-            8
-          ],
-          [
-            "a",
             "௯",
-            7
+            10
+          ],
+          [
+            "a",
+            "ப",
+            10
           ],
           [
             "a",
             "இ",
-            7
-          ],
-          [
-            "ā",
-            "த",
-            7
+            10
           ]
         ],
         "deleted": [
           [
             "a",
-            397
+            628
           ],
           [
             "r",
-            85
+            134
           ],
           [
             "h",
-            78
+            127
           ],
           [
             "ā",
-            77
+            125
           ],
           [
             "i",
-            67
+            107
           ],
           [
             "t",
-            61
+            93
           ],
           [
             "u",
-            58
-          ],
-          [
-            "k",
-            53
+            88
           ],
           [
             "n",
-            51
+            82
+          ],
+          [
+            "k",
+            78
           ],
           [
             "m",
-            48
+            76
           ],
           [
-            "y",
-            46
+            "ம",
+            73
           ],
           [
-            "p",
-            46
+            "v",
+            68
           ]
         ],
         "inserted": [
@@ -2061,95 +2578,154 @@
           ],
           [
             "ப",
-            8
+            9
+          ],
+          [
+            "இ",
+            9
           ],
           [
             "ந",
             7
           ],
           [
-            "க",
+            "ம",
             7
           ],
           [
-            "ம",
-            6
+            "க",
+            7
           ],
           [
             "ன",
             5
           ],
           [
-            "இ",
-            4
+            "த",
+            5
           ],
           [
             "ர",
             4
           ],
           [
-            ":",
-            2
-          ],
-          [
             "£",
-            2
-          ],
-          [
-            "\"",
-            2
+            3
           ],
           [
             "அ",
-            2
+            3
+          ],
+          [
+            "ல",
+            3
           ]
         ]
+      },
+      "unit_tests": {
+        "items": 77,
+        "tests": 357,
+        "pass_rate": 0.0336,
+        "present_rate": 0.0553,
+        "order_rate": 0.0
       },
       "missing": 0
     },
     "stone": {
-      "n": 80,
-      "cer": 1.28975791433892,
-      "aer": 1.640373637778931,
-      "wer": 0.875,
-      "exact_match": 0.125,
+      "n": 100,
+      "cer": 1.1787425149700599,
+      "aer": 1.5016764459346186,
+      "wer": 0.88,
+      "exact_match": 0.12,
       "score": 0.0,
       "ci95": [
         0.0,
-        10.93
+        14.08
       ],
+      "by_script": {
+        "tamil-modern": {
+          "n": 48,
+          "score": 36.3086,
+          "ci95": [
+            0.0,
+            62.27
+          ]
+        },
+        "tamil-pre-reform": {
+          "n": 52,
+          "score": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        }
+      },
       "slices": {
         "corpus": 0.0,
         "nonce": 0.0
       },
+      "slices_by_era": {
+        "older": {
+          "corpus": 0.0,
+          "nonce": 0.0
+        },
+        "modern": {
+          "corpus": 36.31
+        }
+      },
       "diagnostics": {
         "empty_rate": 0.0,
-        "overlong_rate": 0.225,
+        "overlong_rate": 0.2,
         "repetition_rate": 0.0,
         "markup_rate": 0.0,
         "offscript_item_rate": 0.0,
         "offscript_letter_rate": 0.0,
-        "cer_nospace": 1.2898,
-        "bag_cer": 1.1471,
-        "order_gap": 0.1426,
-        "ned": 0.5411
+        "cer_nospace": 1.1787,
+        "bag_cer": 1.0431,
+        "order_gap": 0.1356,
+        "ned": 0.5281
       },
       "confusions": {
         "substitutions": [
           [
             "க",
             "த",
-            8
+            9
           ],
           [
             "எ",
             "ப",
+            6
+          ],
+          [
+            "கு",
+            "க",
+            5
+          ],
+          [
+            "ள",
+            "ன",
             5
           ],
           [
             "இ",
             "த",
             5
+          ],
+          [
+            "கு",
+            "வ",
+            5
+          ],
+          [
+            "ர",
+            "க",
+            5
+          ],
+          [
+            "தெ",
+            "த",
+            4
           ],
           [
             "மெ",
@@ -2157,206 +2733,229 @@
             4
           ],
           [
-            "ன",
             "ள",
-            4
-          ],
-          [
-            "ள",
-            "ன",
-            4
-          ],
-          [
-            "த",
             "ந",
             4
           ],
           [
-            "ல",
+            "ம",
+            "த",
+            4
+          ],
+          [
+            "த",
             "ற",
             4
-          ],
-          [
-            "மு",
-            "த",
-            4
-          ],
-          [
-            "ர",
-            "க",
-            4
-          ],
-          [
-            "ர",
-            "ப",
-            4
-          ],
-          [
-            "தெ",
-            "த",
-            3
           ]
         ],
         "deleted": [
           [
             "ல",
-            23
+            28
           ],
           [
             "ம",
-            17
+            26
           ],
           [
             "கு",
-            16
+            19
           ],
           [
             "க",
-            15
+            19
           ],
           [
             "எ",
-            11
-          ],
-          [
-            "த",
-            10
-          ],
-          [
-            "ன",
-            10
+            14
           ],
           [
             "லை",
-            9
+            12
           ],
           [
             "ய",
-            9
+            12
           ],
           [
-            "ப",
-            8
+            "த",
+            11
           ],
           [
             "ர",
-            7
+            11
           ],
           [
-            "டு",
-            5
+            "ன",
+            11
+          ],
+          [
+            "ப",
+            9
+          ],
+          [
+            "ள",
+            8
           ]
         ],
         "inserted": [
           [
-            "த",
-            316
+            "ப",
+            341
           ],
           [
-            "ப",
-            312
+            "த",
+            336
           ],
           [
             "ட",
-            178
+            190
           ],
           [
             "க",
-            170
+            185
           ],
           [
             "ல",
-            167
+            177
           ],
           [
             "வ",
-            138
-          ],
-          [
-            "அ",
-            95
+            147
           ],
           [
             "ன",
-            94
+            103
+          ],
+          [
+            "அ",
+            102
           ],
           [
             "ம",
-            75
-          ],
-          [
-            "ய",
-            46
+            78
           ],
           [
             "ந",
-            45
+            55
+          ],
+          [
+            "ய",
+            49
           ],
           [
             "து",
-            43
+            49
           ]
         ]
+      },
+      "unit_tests": {
+        "items": 42,
+        "tests": 146,
+        "pass_rate": 0.4863,
+        "present_rate": 0.5,
+        "order_rate": 0.4615
       },
       "missing": 0
     },
     "copper-plate": {
-      "n": 60,
-      "cer": 0.4820995145631068,
-      "aer": 0.5990606319385141,
+      "n": 80,
+      "cer": 0.5041095890410959,
+      "aer": 0.6217516843118384,
       "wer": 1.0,
       "exact_match": 0.0,
-      "score": 51.790048543689316,
+      "score": 49.58904109589041,
       "ci95": [
-        45.66,
-        57.68
+        43.92,
+        54.84
       ],
+      "by_script": {
+        "tamil-modern": {
+          "n": 18,
+          "score": 60.8911,
+          "ci95": [
+            45.91,
+            69.94
+          ]
+        },
+        "tamil-pre-reform": {
+          "n": 62,
+          "score": 47.7742,
+          "ci95": [
+            41.43,
+            53.27
+          ]
+        }
+      },
       "slices": {
-        "corpus": 51.79
+        "corpus": 49.59
+      },
+      "slices_by_era": {
+        "older": {
+          "corpus": 47.77
+        },
+        "modern": {
+          "corpus": 60.89
+        }
       },
       "diagnostics": {
-        "empty_rate": 0.0167,
+        "empty_rate": 0.0125,
         "overlong_rate": 0.0,
         "repetition_rate": 0.0,
         "markup_rate": 0.0,
         "offscript_item_rate": 0.0,
         "offscript_letter_rate": 0.0,
-        "cer_nospace": 0.4821,
-        "bag_cer": 0.3222,
-        "order_gap": 0.1599,
-        "ned": 0.4447
+        "cer_nospace": 0.5041,
+        "bag_cer": 0.3326,
+        "order_gap": 0.1715,
+        "ned": 0.4712
       },
       "confusions": {
         "substitutions": [
           [
             "க",
             "த",
-            21
+            30
           ],
           [
             "த",
             "ந",
-            16
+            23
           ],
           [
             "யு",
             "ய",
-            10
+            13
+          ],
+          [
+            "க",
+            "ந",
+            13
           ],
           [
             "ம",
             "ற",
+            11
+          ],
+          [
+            "வி",
+            "லி",
             9
           ],
           [
             "ள",
             "ன",
+            9
+          ],
+          [
+            "ர",
+            "ற",
             8
           ],
           [
-            "க",
-            "ந",
-            8
+            "ர",
+            "ரா",
+            7
           ],
           [
             "இ",
@@ -2369,155 +2968,163 @@
             7
           ],
           [
-            "வி",
-            "லி",
-            6
-          ],
-          [
-            "ர",
-            "ற",
-            6
-          ],
-          [
-            "கி",
-            "தி",
-            6
-          ],
-          [
             "வ",
             "ல",
-            5
+            6
           ]
         ],
         "deleted": [
           [
             "ம",
-            34
+            47
           ],
           [
             "க",
-            22
+            27
           ],
           [
             "ல",
-            15
+            26
           ],
           [
             "ன",
-            13
-          ],
-          [
-            "ச",
-            10
-          ],
-          [
-            "இ",
-            9
-          ],
-          [
-            "செ",
-            8
-          ],
-          [
-            "ழ",
-            8
+            18
           ],
           [
             "எ",
-            8
+            16
+          ],
+          [
+            "ச",
+            14
+          ],
+          [
+            "இ",
+            11
+          ],
+          [
+            "ஸ",
+            10
+          ],
+          [
+            "யு",
+            10
+          ],
+          [
+            "செ",
+            9
+          ],
+          [
+            "ழ",
+            9
           ],
           [
             "கு",
-            8
-          ],
-          [
-            "ள",
-            8
-          ],
-          [
-            "ப",
-            8
+            9
           ]
         ],
         "inserted": [
           [
             "ட",
-            24
+            34
           ],
           [
             "த",
-            19
-          ],
-          [
-            "ன",
-            15
+            24
           ],
           [
             "ப",
-            15
+            20
+          ],
+          [
+            "ன",
+            18
           ],
           [
             "|",
-            14
+            18
           ],
           [
             "ந",
-            12
-          ],
-          [
-            "வ",
-            9
-          ],
-          [
-            "ல",
-            9
-          ],
-          [
-            "ண",
-            8
-          ],
-          [
-            "ர",
-            8
+            16
           ],
           [
             ".",
-            8
+            15
+          ],
+          [
+            "வ",
+            13
           ],
           [
             "க",
-            7
+            12
+          ],
+          [
+            "ண",
+            10
+          ],
+          [
+            "ல",
+            10
+          ],
+          [
+            "ர",
+            9
           ]
         ]
+      },
+      "unit_tests": {
+        "items": 18,
+        "tests": 72,
+        "pass_rate": 0.2083,
+        "present_rate": 0.2444,
+        "order_rate": 0.1481
       },
       "missing": 0
     },
     "tamil-brahmi": {
-      "n": 100,
-      "cer": 0.976867151354924,
-      "aer": 0.9879740980573543,
+      "n": 120,
+      "cer": 0.9778975741239893,
+      "aer": 0.9871016691957512,
       "wer": 1.0,
       "exact_match": 0.0,
-      "score": 2.313284864507603,
+      "score": 2.2102425876010745,
       "ci95": [
-        1.49,
-        3.22
+        1.41,
+        2.99
       ],
+      "by_script": {
+        "tamil-brahmi": {
+          "n": 120,
+          "score": 2.2102,
+          "ci95": [
+            1.41,
+            2.99
+          ]
+        }
+      },
       "slices": {
-        "corpus": 2.46,
-        "nonce": 0.0
+        "corpus": 2.34,
+        "nonce": 0.7
+      },
+      "slices_by_era": {
+        "older": {
+          "corpus": 2.34,
+          "nonce": 0.7
+        }
       },
       "diagnostics": {
-        "empty_rate": 0.35,
+        "empty_rate": 0.3583,
         "overlong_rate": 0.0,
         "repetition_rate": 0.0,
         "markup_rate": 0.0,
         "offscript_item_rate": 0.0,
         "offscript_letter_rate": 0.0,
-        "cer_nospace": 0.9769,
-        "bag_cer": 0.965,
-        "order_gap": 0.0119,
-        "ned": 0.9733
+        "cer_nospace": 0.9779,
+        "bag_cer": 0.9682,
+        "order_gap": 0.0097,
+        "ned": 0.9753
       },
       "confusions": {
         "substitutions": [
@@ -2585,51 +3192,51 @@
         "deleted": [
           [
             "ன",
-            79
-          ],
-          [
-            "ல",
-            56
-          ],
-          [
-            "க",
-            54
+            91
           ],
           [
             "த",
-            51
+            65
+          ],
+          [
+            "க",
+            64
+          ],
+          [
+            "ல",
+            63
           ],
           [
             "ம",
-            45
+            58
           ],
           [
             "ண",
-            28
-          ],
-          [
-            "ற",
-            26
+            34
           ],
           [
             "வ",
+            31
+          ],
+          [
+            "ற",
+            31
+          ],
+          [
+            "ர",
+            26
+          ],
+          [
+            "ய",
             24
           ],
           [
             "டு",
-            22
+            23
           ],
           [
-            "ர",
-            22
-          ],
-          [
-            "ந",
-            20
-          ],
-          [
-            "ப",
-            19
+            "து",
+            23
           ]
         ],
         "inserted": [
@@ -2643,12 +3250,13 @@
           ]
         ]
       },
+      "unit_tests": null,
       "missing": 0
     },
     "grantha": {
-      "n": 60,
-      "cer": 1.0834496232207647,
-      "aer": 1.032654200390734,
+      "n": 100,
+      "cer": 1.1158167675021609,
+      "aer": 1.0525496974935178,
       "wer": 1.0,
       "exact_match": 0.0,
       "score": 0.0,
@@ -2656,209 +3264,692 @@
         0.0,
         0.0
       ],
+      "by_script": {
+        "grantha": {
+          "n": 100,
+          "score": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        }
+      },
       "slices": {
         "corpus": 0.0,
         "nonce": 0.0
       },
+      "slices_by_era": {
+        "older": {
+          "corpus": 0.0,
+          "nonce": 0.0
+        }
+      },
       "diagnostics": {
-        "empty_rate": 0.0333,
-        "overlong_rate": 0.0667,
+        "empty_rate": 0.05,
+        "overlong_rate": 0.07,
         "repetition_rate": 0.0,
         "markup_rate": 0.0,
-        "offscript_item_rate": 0.9667,
+        "offscript_item_rate": 0.95,
         "offscript_letter_rate": 1.0,
-        "cer_nospace": 1.0834,
-        "bag_cer": 1.0834,
+        "cer_nospace": 1.1158,
+        "bag_cer": 1.1158,
         "order_gap": 0.0,
-        "ned": 0.9998
+        "ned": 0.9999
       },
       "confusions": {
         "substitutions": [
           [
             "a",
-            "த",
-            22
+            "வ",
+            31
           ],
           [
             "a",
-            "வ",
-            18
+            "த",
+            31
           ],
           [
             "t",
             "த",
-            12
-          ],
-          [
-            "a",
-            "ய",
-            11
-          ],
-          [
-            "a",
-            "ப",
-            10
-          ],
-          [
-            "t",
-            "வ",
-            10
+            21
           ],
           [
             "a",
             "க",
-            10
+            20
           ],
           [
             "a",
-            "ந",
-            9
+            "ய",
+            17
           ],
           [
-            "d",
+            "ā",
             "வ",
-            9
+            16
           ],
           [
             "a",
             "ல",
-            9
+            16
           ],
           [
-            "p",
-            "வ",
-            8
+            "a",
+            "ப",
+            13
           ],
           [
             "r",
             "த",
-            8
+            13
+          ],
+          [
+            "a",
+            "ட",
+            13
+          ],
+          [
+            "a",
+            "ற",
+            13
+          ],
+          [
+            "a",
+            "ந",
+            12
           ]
         ],
         "deleted": [
           [
             "a",
-            391
+            640
           ],
           [
             "ā",
-            132
+            211
           ],
           [
             "t",
-            116
-          ],
-          [
-            "r",
-            112
+            193
           ],
           [
             "m",
-            106
+            190
+          ],
+          [
+            "r",
+            179
           ],
           [
             "h",
-            100
+            160
           ],
           [
             "y",
-            78
-          ],
-          [
-            "v",
-            78
-          ],
-          [
-            "d",
-            77
-          ],
-          [
-            "e",
-            68
+            132
           ],
           [
             "i",
-            67
+            122
           ],
           [
-            "u",
-            65
+            "v",
+            121
+          ],
+          [
+            "d",
+            108
+          ],
+          [
+            "e",
+            107
+          ],
+          [
+            "n",
+            107
           ]
         ],
         "inserted": [
           [
             "ப",
-            10
-          ],
-          [
-            "ட",
-            9
+            24
           ],
           [
             "த",
-            9
-          ],
-          [
-            "ந",
-            8
-          ],
-          [
-            "க",
-            6
-          ],
-          [
-            "ப்",
-            6
+            19
           ],
           [
             "ல்",
-            5
+            16
           ],
           [
             "வ",
-            5
+            16
           ],
           [
-            "ஆ",
-            4
+            "ட",
+            15
+          ],
+          [
+            "ந",
+            14
           ],
           [
             "த்",
-            4
+            13
           ],
           [
-            "ண",
-            4
+            "ப்",
+            13
+          ],
+          [
+            "க",
+            12
           ],
           [
             "அ",
-            3
+            11
+          ],
+          [
+            "ன",
+            11
+          ],
+          [
+            "ம",
+            10
           ]
         ]
+      },
+      "unit_tests": {
+        "items": 62,
+        "tests": 186,
+        "pass_rate": 0.0,
+        "present_rate": 0.0,
+        "order_rate": 0.0
       },
       "missing": 0
     },
     "script-id": null,
     "medium-id": null,
-    "translate-en": null
-  },
-  "prior_reliance": {
-    "corpus_text": 50.77,
-    "nonce_words": 48.33,
-    "recitation_index": {
-      "palm-leaf-cict": -0.0486
+    "translate-en": null,
+    "perturbed": {
+      "n": 96,
+      "cer": 0.4580619696072627,
+      "aer": 0.521889400921659,
+      "wer": 0.34868421052631576,
+      "exact_match": 0.28125,
+      "score": 54.193803039273725,
+      "ci95": [
+        28.84,
+        76.24
+      ],
+      "by_script": {
+        "grantha": {
+          "n": 12,
+          "score": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "tamil-brahmi": {
+          "n": 12,
+          "score": 1.2384,
+          "ci95": [
+            0.0,
+            2.9
+          ]
+        },
+        "tamil-modern": {
+          "n": 48,
+          "score": 93.2561,
+          "ci95": [
+            87.42,
+            97.37
+          ]
+        },
+        "tamil-pre-reform": {
+          "n": 24,
+          "score": 75.4258,
+          "ci95": [
+            65.14,
+            83.32
+          ]
+        }
+      },
+      "slices": {
+        "perturbed": 54.19
+      },
+      "slices_by_era": {
+        "modern": {
+          "perturbed": 93.26
+        },
+        "older": {
+          "perturbed": 4.1
+        }
+      },
+      "diagnostics": {
+        "empty_rate": 0.0938,
+        "overlong_rate": 0.0417,
+        "repetition_rate": 0.0,
+        "markup_rate": 0.0,
+        "offscript_item_rate": 0.0,
+        "offscript_letter_rate": 0.0,
+        "cer_nospace": 0.4789,
+        "bag_cer": 0.4655,
+        "order_gap": 0.0134,
+        "ned": 0.3404
+      },
+      "confusions": {
+        "substitutions": [
+          [
+            "a",
+            "ப",
+            10
+          ],
+          [
+            "a",
+            "த",
+            5
+          ],
+          [
+            "a",
+            "ல",
+            5
+          ],
+          [
+            "a",
+            "ல்",
+            4
+          ],
+          [
+            "a",
+            "ந",
+            4
+          ],
+          [
+            "y",
+            "ப்",
+            3
+          ],
+          [
+            "n",
+            "ல",
+            3
+          ],
+          [
+            "a",
+            "இ",
+            3
+          ],
+          [
+            "h",
+            "ட",
+            3
+          ],
+          [
+            "s",
+            "ப",
+            3
+          ],
+          [
+            "m",
+            "வ",
+            3
+          ],
+          [
+            "k",
+            "வ",
+            3
+          ]
+        ],
+        "deleted": [
+          [
+            "a",
+            53
+          ],
+          [
+            "ம",
+            24
+          ],
+          [
+            "ன",
+            22
+          ],
+          [
+            "ā",
+            16
+          ],
+          [
+            "r",
+            14
+          ],
+          [
+            "ப",
+            13
+          ],
+          [
+            "க",
+            13
+          ],
+          [
+            "ர",
+            12
+          ],
+          [
+            "ல",
+            12
+          ],
+          [
+            "v",
+            12
+          ],
+          [
+            "t",
+            12
+          ],
+          [
+            "m",
+            11
+          ]
+        ],
+        "inserted": [
+          [
+            "ப",
+            45
+          ],
+          [
+            "த",
+            43
+          ],
+          [
+            "க",
+            38
+          ],
+          [
+            "ட",
+            29
+          ],
+          [
+            "வ",
+            28
+          ],
+          [
+            "ல",
+            26
+          ],
+          [
+            ".",
+            26
+          ],
+          [
+            "ந",
+            23
+          ],
+          [
+            "ல்",
+            19
+          ],
+          [
+            "க்",
+            18
+          ],
+          [
+            "ன",
+            17
+          ],
+          [
+            "அ",
+            16
+          ]
+        ]
+      },
+      "unit_tests": {
+        "items": 67,
+        "tests": 201,
+        "pass_rate": 0.791,
+        "present_rate": 0.806,
+        "order_rate": 0.7612
+      },
+      "recitation_index": -0.7374,
+      "scribe_vs_edition_cer": 0.0353,
+      "recitation_by_script": {
+        "tamil-modern": -0.9375,
+        "tamil-pre-reform": -0.875,
+        "grantha": 0.0,
+        "tamil-brahmi": 0.0
+      },
+      "recitation_by_era": {
+        "modern": -0.9375,
+        "older": -0.506
+      },
+      "missing": 0
+    },
+    "blank-controls": {
+      "n": 80,
+      "score": 31.25,
+      "hallucination_rate": 0.6875,
+      "ci95": [
+        22.5,
+        41.25
+      ],
+      "mean_letters_when_hallucinating": 97.7,
+      "abstained": 0,
+      "by_era": {
+        "modern": {
+          "n": 40,
+          "hallucination_rate": 0.55
+        },
+        "older": {
+          "n": 40,
+          "hallucination_rate": 0.825
+        }
+      },
+      "by_control": {
+        "blank": {
+          "n": 40,
+          "hallucination_rate": 0.75
+        },
+        "effaced": {
+          "n": 40,
+          "hallucination_rate": 0.625
+        }
+      },
+      "by_medium": {
+        "print-scan": {
+          "n": 10,
+          "hallucination_rate": 0.9
+        },
+        "print-photo": {
+          "n": 10,
+          "hallucination_rate": 0.5
+        },
+        "handwritten": {
+          "n": 10,
+          "hallucination_rate": 0.5
+        },
+        "scene": {
+          "n": 10,
+          "hallucination_rate": 0.3
+        },
+        "palm-leaf": {
+          "n": 10,
+          "hallucination_rate": 0.5
+        },
+        "stone": {
+          "n": 10,
+          "hallucination_rate": 1.0
+        },
+        "copper-plate": {
+          "n": 10,
+          "hallucination_rate": 0.9
+        },
+        "estampage": {
+          "n": 6,
+          "hallucination_rate": 1.0
+        },
+        "pottery": {
+          "n": 4,
+          "hallucination_rate": 0.75
+        }
+      },
+      "missing": 0
     }
   },
+  "prior_reliance": {
+    "corpus_text": 50.82,
+    "nonce_words": 47.33,
+    "by_era": {
+      "modern": {
+        "corpus_text": 77.29,
+        "nonce_words": 74.26
+      },
+      "older": {
+        "corpus_text": 24.35,
+        "nonce_words": 20.4
+      }
+    },
+    "recitation_index": {
+      "palm-leaf-cict": -0.0486,
+      "perturbed": -0.7374
+    },
+    "prior_pull": {
+      "index": -0.7374,
+      "by_era": {
+        "modern": -0.9375,
+        "older": -0.506
+      },
+      "by_script": {
+        "tamil-modern": -0.9375,
+        "tamil-pre-reform": -0.875,
+        "grantha": 0.0,
+        "tamil-brahmi": 0.0
+      },
+      "n": 96
+    }
+  },
+  "hallucination": {
+    "n": 80,
+    "rate": 0.6875,
+    "rate_ci95": [
+      0.5875,
+      0.775
+    ],
+    "by_era": {
+      "modern": {
+        "n": 40,
+        "hallucination_rate": 0.55
+      },
+      "older": {
+        "n": 40,
+        "hallucination_rate": 0.825
+      }
+    },
+    "by_control": {
+      "blank": {
+        "n": 40,
+        "hallucination_rate": 0.75
+      },
+      "effaced": {
+        "n": 40,
+        "hallucination_rate": 0.625
+      }
+    },
+    "by_medium": {
+      "print-scan": {
+        "n": 10,
+        "hallucination_rate": 0.9
+      },
+      "print-photo": {
+        "n": 10,
+        "hallucination_rate": 0.5
+      },
+      "handwritten": {
+        "n": 10,
+        "hallucination_rate": 0.5
+      },
+      "scene": {
+        "n": 10,
+        "hallucination_rate": 0.3
+      },
+      "palm-leaf": {
+        "n": 10,
+        "hallucination_rate": 0.5
+      },
+      "stone": {
+        "n": 10,
+        "hallucination_rate": 1.0
+      },
+      "copper-plate": {
+        "n": 10,
+        "hallucination_rate": 0.9
+      },
+      "estampage": {
+        "n": 6,
+        "hallucination_rate": 1.0
+      },
+      "pottery": {
+        "n": 4,
+        "hallucination_rate": 0.75
+      }
+    },
+    "abstained": 0,
+    "mean_letters_when_hallucinating": 97.7
+  },
   "failure_modes": {
-    "n": 1266,
-    "empty_rate": 0.0608,
-    "overlong_rate": 0.0197,
+    "n": 1426,
+    "empty_rate": 0.0666,
+    "overlong_rate": 0.021,
     "repetition_rate": 0.0,
     "markup_rate": 0.0,
-    "offscript_item_rate": 0.0458,
-    "offscript_letter_rate": 0.0422
+    "offscript_item_rate": 0.0666,
+    "offscript_letter_rate": 0.0626
+  },
+  "failure_modes_by_era": {
+    "modern": {
+      "n": 766,
+      "empty_rate": 0.0274,
+      "overlong_rate": 0.0131,
+      "repetition_rate": 0.0,
+      "markup_rate": 0.0,
+      "offscript_item_rate": 0.0,
+      "offscript_letter_rate": 0.0
+    },
+    "older": {
+      "n": 660,
+      "empty_rate": 0.1121,
+      "overlong_rate": 0.0303,
+      "repetition_rate": 0.0,
+      "markup_rate": 0.0,
+      "offscript_item_rate": 0.1439,
+      "offscript_letter_rate": 0.102
+    }
+  },
+  "unit_tests": {
+    "all": {
+      "items": 634,
+      "tests": 3014,
+      "pass_rate": 0.4323,
+      "present_rate": 0.4715,
+      "order_rate": 0.3723
+    },
+    "modern": {
+      "items": 412,
+      "tests": 1790,
+      "pass_rate": 0.6335,
+      "present_rate": 0.6721,
+      "order_rate": 0.5718
+    },
+    "older": {
+      "items": 222,
+      "tests": 1224,
+      "pass_rate": 0.1381,
+      "present_rate": 0.166,
+      "order_rate": 0.0978
+    }
   },
   "ci_method": "cluster bootstrap over source texts, 95% percentile interval",
+  "aggregation": "script-balanced: OCR/HTR = ½ modern-script reading + ½ older-script reading (each older script stage weighted equally); Overall = ½ modern composite + ½ older composite",
   "model": {
     "id": "tesseract:tam",
     "provider": "tesseract",
@@ -2876,12 +3967,12 @@
   },
   "benchmark_version": "v1",
   "split": "test",
-  "prompt_version": "prompts-v1",
+  "prompt_version": "prompts-v2",
   "complete": true,
   "n_refusals": 0,
   "n_errors": 0,
   "input_tokens": 0,
   "output_tokens": 0,
-  "mean_latency_s": 0.154,
-  "scored_at": "2026-10-02T17:11:50+00:00"
+  "mean_latency_s": 0.165,
+  "scored_at": "2026-10-02T18:07:51+00:00"
 }

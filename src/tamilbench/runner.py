@@ -6,10 +6,14 @@ Results layout (one directory per model and benchmark split)::
         predictions.jsonl   one line per sample (appended as answers arrive; resumable)
         run.json            who/what/when: adapter, parameters, prompt version, totals
         scores.json         produced by `tamilbench score`
+
+Robustness runs (prompt paraphrases, repeats) go to ``<version>-<split>-<tag>/`` beside
+the main run and never replace it.
 """
 
 from __future__ import annotations
 
+import csv
 import hashlib
 import json
 import platform
@@ -23,7 +27,7 @@ from pathlib import Path
 
 from . import BENCHMARK_VERSION, __version__
 from . import subsets as S
-from .prompts import PROMPT_VERSION, PROMPTS, SYSTEM
+from .prompts import PROMPT_VERSION, SYSTEM, prompt_text
 from .scoring import score_run
 
 MIME = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp"}
@@ -37,8 +41,8 @@ def manifest_path(data_dir: Path, split: str) -> Path:
     return Path(data_dir) / f"manifest-{split}.jsonl"
 
 
-def results_dir(root: Path, slug: str, split: str) -> Path:
-    return Path(root) / slug / f"{BENCHMARK_VERSION}-{split}"
+def results_dir(root: Path, slug: str, split: str, tag: str | None = None) -> Path:
+    return Path(root) / slug / (f"{BENCHMARK_VERSION}-{split}" + (f"-{tag}" if tag else ""))
 
 
 def _git_commit() -> str | None:
@@ -66,10 +70,12 @@ def read_predictions(path: Path) -> dict[str, dict]:
 
 def run(adapter, data_dir: Path, *, split: str = "test", results_root: Path = Path("results"),
         subset_ids: list[str] | None = None, limit: int | None = None, concurrency: int = 4,
-        resume: bool = True, progress: bool = True) -> Path:
+        resume: bool = True, progress: bool = True, prompt_variant: int = 0, tag: str | None = None) -> Path:
+    """Run ``adapter`` over a split. ``prompt_variant`` > 0 uses a paraphrased prompt and
+    ``tag`` writes to a side directory (robustness runs); ranked runs use neither."""
     mpath = manifest_path(data_dir, split)
     rows = load_manifest(mpath)
-    out = results_dir(results_root, adapter.slug, split)
+    out = results_dir(results_root, adapter.slug, split, tag)
     out.mkdir(parents=True, exist_ok=True)
     pred_file = out / "predictions.jsonl"
     done = {k for k, v in read_predictions(pred_file).items()
@@ -94,7 +100,8 @@ def run(adapter, data_dir: Path, *, split: str = "test", results_root: Path = Pa
     meta.update({
         "model": adapter.metadata(), "benchmark_version": BENCHMARK_VERSION, "split": split,
         "manifest_sha256": hashlib.sha256(mpath.read_bytes()).hexdigest(),
-        "prompt_version": PROMPT_VERSION, "tamilbench_version": __version__, "git_commit": _git_commit(),
+        "prompt_version": PROMPT_VERSION, "prompt_variant": prompt_variant, "tag": tag,
+        "tamilbench_version": __version__, "git_commit": _git_commit(),
         "python": platform.python_version(), "platform": platform.platform(),
         "started_at": meta.get("started_at") or _now(),
     })
@@ -104,11 +111,11 @@ def run(adapter, data_dir: Path, *, split: str = "test", results_root: Path = Pa
     data_dir = Path(data_dir)
 
     def job(r: dict) -> dict:
-        spec = S.get(r["subset"])
+        spec = S.presentation(r)     # control items are presented exactly like the items they imitate
         img_path = data_dir / r["image"]
         sample = {**r, "_target_field": spec.target}
         pred = adapter.predict(img_path.read_bytes(), MIME.get(img_path.suffix.lower(), "image/jpeg"),
-                               PROMPTS[spec.prompt], SYSTEM, sample)
+                               prompt_text(spec.prompt, prompt_variant), SYSTEM, sample)
         return {"id": r["id"], "subset": r["subset"], **pred.to_json()}
 
     t0 = time.time()
@@ -162,19 +169,51 @@ def score(result_dir: Path, data_dir: Path, *, split: str | None = None, n_boot:
     return scores
 
 
+def read_answers(file: Path) -> list[dict]:
+    """Answers from a JSONL file (``id`` and ``text`` per line) or a CSV reading sheet
+    (``id`` and ``answer`` or ``text`` columns; see ``write_reading_sheet``)."""
+    path = Path(file)
+    if path.suffix.lower() == ".csv":
+        with open(path, encoding="utf-8-sig", newline="") as f:
+            return [{"id": r["id"], "text": r.get("answer", r.get("text"))} for r in csv.DictReader(f) if r.get("id")]
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+
+
 def import_predictions(file: Path, *, model_id: str, name: str | None, supports: list[str], split: str,
-                       results_root: Path = Path("results"), notes: str | None = None) -> Path:
-    """Bring in predictions produced outside this harness (JSONL with ``id`` and ``text``)."""
+                       results_root: Path = Path("results"), notes: str | None = None,
+                       kind: str = "imported", reader: dict | None = None) -> Path:
+    """Bring in predictions produced outside this harness. ``kind="human"`` marks a human
+    reader's answers: shown as a reference on the leaderboard, never ranked."""
     out = results_dir(results_root, model_id, split)
     out.mkdir(parents=True, exist_ok=True)
-    recs = [json.loads(line) for line in Path(file).read_text(encoding="utf-8").splitlines() if line.strip()]
+    recs = read_answers(file)
     with open(out / "predictions.jsonl", "w", encoding="utf-8") as f:
         for r in recs:
             f.write(json.dumps({"id": r["id"], "subset": r.get("subset") or r["id"].rsplit("-", 1)[0],
                                 "text": r.get("text")}, ensure_ascii=False) + "\n")
-    meta = {"model": {"id": model_id, "provider": "import", "model": name or model_id, "kind": "imported",
-                      "supports": sorted(supports), "params": {"notes": notes} if notes else {}},
+    params = {"notes": notes} if notes else {}
+    if reader:
+        params["reader"] = reader
+    meta = {"model": {"id": model_id, "provider": "human" if kind == "human" else "import",
+                      "model": name or model_id, "kind": kind,
+                      "supports": sorted(supports), "params": params},
             "benchmark_version": BENCHMARK_VERSION, "split": split, "prompt_version": None,
             "imported_at": _now(), "n_predictions": len(recs)}
     (out / "run.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2))
     return out
+
+
+def write_reading_sheet(data_dir: Path, out: Path, *, split: str = "lite", subset_ids: list[str] | None = None,
+                        tasks: tuple[str, ...] = ("recognition",)) -> int:
+    """A CSV for human readers: one row per item with its image path and the instruction a
+    model receives; readers fill in ``answer``, and the sheet is imported with
+    ``tamilbench import-predictions --kind human``. References are never included."""
+    rows = [r for r in load_manifest(manifest_path(data_dir, split))
+            if (not subset_ids or r["subset"] in subset_ids) and S.get(r["subset"]).task.value in tasks]
+    with open(out, "w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["id", "subset", "image", "instruction", "answer"])
+        for r in rows:
+            spec = S.presentation(r)
+            w.writerow([r["id"], r["subset"], str(Path(data_dir) / r["image"]), prompt_text(spec.prompt), ""])
+    return len(rows)

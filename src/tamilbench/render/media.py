@@ -7,9 +7,17 @@ degradation knobs) so results can be sliced by them later.
 These are *proxies*: they reproduce the visual properties that make each medium hard
 (texture, relief, curvature, damage, missing marks) but they are not real artefacts. Real
 artefacts live in separate ``provenance: real`` subsets.
+
+``text_layer(fn)`` transforms the ink of every text mask before it is drawn, after the
+layout has been decided from the real text. The blank and effaced controls use it to
+render a surface exactly as it would look with writing — and then without it, or with
+the writing worn away beyond reading.
 """
 
 from __future__ import annotations
+
+from collections.abc import Callable
+from contextlib import contextmanager
 
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
@@ -20,6 +28,23 @@ from . import fonts as F
 from .text import render_block, render_line
 
 Rng = np.random.Generator
+
+_TEXT_LAYER: Callable[[np.ndarray], np.ndarray] | None = None
+
+
+@contextmanager
+def text_layer(fn: Callable[[np.ndarray], np.ndarray]):
+    """Within the block, every text mask passes through ``fn`` just before it is drawn."""
+    global _TEXT_LAYER
+    prev, _TEXT_LAYER = _TEXT_LAYER, fn
+    try:
+        yield
+    finally:
+        _TEXT_LAYER = prev
+
+
+def _ink(mask: np.ndarray) -> np.ndarray:
+    return mask if _TEXT_LAYER is None else _TEXT_LAYER(mask).astype(np.float32)
 
 
 def _pick(rng: Rng, seq):
@@ -93,7 +118,7 @@ def born_digital(lines, rng: Rng, font: F.FontSpec | None = None, size: int | No
         bg, fg = (rng.uniform(.85, 1), rng.uniform(.85, 1), rng.uniform(.85, 1)), (rng.uniform(0, .4), 0.1, rng.uniform(0, .5))
     else:
         bg, fg = (rng.uniform(0, .2), rng.uniform(0, .2), rng.uniform(.1, .3)), (0.95, 0.95, 0.9)
-    m = r.mask
+    m = _ink(r.mask)
     img = E.composite(E.solid(*m.shape, bg), m, fg)
     return E.to_image(img), {"font": font.id, "size": size, "style": "dark-on-light" if scheme < 0.85 else "light-on-dark"}
 
@@ -110,7 +135,7 @@ def _print_page(lines, rng: Rng, font: F.FontSpec, size: int, *, aged: float, le
         m = np.clip(m * rng.uniform(0.9, 1.0), 0, 1)
     elif rng.random() < 0.4:
         m = E.ink_dropout(m, rng, amount=rng.uniform(0.02, 0.15))
-    m = _canvas(m, int(size * rng.uniform(0.8, 2.0)), int(size * rng.uniform(1.0, 2.5)))
+    m = _ink(_canvas(m, int(size * rng.uniform(0.8, 2.0)), int(size * rng.uniform(1.0, 2.5))))
     page = E.paper(*m.shape, rng, aged=aged)
     if rng.random() < (0.5 if aged else 0.2):
         ghost = np.fliplr(np.roll(m, int(rng.integers(-size, size)), axis=0))
@@ -204,7 +229,7 @@ def handwriting(lines, rng: Rng, font: F.FontSpec | None = None):
         page = E.composite(page, mg, (0.9, 0.4, 0.4), alpha=0.5)
     ink = _pick(rng, [(0.08, 0.15, 0.5), (0.1, 0.1, 0.12), (0.05, 0.1, 0.35)])
     pressure = 0.7 + 0.3 * E.fbm(H, W, rng, scale=40, octaves=2)
-    img = E.composite(page, mask * pressure, ink)
+    img = E.composite(page, _ink(mask) * pressure, ink)
     if rng.random() < 0.5:
         out, meta = _finish_scan(img, rng, skew=2.5, gray_p=0.15)
     else:
@@ -235,7 +260,7 @@ def scene(lines, rng: Rng, kind: str | None = None):
         font = _fonts_for(rng, ("tamil", "bold"), text)
     size = int(rng.integers(40, 72))
     r = render_block(lines, font, size, line_spacing=1.05, align="center", margin=int(size * 0.7))
-    m = r.mask
+    m = _ink(r.mask)
     h, w = m.shape
     if kind == "wall":
         bg = E.tint(E.fbm(h, w, rng, scale=30), (0.75, 0.72, 0.65), (0.95, 0.93, 0.88))
@@ -268,7 +293,7 @@ def _led_board(lines, rng: Rng):
     font = F.BY_ID[_pick(rng, ["noto-sans-bold", "hind-bold", "mukta-bold"])]
     small = int(rng.integers(13, 17))
     r = render_block(lines, font, small, line_spacing=1.0, align="center", margin=small // 2)
-    on = (r.mask > 0.45).astype(np.float32)
+    on = (_ink(r.mask) > 0.45).astype(np.float32)
     k = int(rng.integers(5, 7))
     up = np.kron(on, np.ones((k, k), np.float32))
     yy, xx = np.mgrid[0:k, 0:k]
@@ -377,7 +402,7 @@ def palm_leaf(lines, rng: Rng, font: F.FontSpec | None = None, size: int | None 
     dist = ndi.distance_transform_edt(shape)
     leaf = leaf * (0.65 + 0.35 * np.clip(dist / (size * 0.6), 0, 1))[..., None]
     ink = (0.1, 0.07, 0.05)
-    leaf = E.composite(leaf, mask * shape, ink, alpha=rng.uniform(0.85, 1.0))
+    leaf = E.composite(leaf, _ink(mask) * shape, ink, alpha=rng.uniform(0.85, 1.0))
     bg_kind = _pick(rng, ["cloth", "white", "dark"])
     bgc = {"cloth": (0.22, 0.32, 0.55), "white": (0.92, 0.93, 0.95), "dark": (0.12, 0.12, 0.13)}[bg_kind]
     bg = E.tint(E.fbm(H, W, rng, scale=50), np.array(bgc) * 0.85, np.array(bgc) * 1.1)
@@ -408,6 +433,7 @@ def stone(lines, rng: Rng, style: str = "inscription", font: F.FontSpec | None =
         m = E.elastic(m, rng, alpha=rng.uniform(0.5, 1.5), sigma=rng.uniform(4, 8))
         m = E.roughen(E.thicken(m, 1) if style == "inscription" else m, rng, 0.3)
         m = E.ink_dropout(m, rng, amount=rng.uniform(0.0, 0.3), scale=rng.uniform(4, 10))
+    m = _ink(m)
     h, w = m.shape
     if style == "plaque-black":
         base = E.granite(h, w, rng, base=(0.1, 0.1, 0.11), contrast=0.08, grain=0.8)
@@ -449,7 +475,7 @@ def estampage(lines, rng: Rng, font: F.FontSpec | None = None, size: int | None 
     size = size or int(rng.integers(34, 52))
     r = render_block(lines, font, size, line_spacing=spacing, margin=int(size * 1.2),
                      jitter_px=int(size * 0.08), rng=rng)
-    m = E.roughen(E.thicken(E.elastic(r.mask, rng, alpha=1.0, sigma=6), 1), rng, 0.3)
+    m = _ink(E.roughen(E.thicken(E.elastic(r.mask, rng, alpha=1.0, sigma=6), 1), rng, 0.3))
     h, w = m.shape
     coverage = 0.75 + 0.25 * E.fbm(h, w, rng, scale=25, octaves=4)
     ink = coverage * (1 - 0.92 * E.gaussian_blur(m, rng.uniform(0.8, 1.8)))
@@ -487,7 +513,7 @@ def copper_plate(lines, rng: Rng, style: str = "grant", font: F.FontSpec | None 
     h, w = m.shape
     ring = style == "grant" and rng.random() < 0.8
     left_pad = int(size * 2.6) if ring else 0
-    m = E.pad_to(m, h, w + left_pad, 0, left_pad)
+    m = _ink(E.pad_to(m, h, w + left_pad, 0, left_pad))
     h, w = m.shape
     if style == "grant":
         cu = E.tint(E.fbm(h, w, rng, scale=8, octaves=2, aspect=6), (0.48, 0.25, 0.14), (0.78, 0.47, 0.28))
@@ -527,7 +553,7 @@ def pottery(lines, rng: Rng, font: F.FontSpec | None = None, size: int | None = 
     m = E.roughen(E.thin(m, 1), rng, 0.4)
     mh, mw = m.shape
     H, W = int(mh * rng.uniform(2.0, 2.6)), int(mw * rng.uniform(1.3, 1.6))
-    m = E.pad_to(m, H, W, (H - mh) // 2, (W - mw) // 2)
+    m = _ink(E.pad_to(m, H, W, (H - mh) // 2, (W - mw) // 2))
     cy, cx = H / 2, W / 2
     n = int(rng.integers(6, 10))
     ang = np.sort(rng.uniform(0, 2 * np.pi, n))

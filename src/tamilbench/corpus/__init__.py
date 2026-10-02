@@ -121,6 +121,16 @@ def tirukkural() -> dict[int, str]:
             for r in _rows("tirukkural.tsv")}
 
 
+@lru_cache(maxsize=None)
+def tirukkural_couplets() -> dict[int, tuple[str, str]]:
+    """The 1,330 couplets as (first line, second line), closing full stop dropped."""
+    out = {}
+    for r in _rows("tirukkural.tsv"):
+        a, b = (part.strip() for part in r["tamil"].split(_SPLIT))
+        out[int(r["kural"])] = (a, b.rstrip("."))
+    return out
+
+
 _TOKEN = re.compile(r"[஀-௿]+")
 
 

@@ -69,8 +69,10 @@ class Provenance(str, Enum):
 
 
 class Track(str, Enum):
-    """Leaderboard columns. Each subset belongs to exactly one track; a track's score is
-    the unweighted mean of its subsets, and Overall is the unweighted mean of the tracks."""
+    """Leaderboard columns, by medium and task. Each subset belongs to exactly one track; a
+    track's score is the unweighted mean of its subsets. The headline scores are not means
+    of tracks: they weigh the modern script and the older scripts equally (see ``Era``).
+    ``DIAGNOSTICS`` holds control subsets that are reported but never ranked."""
 
     PRINT = "print"
     SCREEN = "screen"
@@ -80,6 +82,16 @@ class Track(str, Enum):
     EPIGRAPHY = "epigraphy"
     CLASSIFICATION = "classification"
     TRANSLATION = "translation"
+    DIAGNOSTICS = "diagnostics"
+
+
+class Era(str, Enum):
+    """The two halves of the benchmark, weighted equally in every headline score: the
+    reformed script of today, and everything older (Tamil-Brahmi, Vatteluttu, Grantha,
+    Grantha–Tamil, medieval and pre-reform Tamil)."""
+
+    MODERN = "modern"
+    OLDER = "older"
 
 
 @dataclass(frozen=True)
@@ -194,9 +206,59 @@ TRACKS: dict[Track, TrackInfo] = {
                                     "Identify the script stage and the writing support."),
     Track.TRANSLATION: TrackInfo("Image → English", "படம் → ஆங்கிலம்",
                                  "Read Tamil in an image and translate it into English."),
+    Track.DIAGNOSTICS: TrackInfo("Controls (not ranked)", "கட்டுப்பாட்டுச் சோதனைகள்",
+                                 "Perturbed famous texts and blank or effaced surfaces: do systems read, "
+                                 "recite or invent?"),
 }
 
-TRACK_ORDER: list[Track] = list(Track)
+# Tracks with leaderboard columns, and the six that are about reading.
+SCORED_TRACKS: list[Track] = [t for t in Track if t != Track.DIAGNOSTICS]
+READING_TRACKS: list[Track] = [Track.PRINT, Track.SCREEN, Track.HANDWRITING, Track.SCENE,
+                               Track.MANUSCRIPTS, Track.EPIGRAPHY]
+TRACK_ORDER: list[Track] = SCORED_TRACKS
+
+
+@dataclass(frozen=True)
+class EraInfo:
+    name: str
+    tamil: str
+    description: str
+
+
+ERAS: dict[Era, EraInfo] = {
+    Era.MODERN: EraInfo("Modern script", "தற்கால எழுத்து",
+                        "The reformed Tamil script of today, on every medium: print, screens, handwriting, "
+                        "signs and modern plaques."),
+    Era.OLDER: EraInfo("Older scripts", "பழைய எழுத்துகள்",
+                       "Tamil-Brahmi, Grantha, Grantha–Tamil and pre-reform Tamil on stone, copper, palm "
+                       "leaves and old print. Each script stage counts equally."),
+}
+
+# Which half of the benchmark each script stage belongs to; distractors belong to neither.
+SCRIPT_ERA: dict[Script, Era | None] = {
+    Script.TAMIL_MODERN: Era.MODERN,
+    Script.TAMIL_PRE_REFORM: Era.OLDER,
+    Script.TAMIL_MEDIEVAL: Era.OLDER,
+    Script.GRANTHA_TAMIL: Era.OLDER,
+    Script.GRANTHA: Era.OLDER,
+    Script.VATTELUTTU: Era.OLDER,
+    Script.TAMIL_BRAHMI: Era.OLDER,
+    Script.MALAYALAM: None, Script.KANNADA: None, Script.TELUGU: None, Script.SINHALA: None,
+    Script.LATIN: None,
+}
+
+# The Tamil lineage, oldest first: the order of the per-script page and coverage table.
+LINEAGE_ORDER: list[Script] = [Script.TAMIL_BRAHMI, Script.VATTELUTTU, Script.GRANTHA, Script.GRANTHA_TAMIL,
+                               Script.TAMIL_MEDIEVAL, Script.TAMIL_PRE_REFORM, Script.TAMIL_MODERN]
+
+
+def era_of(script) -> Era | None:
+    """The era of a script stage (a ``Script`` or its value); ``None`` for distractors and
+    for anything that is not a script, such as a medium label."""
+    try:
+        return SCRIPT_ERA.get(Script(script))
+    except ValueError:
+        return None
 
 
 @dataclass
@@ -211,12 +273,14 @@ class LabelSet:
 SCRIPT_ID_LABELS = LabelSet(
     labels=[s.value for s in (
         Script.TAMIL_MODERN, Script.TAMIL_PRE_REFORM, Script.TAMIL_BRAHMI, Script.GRANTHA,
-        Script.MALAYALAM, Script.KANNADA, Script.TELUGU, Script.SINHALA)],
+        Script.GRANTHA_TAMIL, Script.MALAYALAM, Script.KANNADA, Script.TELUGU, Script.SINHALA)],
     descriptions={
         Script.TAMIL_MODERN.value: "modern Tamil script (post-1978 reformed letterforms)",
         Script.TAMIL_PRE_REFORM.value: "Tamil script with pre-1978 letterforms (old ligatures for ணா றா னா ணை லை ளை னை)",
         Script.TAMIL_BRAHMI.value: "Tamil-Brahmi (Tamili), the ancient Brahmi-derived script of early Tamil inscriptions",
         Script.GRANTHA.value: "Grantha script (used in the Tamil country to write Sanskrit)",
+        Script.GRANTHA_TAMIL.value: "Grantha–Tamil (maṇipravāḷam): Tamil letters with Sanskrit words in Grantha "
+                                    "letters, often switching script inside a word",
         Script.MALAYALAM.value: "Malayalam script",
         Script.KANNADA.value: "Kannada script",
         Script.TELUGU.value: "Telugu script",

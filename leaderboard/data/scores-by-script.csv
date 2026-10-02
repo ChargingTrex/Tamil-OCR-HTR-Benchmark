@@ -1,0 +1,103 @@
+model_id,model,era,script,level,key,score,ci95_low,ci95_high,n
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,,era,reading,63.74,59.55,67.09,
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,,era,reading,14.24,12.98,15.46,
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,script,tamil-modern,63.74,59.55,67.09,766
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,track,print,83.84,,,
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,track,screen,87.96,,,
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,track,handwriting,81.41,,,
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,track,scene,16.88,,,
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,track,epigraphy,48.6,,,
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,subset,print-digital,97.0193,95.4,98.29,100
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,subset,print-scan,95.6553,93.54,97.43,100
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,subset,print-photo,81.7248,75.49,86.75,100
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,subset,numerals-symbols,60.9628,57.99,63.91,80
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,subset,screen,87.9563,84.89,90.75,120
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,subset,handwriting,81.4069,76.13,85.95,100
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,subset,scene,16.8846,11.08,23.81,100
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,subset,stone,36.3086,0.0,62.27,48
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),modern,tamil-modern,subset,copper-plate,60.8911,45.91,69.94,18
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,tamil-pre-reform,script,tamil-pre-reform,32.66,30.24,34.87,340
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,tamil-pre-reform,track,manuscripts,41.43,,,
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,tamil-pre-reform,track,epigraphy,23.89,,,
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,tamil-pre-reform,subset,pre-reform-print,64.3316,57.47,70.55,100
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,tamil-pre-reform,subset,palm-leaf-synth,51.9764,44.46,59.37,100
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,tamil-pre-reform,subset,palm-leaf-cict,7.9674,4.31,11.47,26
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,tamil-pre-reform,subset,stone,0.0,0.0,0.0,52
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,tamil-pre-reform,subset,copper-plate,47.7742,41.43,53.27,62
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,grantha-tamil,script,grantha-tamil,22.11,17.84,26.15,100
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,grantha-tamil,track,manuscripts,22.11,,,
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,grantha-tamil,subset,grantha-tamil,22.1113,17.84,26.15,100
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,tamil-brahmi,script,tamil-brahmi,2.21,1.41,2.99,120
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,tamil-brahmi,track,epigraphy,2.21,,,
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,tamil-brahmi,subset,tamil-brahmi,2.2102,1.41,2.99,120
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,grantha,script,grantha,0.0,0.0,0.0,100
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,grantha,track,epigraphy,0.0,,,
+tesseract-tam-best,Tesseract 5 · tam (tessdata_best),older,grantha,subset,grantha,0.0,0.0,0.0,100
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,,era,reading,60.6,57.73,65.3,
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,,era,reading,12.82,11.41,14.16,
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,script,tamil-modern,60.6,57.73,65.3,766
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,track,print,83.33,,,
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,track,screen,88.44,,,
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,track,handwriting,81.16,,,
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,track,scene,18.08,,,
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,track,epigraphy,31.99,,,
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,subset,print-digital,97.3469,96.05,98.43,100
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,subset,print-scan,95.0107,92.6,97.09,100
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,subset,print-photo,80.4244,73.45,86.08,100
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,subset,numerals-symbols,60.5442,57.64,63.19,80
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,subset,screen,88.4417,85.48,91.27,120
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,subset,handwriting,81.159,75.84,85.82,100
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,subset,scene,18.0785,12.31,25.33,100
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,subset,stone,11.3464,0.0,49.22,48
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),modern,tamil-modern,subset,copper-plate,52.6403,39.21,63.99,18
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,tamil-pre-reform,script,tamil-pre-reform,28.45,25.19,31.13,340
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,tamil-pre-reform,track,manuscripts,36.83,,,
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,tamil-pre-reform,track,epigraphy,20.07,,,
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,tamil-pre-reform,subset,pre-reform-print,60.8406,54.1,67.29,100
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,tamil-pre-reform,subset,palm-leaf-synth,49.6643,42.16,56.74,100
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,tamil-pre-reform,subset,palm-leaf-cict,0.0,0.0,1.57,26
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,tamil-pre-reform,subset,stone,0.0,0.0,0.0,52
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,tamil-pre-reform,subset,copper-plate,40.1431,29.28,49.08,62
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,grantha-tamil,script,grantha-tamil,20.38,15.68,24.96,100
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,grantha-tamil,track,manuscripts,20.38,,,
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,grantha-tamil,subset,grantha-tamil,20.3836,15.68,24.96,100
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,tamil-brahmi,script,tamil-brahmi,2.43,1.64,3.32,120
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,tamil-brahmi,track,epigraphy,2.43,,,
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,tamil-brahmi,subset,tamil-brahmi,2.4259,1.64,3.32,120
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,grantha,script,grantha,0.0,0.0,0.0,100
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,grantha,track,epigraphy,0.0,,,
+tesseract-tam,Tesseract 5 · tam (Ubuntu tessdata),older,grantha,subset,grantha,0.0,0.0,0.0,100
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,,era,reading,59.44,57.0,61.73,
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,,era,reading,11.76,10.57,12.94,
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,script,tamil-modern,59.44,57.0,61.73,766
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,track,print,82.63,,,
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,track,screen,88.29,,,
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,track,handwriting,80.82,,,
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,track,scene,12.85,,,
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,track,epigraphy,32.63,,,
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,subset,print-digital,96.7573,95.06,98.16,100
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,subset,print-scan,94.6765,92.18,96.91,100
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,subset,print-photo,82.569,76.51,87.63,100
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,subset,numerals-symbols,56.5149,53.54,59.53,80
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,subset,screen,88.29,85.27,91.26,120
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,subset,handwriting,80.8181,75.35,85.8,100
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,subset,scene,12.8482,6.47,20.4,100
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,subset,stone,47.2769,32.71,58.53,48
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),modern,tamil-modern,subset,copper-plate,17.9868,8.89,23.69,18
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,tamil-pre-reform,script,tamil-pre-reform,21.17,19.12,23.13,340
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,tamil-pre-reform,track,manuscripts,40.07,,,
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,tamil-pre-reform,track,epigraphy,2.27,,,
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,tamil-pre-reform,subset,pre-reform-print,63.6197,56.12,70.48,100
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,tamil-pre-reform,subset,palm-leaf-synth,49.5734,41.88,57.01,100
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,tamil-pre-reform,subset,palm-leaf-cict,7.0258,5.08,8.77,26
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,tamil-pre-reform,subset,stone,0.0,0.0,0.0,52
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,tamil-pre-reform,subset,copper-plate,4.531,1.95,7.09,62
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,grantha-tamil,script,grantha-tamil,21.6,17.34,25.73,100
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,grantha-tamil,track,manuscripts,21.6,,,
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,grantha-tamil,subset,grantha-tamil,21.6041,17.34,25.73,100
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,tamil-brahmi,script,tamil-brahmi,0.65,0.27,1.12,120
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,tamil-brahmi,track,epigraphy,0.65,,,
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,tamil-brahmi,subset,tamil-brahmi,0.6469,0.27,1.12,120
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,grantha,script,grantha,3.61,2.44,4.71,100
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,grantha,track,epigraphy,3.61,,,
+tesseract-tamil-script-best,Tesseract 5 · script/Tamil (tessdata_best),older,grantha,subset,grantha,3.6128,2.44,4.71,100

@@ -75,11 +75,17 @@ def cmd_compare(a):
         return f"{name:22s} {r['diff']:+7.2f}  [{r['ci95'][0]:+.2f}, {r['ci95'][1]:+.2f}]  p={r['p']:.3f}{mark}"
     print(f"{a.a} − {a.b}  (paired cluster bootstrap, {a.n_boot} replicates)")
     print(line("overall", res["overall"]))
-    print(line("OCR/HTR average", res["recognition_avg"]))
+    print(line("OCR/HTR", res["recognition_avg"]))
+    for era, parts in res["eras"].items():
+        print(line(f"  {era} script reading" if era == "modern" else f"  {era} scripts reading", parts.get("reading")))
+    for k, v in res["scripts"].items():
+        print(line("    " + k, v))
+    print("tracks")
     for k, v in res["tracks"].items():
         print(line("  " + k, v))
+    print("subsets")
     for k, v in res["subsets"].items():
-        print(line("    " + k, v))
+        print(line("  " + k, v))
 
 def cmd_mcp(a):
     try:
@@ -91,13 +97,19 @@ def cmd_mcp(a):
 def _print_scores(s: dict):
     def f(v):
         return "  —  " if v is None else f"{v:5.1f}"
-    print(f"overall {f(s['overall'])} | recognition avg {f(s['recognition_avg'])}")
-    print("tracks: " + "  ".join(f"{k}={f(v)}" for k, v in s["tracks"].items()))
+    eras = s.get("eras") or {}
+    m, o = eras.get("modern", {}), eras.get("older", {})
+    print(f"overall {f(s['overall'])} | OCR/HTR {f(s['recognition_avg'])} "
+          f"= ½ modern script {f(m.get('reading'))} + ½ older scripts {f(o.get('reading'))}")
+    print("scripts: " + "  ".join(f"{k}={f(v['score'])}" for k, v in (s.get("scripts") or {}).items()))
+    print("tracks:  " + "  ".join(f"{k}={f(v)}" for k, v in s["tracks"].items()))
     for sid, v in s["subsets"].items():
         if v is None:
             print(f"  {sid:20s}   (not supported)")
         else:
-            extra = f"CER {v['cer']:.3f}" if "cer" in v else (f"macro-F1 {v['macro_f1']:.3f}" if "macro_f1" in v else f"chrF++ {v['chrf_pp']:.1f}")
+            extra = (f"CER {v['cer']:.3f}" if "cer" in v else f"macro-F1 {v['macro_f1']:.3f}" if "macro_f1" in v
+                     else f"hallucination {v['hallucination_rate']:.1%}" if "hallucination_rate" in v
+                     else f"chrF++ {v['chrf_pp']:.1f}")
             print(f"  {sid:20s} {v['score']:6.2f}  [{v['ci95'][0]:.1f}, {v['ci95'][1]:.1f}]  {extra}  n={v['n']}")
 
 
@@ -111,10 +123,41 @@ def cmd_leaderboard(a):
 
 def cmd_import(a):
     from . import runner
+    reader = {"expertise": a.reader_expertise} if a.reader_expertise else None
     out = runner.import_predictions(Path(a.file), model_id=a.model, name=a.name, supports=a.supports,
-                                    split=a.split, results_root=Path(a.results), notes=a.notes)
+                                    split=a.split, results_root=Path(a.results), notes=a.notes,
+                                    kind=a.kind, reader=reader)
     s = runner.score(out, Path(a.data))
     _print_scores(s)
+
+
+def cmd_reading_sheet(a):
+    from . import runner
+    n = runner.write_reading_sheet(Path(a.data), Path(a.out), split=a.split, subset_ids=a.subsets)
+    print(f"{n} items -> {a.out}. Readers fill in the 'answer' column; then: "
+          f"tamilbench import-predictions --kind human --split {a.split} --model <reader-id> --file {a.out}")
+
+
+def cmd_robustness(a):
+    from . import robustness
+    from .models import _coerce
+    overrides = {k: _coerce(v) for k, v in (kv.split("=", 1) for kv in a.param or [])}
+    res = robustness.run(a.model, Path(a.data), split=a.split, results_root=Path(a.results), variants=a.variants,
+                         repeats=a.repeats, subset_ids=a.subsets, limit=a.limit, concurrency=a.concurrency,
+                         **overrides)
+    if not res:
+        print("need at least two runs to measure a spread")
+        return
+    for name, block in (("prompt paraphrases", res.get("prompt_spread")), ("repeat runs", res.get("repeat_spread"))):
+        if not block:
+            continue
+        print(f"== spread over {name}")
+        for k in ("overall", "recognition_avg", "modern_reading", "older_reading"):
+            v = block.get(k)
+            if v:
+                print(f"  {k:18s} range {v['range']:5.2f}  sd {v['sd']:5.2f}  values {v['values']}")
+    if "answers_changed_between_repeats" in res:
+        print(f"answers changed between repeats: {res['answers_changed_between_repeats']:.1%}")
 
 
 def cmd_fetch_tessdata(a):
@@ -149,7 +192,7 @@ def cmd_validate(a):
             if not p.exists() or hashlib.sha256(p.read_bytes()).hexdigest() != r["sha256"]:
                 print(f"checksum mismatch: {r['id']}")
                 bad += 1
-            if not r.get(spec.target):
+            if spec.scoring != "abstention" and not r.get(get(r.get("as_subset") or r["subset"]).target):
                 print(f"empty reference: {r['id']}")
                 bad += 1
         print(f"{split}: {len(rows)} samples checked")
@@ -241,7 +284,30 @@ def main(argv=None) -> int:
     im.add_argument("--data", default=str(DATA))
     im.add_argument("--results", default=str(RESULTS))
     im.add_argument("--notes")
+    im.add_argument("--kind", choices=["imported", "human"], default="imported",
+                    help="human = a human reader's answers: shown as a reference, never ranked")
+    im.add_argument("--reader-expertise", help="for --kind human, e.g. 'epigraphist, Tamil-Brahmi and Grantha'")
     im.set_defaults(fn=cmd_import)
+
+    rs = sub.add_parser("reading-sheet", help="a CSV of items for human readers (human baselines)")
+    rs.add_argument("--data", default=str(DATA))
+    rs.add_argument("--split", default="lite")
+    rs.add_argument("--subsets", nargs="*")
+    rs.add_argument("--out", default="reading-sheet.csv")
+    rs.set_defaults(fn=cmd_reading_sheet)
+
+    ro = sub.add_parser("robustness", help="prompt-paraphrase and repeat-run spread of one model (not ranked)")
+    ro.add_argument("--model", required=True)
+    ro.add_argument("--split", default="lite", choices=["test", "lite"])
+    ro.add_argument("--data", default=str(DATA))
+    ro.add_argument("--results", default=str(RESULTS))
+    ro.add_argument("--variants", type=int, default=3, help="prompt variants to run (1–3; 1 = canonical only)")
+    ro.add_argument("--repeats", type=int, default=1, help="extra runs of the canonical prompt")
+    ro.add_argument("--subsets", nargs="*")
+    ro.add_argument("--limit", type=int)
+    ro.add_argument("--concurrency", type=int, default=4)
+    ro.add_argument("--param", action="append", help="adapter parameter override, key=value")
+    ro.set_defaults(fn=cmd_robustness)
 
     t = sub.add_parser("fetch-tessdata", help="download Tesseract tessdata_best models for Tamil")
     t.add_argument("--dest", default="~/.cache/tamilbench/tessdata_best")

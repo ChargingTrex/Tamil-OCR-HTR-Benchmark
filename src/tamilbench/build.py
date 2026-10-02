@@ -23,9 +23,11 @@ from . import subsets as S
 from .render import fonts as F
 from .render import media as M
 from .taxonomy import Medium, Script, Task
+from .render import effects as E
 from .text import brahmi, indic, numerals
 from .text import manipravalam as mp
 from .text.grantha import iast_to_grantha
+from .text.perturb import perturb_iast, perturb_tamil
 from .text.tamil import (REFORM_SYLLABLES, contains_reform_syllable, drop_pulli, merge_long_e_o,
                          scriptio_continua)
 
@@ -498,6 +500,9 @@ def gen_script_id(pr: random.Random, label: str) -> Sample:
             img, meta = M.stone(lines, rng, style="plaque-grey", font=font)
             medium = Medium.STONE.value
         text = it.text
+    elif label == Script.GRANTHA_TAMIL.value:
+        mixed = gen_grantha_tamil(pr)
+        img, meta, medium, text = mixed.image, mixed.render, mixed.medium, mixed.text
     else:
         script = Script(label)
         src = _modern_with_reform(pr)
@@ -589,6 +594,152 @@ def gen_translation(pr: random.Random, item, medium: str) -> Sample:
                   render=meta)
 
 
+# ---- controls (not ranked) ----------------------------------------------------------------------
+
+PERTURBED_KINDS = ["modern-print", "modern-photo", "modern-digital", "modern-hand",
+                   "pre-reform-leaf", "pre-reform-print", "grantha", "tamil-brahmi"]
+
+
+def _kural(pr: random.Random, *, brahmi_ok: bool = False) -> tuple[int, tuple[str, str]]:
+    couplets = corpus.tirukkural_couplets()
+    while True:
+        n = pr.randint(1, len(couplets))
+        if not brahmi_ok or brahmi.can_transliterate(" ".join(couplets[n])):
+            return n, couplets[n]
+
+
+def gen_perturbed(pr: random.Random, kind: str) -> Sample:
+    """A famous text with a few letters changed. The reference is what the image shows; the
+    unperturbed original is kept as ``text_canonical`` for the prior-pull index."""
+    rng = _np(pr)
+    if kind == "grantha":
+        it = _pick(pr, [s for s in corpus.sanskrit() if len(s.text.split()) >= 3])
+        orig_lines = it.text.split("\n")[:2]
+        orig = "\n".join(orig_lines)
+        pert = perturb_iast(orig, pr)
+        lines = [iast_to_grantha(x) for x in pert.split("\n")]
+        font = F.BY_ID[_pick(pr, ["grantha-sans", "grantha-serif"])]
+        surface = _pick(pr, ["copper-plate", "stone", "palm-leaf", "print-scan"])
+        if surface == "copper-plate":
+            img, meta = M.copper_plate(lines, rng, style="grant", font=font)
+        elif surface == "stone":
+            img, meta = M.stone(lines, rng, style="plaque-grey", font=font, spacing=1.6)
+        elif surface == "palm-leaf":
+            img, meta = M.palm_leaf(lines, rng, font=font, size=int(rng.integers(28, 36)))
+        else:
+            img, meta = M.print_scan(lines, rng, font=font, aged=pr.uniform(0.2, 0.6), letterpress=True)
+        return Sample(img, pert, script=Script.GRANTHA.value, medium=surface, granularity="block",
+                      lexical="perturbed", text_source=f"sanskrit:{it.id}", render=meta,
+                      fields={"iast": pert, "text_canonical": orig, "text_native": "\n".join(lines),
+                              "as_subset": "grantha"})
+    if kind == "tamil-brahmi":
+        n, (a, _b) = _kural(pr, brahmi_ok=True)
+        orig = a
+        pert = perturb_tamil(orig, pr)
+        native = brahmi.to_brahmi(pert, brahmi.Orthography.TB3).replace(" ", "")
+        lines = chunk_letters(native, pr.randint(10, 16))
+        surface = _pick(pr, ["cave", "cave", "estampage"])
+        if surface == "cave":
+            img, meta = M.stone(lines, rng, style="cave", font=F.BY_ID["brahmi"], spacing=1.5)
+            medium = Medium.STONE.value
+        else:
+            img, meta = M.estampage(lines, rng, font=F.BY_ID["brahmi"], spacing=1.5)
+            medium = Medium.ESTAMPAGE.value
+        return Sample(img, pert, script=Script.TAMIL_BRAHMI.value, medium=medium, granularity="line",
+                      lexical="perturbed", text_source=f"tirukkural:{n}", render=meta,
+                      fields={"text_canonical": orig, "text_native": "\n".join(lines), "as_subset": "tamil-brahmi"})
+    n, couplet = _kural(pr)
+    if kind == "pre-reform-leaf":
+        orig = " ".join(couplet)
+        pert = perturb_tamil(orig, pr)
+        width = pr.randint(30, 44)
+        ref, dip = _diplomatic_fit(pert, pr, 4 * width, p_drop=_pick(pr, [1.0, 0.6]), merge=pr.random() < 0.7)
+        lines = chunk_letters(dip, width)
+        img, meta = M.palm_leaf(lines, rng)
+        canon = " ".join(orig.split()[:len(ref.split())])
+        return Sample(img, ref, script=Script.TAMIL_PRE_REFORM.value, medium=Medium.PALM_LEAF.value,
+                      granularity="block", lexical="perturbed", text_source=f"tirukkural:{n}", render=meta,
+                      fields={"text_canonical": canon, "text_diplomatic": "\n".join(lines),
+                              "as_subset": "palm-leaf-synth"})
+    orig = "\n".join(couplet)
+    pert = perturb_tamil(orig, pr)
+    lines = pert.split("\n")
+    if kind == "pre-reform-print":
+        img, meta = M.print_scan(lines, rng, font=F.BY_ID["lohit-classical"], aged=pr.uniform(0.3, 0.9),
+                                 letterpress=True)
+        script, medium, as_subset = Script.TAMIL_PRE_REFORM.value, Medium.PRINT_SCAN.value, "pre-reform-print"
+    else:
+        fn, medium, as_subset = {"modern-print": (M.print_scan, "print-scan", "print-scan"),
+                                 "modern-photo": (M.print_photo, "print-photo", "print-photo"),
+                                 "modern-digital": (M.born_digital, "born-digital", "print-digital"),
+                                 "modern-hand": (M.handwriting, "handwritten", "handwriting")}[kind]
+        img, meta = fn(lines, rng)
+        script = Script.TAMIL_MODERN.value
+    return Sample(img, pert, script=script, medium=medium, granularity="block", lexical="perturbed",
+                  text_source=f"tirukkural:{n}", render=meta, fields={"text_canonical": orig, "as_subset": as_subset})
+
+
+CONTROL_MEDIA = ["print-scan", "print-photo", "handwriting", "scene",            # modern
+                 "palm-leaf", "stone", "copper-plate", "estampage-or-pottery"]   # older
+CONTROL_KINDS = [(m, c) for m in CONTROL_MEDIA for c in ("blank", "effaced")]
+
+
+def gen_control(pr: random.Random, medium: str, control: str) -> Sample:
+    """A surface with no legible text: the same rendering as a test item, with the ink of
+    the text layer removed (``blank``) or worn away beyond reading (``effaced``)."""
+    rng = _np(pr)
+    hidden, _, src = _tamil_text(pr, pools=("modern", "classical"), corpus_p=1.0, lines=(1, 3))
+    size = int(rng.integers(30, 44))
+
+    def layer(mask):
+        if control == "blank":
+            return np.zeros_like(mask)
+        # Blurred far beyond the letter size and faded: smudges where writing was, no letters.
+        return E.gaussian_blur(mask, size * 0.7) * 0.45
+
+    old = medium in ("palm-leaf", "stone", "copper-plate", "estampage-or-pottery")
+    script = Script.TAMIL_PRE_REFORM.value if old else Script.TAMIL_MODERN.value
+    with M.text_layer(layer):
+        if medium == "print-scan":
+            img, meta = M.print_scan(hidden, rng, size=size, aged=pr.uniform(0, 0.6))
+            as_subset = "print-scan"
+        elif medium == "print-photo":
+            img, meta = M.print_photo(hidden, rng, size=size)
+            as_subset = "print-photo"
+        elif medium == "handwriting":
+            img, meta = M.handwriting(hidden, rng)
+            as_subset, medium = "handwriting", Medium.HANDWRITTEN.value
+        elif medium == "scene":
+            img, meta = M.scene(hidden[:1], rng, kind=_pick(pr, ["shop", "office", "road", "banner", "wall"]))
+            as_subset = "scene"
+        elif medium == "palm-leaf":
+            lines = chunk_letters(scriptio_continua(drop_pulli(" ".join(hidden))), pr.randint(30, 44))[:4]
+            img, meta = M.palm_leaf(lines, rng, size=size)
+            as_subset = "palm-leaf-synth"
+        elif medium == "stone":
+            lines = chunk_letters(scriptio_continua(" ".join(hidden)), pr.randint(16, 26))[:3]
+            img, meta = M.stone(lines, rng, style="inscription", size=size + 8)
+            as_subset = "stone"
+        elif medium == "copper-plate":
+            lines = chunk_letters(scriptio_continua(" ".join(hidden)), pr.randint(20, 30))[:4]
+            img, meta = M.copper_plate(lines, rng, style="grant", size=size)
+            as_subset = "copper-plate"
+        else:
+            it = _pick(pr, corpus.brahmi_pool())
+            nat = chunk_letters(brahmi.to_brahmi(it.text).replace(" ", ""), 14)[:2]
+            script, as_subset = Script.TAMIL_BRAHMI.value, "tamil-brahmi"
+            if pr.random() < 0.5:
+                img, meta = M.estampage(nat, rng, font=F.BY_ID["brahmi"], size=size + 8, spacing=1.5)
+                medium = Medium.ESTAMPAGE.value
+            else:
+                img, meta = M.pottery(nat[:1], rng, size=size + 12)
+                medium = Medium.POTTERY.value
+    meta["control"] = control
+    return Sample(img, "", script=script, medium=medium, granularity="block", lexical="control",
+                  text_source="control", render=meta,
+                  fields={"control": control, "as_subset": as_subset})
+
+
 # ----------------------------------------------------------------------------- screen pass
 
 def _screen_data(template: str, pr: random.Random) -> tuple[dict, str, str]:
@@ -659,6 +810,9 @@ GENERATORS: dict[str, Callable[[random.Random], Sample]] = {
 }
 
 
+CONTROL_PLANS = {"perturbed": PERTURBED_KINDS, "blank-controls": CONTROL_KINDS}
+
+
 def sample_rng(seed: int, split: str, subset: str, index: int) -> random.Random:
     return random.Random(f"{BENCHMARK_VERSION}:{seed}:{split}:{subset}:{index}")
 
@@ -698,6 +852,10 @@ def _work(args) -> dict:
     elif spec.task == Task.TRANSLATION:
         item, medium = label
         sample = gen_translation(pr, item, medium)
+    elif subset == "perturbed":
+        sample = gen_perturbed(pr, label)
+    elif subset == "blank-controls":
+        sample = gen_control(pr, *label)
     else:
         sample = GENERATORS[subset](pr)
     sid = f"{subset}-{index:04d}"
@@ -739,6 +897,9 @@ def plan_tasks(out_dir: Path, seed: int, split: str, subset_ids: list[str], coun
                     screen_tasks.append((sid, i, it))
                 else:
                     tasks.append((str(out_dir), seed, split, sid, i, (it, medium)))
+        elif sid in CONTROL_PLANS:
+            kinds = CONTROL_PLANS[sid]
+            tasks += [(str(out_dir), seed, split, sid, i, kinds[i % len(kinds)]) for i in range(n)]
         else:
             tasks += [(str(out_dir), seed, split, sid, i, None) for i in range(n)]
     return tasks, screen_tasks

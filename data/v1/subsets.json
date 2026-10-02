@@ -30,7 +30,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "print-scan",
@@ -57,7 +59,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "print-photo",
@@ -84,7 +88,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "numerals-symbols",
@@ -111,7 +117,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "screen",
@@ -138,7 +146,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "handwriting",
@@ -165,7 +175,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "scene",
@@ -192,7 +204,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "pre-reform-print",
@@ -219,7 +233,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "palm-leaf-synth",
@@ -238,7 +254,7 @@
       "granularity": [
         "block"
       ],
-      "count": 80,
+      "count": 100,
       "policy": {
         "spaces": "remove",
         "fold_pulli": true,
@@ -247,7 +263,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "palm-leaf-cict",
@@ -276,7 +294,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": "Central Institute of Classical Tamil (CICT), CICT Tirukkural Ground Truth Corpus, CC BY 4.0; per-leaf DOIs in the manifest."
+      "attribution": "Central Institute of Classical Tamil (CICT), CICT Tirukkural Ground Truth Corpus, CC BY 4.0; per-leaf DOIs in the manifest.",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "grantha-tamil",
@@ -297,7 +317,7 @@
         "line",
         "block"
       ],
-      "count": 60,
+      "count": 100,
       "policy": {
         "spaces": "remove",
         "script": "iast",
@@ -307,7 +327,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "stone",
@@ -328,7 +350,7 @@
         "line",
         "block"
       ],
-      "count": 80,
+      "count": 100,
       "policy": {
         "spaces": "remove",
         "fold_pulli": true,
@@ -337,7 +359,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "copper-plate",
@@ -357,7 +381,7 @@
       "granularity": [
         "block"
       ],
-      "count": 60,
+      "count": 80,
       "policy": {
         "spaces": "remove",
         "fold_pulli": true,
@@ -366,7 +390,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "tamil-brahmi",
@@ -388,7 +414,7 @@
         "word",
         "line"
       ],
-      "count": 100,
+      "count": 120,
       "policy": {
         "spaces": "remove",
         "fold_pulli": true,
@@ -397,7 +423,9 @@
       "labels": [],
       "target": "text",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "grantha",
@@ -420,7 +448,7 @@
         "line",
         "block"
       ],
-      "count": 60,
+      "count": 100,
       "policy": {
         "spaces": "remove",
         "script": "iast"
@@ -428,7 +456,9 @@
       "labels": [],
       "target": "iast",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "script-id",
@@ -436,12 +466,13 @@
       "task": "script-id",
       "track": "classification",
       "prompt": "script-id",
-      "description": "Which script is this? Modern vs pre-reform Tamil, Tamil-Brahmi, Grantha, and the neighbouring South Indian and Sri Lankan scripts (Malayalam, Kannada, Telugu, Sinhala).",
+      "description": "Which script is this? Modern vs pre-reform Tamil, Tamil-Brahmi, Grantha, Grantha–Tamil, and the neighbouring South Indian and Sri Lankan scripts (Malayalam, Kannada, Telugu, Sinhala).",
       "scripts": [
         "tamil-modern",
         "tamil-pre-reform",
         "tamil-brahmi",
         "grantha",
+        "grantha-tamil",
         "malayalam",
         "kannada",
         "telugu",
@@ -464,7 +495,7 @@
       "granularity": [
         "line"
       ],
-      "count": 144,
+      "count": 162,
       "policy": {
         "spaces": "collapse"
       },
@@ -473,6 +504,7 @@
         "tamil-pre-reform",
         "tamil-brahmi",
         "grantha",
+        "grantha-tamil",
         "malayalam",
         "kannada",
         "telugu",
@@ -480,7 +512,9 @@
       ],
       "target": "label",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "medium-id",
@@ -528,7 +562,9 @@
       ],
       "target": "label",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
     },
     {
       "id": "translate-en",
@@ -557,27 +593,109 @@
       "labels": [],
       "target": "english",
       "license": "CC-BY-4.0",
-      "attribution": ""
+      "attribution": "",
+      "scoring": "default",
+      "ranked": true
+    },
+    {
+      "id": "perturbed",
+      "title": "Perturbed famous texts",
+      "task": "recognition",
+      "track": "diagnostics",
+      "prompt": "recognition",
+      "description": "Famous texts with a few letters deliberately changed — Tirukkural couplets in modern print, on palm leaves, in pre-reform print and in Tamil-Brahmi, and well-known Sanskrit verses in Grantha. The reference is what the image shows; the prior-pull index measures how far answers drift back to the text as usually written. Half modern script, half older scripts.",
+      "scripts": [
+        "tamil-modern",
+        "tamil-pre-reform",
+        "grantha",
+        "tamil-brahmi"
+      ],
+      "media": [
+        "print-scan",
+        "print-photo",
+        "born-digital",
+        "handwritten",
+        "palm-leaf",
+        "stone",
+        "estampage",
+        "pottery",
+        "copper-plate"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "line",
+        "block"
+      ],
+      "count": 96,
+      "policy": {
+        "spaces": "collapse"
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "scoring": "default",
+      "ranked": false
+    },
+    {
+      "id": "blank-controls",
+      "title": "Blank & effaced surfaces",
+      "task": "recognition",
+      "track": "diagnostics",
+      "prompt": "recognition",
+      "description": "Paper, signboards, palm leaves, stone, copper and potsherds with no legible text: either blank, or with writing worn away beyond reading. The correct answer is no text; any letters count as hallucination. Half modern media, half older.",
+      "scripts": [
+        "tamil-modern",
+        "tamil-pre-reform",
+        "tamil-brahmi"
+      ],
+      "media": [
+        "print-scan",
+        "print-photo",
+        "handwritten",
+        "scene",
+        "palm-leaf",
+        "stone",
+        "copper-plate",
+        "estampage",
+        "pottery"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "block"
+      ],
+      "count": 80,
+      "policy": {
+        "spaces": "collapse"
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "scoring": "abstention",
+      "ranked": false
     }
   ],
   "counts": {
     "palm-leaf-cict": 26,
-    "grantha-tamil": 60,
-    "print-digital": 100,
-    "handwriting": 100,
-    "pre-reform-print": 100,
-    "grantha": 60,
+    "translate-en": 100,
     "print-photo": 100,
-    "print-scan": 100,
-    "script-id": 144,
-    "screen": 120,
-    "copper-plate": 60,
-    "medium-id": 144,
-    "stone": 80,
-    "tamil-brahmi": 100,
+    "grantha": 100,
     "numerals-symbols": 80,
-    "palm-leaf-synth": 80,
+    "tamil-brahmi": 120,
+    "handwriting": 100,
+    "blank-controls": 80,
     "scene": 100,
-    "translate-en": 100
+    "pre-reform-print": 100,
+    "medium-id": 144,
+    "palm-leaf-synth": 100,
+    "print-scan": 100,
+    "screen": 120,
+    "grantha-tamil": 100,
+    "print-digital": 100,
+    "perturbed": 96,
+    "script-id": 162,
+    "copper-plate": 80,
+    "stone": 100
   }
 }

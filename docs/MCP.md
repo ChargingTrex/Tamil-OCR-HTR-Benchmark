@@ -10,7 +10,10 @@ so Claude (in Claude Code, Claude Desktop or any other MCP client) can:
 * **test other models**: run any registered system through its adapter (Claude, GPT,
   Gemini, open-weights models behind an OpenAI-compatible server, OCR services and
   engines), import outputs produced elsewhere, score them, compare two runs with paired
-  statistics, read failure-mode diagnostics, and rebuild the leaderboard.
+  statistics, read failure-mode diagnostics, and rebuild the leaderboard;
+* **analyse by script**: every score is split into the modern script and the older
+  scripts, which count equally, and into each script stage (modern Tamil, pre-reform
+  Tamil, Grantha–Tamil, Grantha, Tamil-Brahmi).
 
 ## Install
 
@@ -70,20 +73,21 @@ To inspect the server interactively: `npx @modelcontextprotocol/inspector tamilb
 
 | Tool | What it does | Writes? |
 |---|---|---|
-| `tamilbench_list_subsets` | The 18 subsets: track, task, size, provenance, scoring | — |
+| `tamilbench_list_subsets` | The 18 ranked subsets and 2 controls: track, task, size, provenance, scoring | — |
 | `tamilbench_get_subset` | One subset in full: description, prompt verbatim, policy, labels, credit | — |
 | `tamilbench_list_items` | Items of a subset, paged (references only on request) | — |
 | `tamilbench_get_item` | An item's image and its exact system and task prompts | — |
 | `tamilbench_next_item` | The next unanswered item of a run | — |
 | `tamilbench_submit_answer` | Records an answer and returns its official per-item score | `results/<run>/` |
-| `tamilbench_score_run` | Scores a run: subsets with 95 % intervals, tracks, averages, failure modes | `scores.json` |
+| `tamilbench_score_run` | Scores a run: subsets with 95 % intervals, script stages, the modern and older halves, tracks, failure modes, hallucination | `scores.json` |
 | `tamilbench_get_diagnostics` | Failure modes, order-free error, letter confusions, recitation index | — |
-| `tamilbench_compare_runs` | Paired comparison of two runs, with intervals, p-values and ties | — |
+| `tamilbench_get_script_scores` | Reading per script stage with intervals, the two halves and their gap — for one run or every ranked system | — |
+| `tamilbench_compare_runs` | Paired comparison of two runs per subset, script stage, era and headline score, with intervals, p-values and ties | — |
 | `tamilbench_list_models` | Registered systems, whether they have results, and whether they can run here | — |
 | `tamilbench_run_model` | Runs a system through its adapter, in the background or blocking | `results/<id>/` |
 | `tamilbench_run_status` | Progress of background runs | — |
 | `tamilbench_import_predictions` | Imports and scores a JSONL of outputs from any system | `results/<run>/` |
-| `tamilbench_get_leaderboard` | Ranked systems, ties and track scores | — |
+| `tamilbench_get_leaderboard` | Ranked systems, ties, the modern and older halves and track scores | — |
 | `tamilbench_update_leaderboard` | Rebuilds `leaderboard.json`, the site and the README table | `leaderboard/`, `README.md` |
 
 Two prompts start the common workflows: **`take_tamilbench`** (answer the benchmark item by
@@ -112,8 +116,12 @@ params={"base_url": "http://gpu:8000/v1"})`, `tamilbench_run_status` and
 `tamilbench_compare_runs`. A system without an adapter is run anywhere and its JSONL
 (`{"id": …, "text": …}` per line) imported with `tamilbench_import_predictions`.
 
-**Read results.** `tamilbench_get_leaderboard`, `tamilbench_get_diagnostics(run_name=…,
-subset_id="palm-leaf-cict")` and `tamilbench_compare_runs(run_a=…, run_b=…)`.
+**Read results.** `tamilbench_get_leaderboard`, `tamilbench_get_script_scores()` (or
+`run_name=…` for one run), `tamilbench_get_diagnostics(run_name=…, subset_id="palm-leaf-cict")`
+and `tamilbench_compare_runs(run_a=…, run_b=…)`.
+
+> Which script stages does tesseract-tam-best read worst, and is its gap between the
+> modern and older scripts significant?
 
 ## Rules that keep results honest
 
@@ -127,6 +135,10 @@ subset_id="palm-leaf-cict")` and `tamilbench_compare_runs(run_a=…, run_b=…)`
   mid-run would inflate later answers.
 * **Interactive answers cannot overwrite model runs.** A run folder that holds an adapter
   or imported run refuses interactive answers.
+* **Controls look like test items.** Perturbed famous texts and blank or effaced surfaces
+  are shown with the title and prompt of the subset they imitate. Their item ids still
+  name the control subset, so in interactive runs a careful reader could tell; such runs
+  are not ranked.
 * **Credentials never travel through tool calls.** API keys come only from the server's
   environment; `tamilbench_run_model` rejects key-like parameters and
   `tamilbench_list_models` reports only whether a key is present.

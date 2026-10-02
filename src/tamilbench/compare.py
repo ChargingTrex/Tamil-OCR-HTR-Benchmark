@@ -3,72 +3,59 @@ Evals": compare models on question-level paired differences, with clustered erro
 
 Both runs are scored with identical, seeded cluster-bootstrap draws, so each bootstrap
 replicate gives a paired difference. The result is a difference with a 95% interval and a
-two-sided bootstrap p-value per subset, per track, for the OCR/HTR average and Overall.
+two-sided bootstrap p-value per subset, per track, per script stage, per era, for the
+OCR/HTR score and for Overall — every aggregate computed with the scorer's own formulas.
 """
 
 from __future__ import annotations
 
 from collections import defaultdict
 
-import numpy as np
-
 from . import subsets as S
-from .scoring import N_BOOT, SCORERS
-from .taxonomy import Track
-
-
-def _summary(diff_obs: float, reps: np.ndarray) -> dict:
-    lo, hi = np.percentile(reps, [2.5, 97.5])
-    p = min(1.0, 2 * min(float((reps <= 0).mean()), float((reps >= 0).mean())))
-    if np.all(reps == 0):
-        p = 1.0
-    return {"diff": round(float(diff_obs), 2), "ci95": [round(float(lo), 2), round(float(hi), 2)],
-            "p": round(p, 4), "separable": bool(lo > 0 or hi < 0)}
+from .scoring import N_BOOT, _script, aggregate, aggregation_input, paired_summary, scorer_for
 
 
 def compare(manifest: list[dict], preds_a: dict, preds_b: dict, *, supported_a: set[str] | None = None,
             supported_b: set[str] | None = None, n_boot: int = N_BOOT, seed: int = 0) -> dict:
-    """Score A − B. Subsets whose task either system does not support are left out, and
-    track / average differences are reported only where both systems cover every subset."""
+    """Score A − B. Subsets whose task either system does not support are left out, and an
+    aggregate difference is reported only where both systems cover all of its subsets."""
     by_subset: dict[str, list[dict]] = defaultdict(list)
     for r in manifest:
         by_subset[r["subset"]].append(r)
-    subs, reps = {}, {}
+    layout = {sid: sorted({_script(r) for r in rows}) for sid, rows in by_subset.items()}
+    subs = {}
+    obs_a, obs_b, rep_a, rep_b = {}, {}, {}, {}
     for sid, rows in by_subset.items():
         spec = S.get(sid)
         task = spec.task.value
         if (supported_a is not None and task not in supported_a) or (supported_b is not None and task not in supported_b):
+            obs_a[sid] = obs_b[sid] = rep_a[sid] = rep_b[sid] = None
             continue
-        ra = SCORERS[spec.task](spec, rows, [preds_a.get(r["id"]) for r in rows], n_boot, seed, return_boot=True)
-        rb = SCORERS[spec.task](spec, rows, [preds_b.get(r["id"]) for r in rows], n_boot, seed, return_boot=True)
-        reps[sid] = ra["_boot"] - rb["_boot"]
+        scorer = scorer_for(spec)
+        ra = scorer(spec, rows, [preds_a.get(r["id"]) for r in rows], n_boot, seed, return_boot=True)
+        rb = scorer(spec, rows, [preds_b.get(r["id"]) for r in rows], n_boot, seed, return_boot=True)
         subs[sid] = {"a": round(ra["score"], 2), "b": round(rb["score"], 2),
-                     **_summary(ra["score"] - rb["score"], reps[sid])}
+                     **paired_summary(ra["score"] - rb["score"], ra["_boot"] - rb["_boot"])}
+        obs_a[sid], rep_a[sid] = aggregation_input(ra), aggregation_input(ra, boot=True)
+        obs_b[sid], rep_b[sid] = aggregation_input(rb), aggregation_input(rb, boot=True)
 
-    def combine(subset_ids):
-        if not subset_ids or any(s not in subs for s in subset_ids):
+    A, B = aggregate(obs_a, layout), aggregate(obs_b, layout)
+    Ab, Bb = aggregate(rep_a, layout), aggregate(rep_b, layout)
+
+    def diff(get):
+        a, b = get(A), get(B)
+        if a is None or b is None:
             return None
-        obs = float(np.mean([subs[s]["a"] - subs[s]["b"] for s in subset_ids]))
-        rep = np.mean([reps[s] for s in subset_ids], axis=0)
-        return obs, rep
+        return {"a": round(float(a), 2), "b": round(float(b), 2), **paired_summary(a - b, get(Ab) - get(Bb))}
 
-    tracks, track_reps = {}, {}
-    for t in Track:
-        ids = [s for s in S.TRACK_SUBSETS[t] if s in by_subset]
-        got = combine(ids)
-        if got:
-            tracks[t.value] = _summary(*got)
-            track_reps[t.value] = got
-        else:
-            tracks[t.value] = None
-
-    def mean_tracks(names):
-        if any(track_reps.get(t.value) is None for t in names):
-            return None
-        obs = float(np.mean([track_reps[t.value][0] for t in names]))
-        rep = np.mean([track_reps[t.value][1] for t in names], axis=0)
-        return _summary(obs, rep)
-
-    return {"subsets": subs, "tracks": tracks,
-            "recognition_avg": mean_tracks(S.RECOGNITION_TRACKS), "overall": mean_tracks(list(Track)),
-            "n_boot": n_boot, "seed": seed}
+    return {
+        "subsets": subs,
+        "tracks": {t: diff(lambda X, t=t: X["tracks"][t]) for t in A["tracks"]},
+        "scripts": {sc: diff(lambda X, sc=sc: X["scripts"][sc]["score"]) for sc in A["scripts"]},
+        "eras": {e: {k: diff(lambda X, e=e, k=k: X["eras"][e].get(k))
+                     for k in ("reading", "identification", "translation", "composite") if k in A["eras"][e]}
+                 for e in A["eras"]},
+        "recognition_avg": diff(lambda X: X["recognition_avg"]),
+        "overall": diff(lambda X: X["overall"]),
+        "n_boot": n_boot, "seed": seed,
+    }

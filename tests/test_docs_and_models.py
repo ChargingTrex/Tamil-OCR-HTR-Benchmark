@@ -61,3 +61,11 @@ def test_engine_crashes_are_named():
     from tamilbench.models.local import _exit_reason
     assert _exit_reason(-8) == "tesseract killed by SIGFPE"
     assert _exit_reason(1) == "tesseract exited with code 1"
+
+
+def test_every_prompt_paraphrase_is_in_the_appendix():
+    doc = (DOCS / "METHODOLOGY.md").read_text(encoding="utf-8")
+    appendix = doc[doc.index("## Appendix A: prompt paraphrases"):]
+    for key, variants in prompts.PROMPT_VARIANTS.items():
+        for text in variants[1:]:
+            assert text.strip() in appendix, f"a paraphrase of {key} differs from Appendix A"

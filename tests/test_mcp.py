@@ -158,3 +158,17 @@ def test_docs_cover_every_tool():
     doc = (DATA.parents[1] / "docs" / "MCP.md").read_text(encoding="utf-8")
     missing = [t.name for t in asyncio.run(go()).tools if f"`{t.name}`" not in doc]
     assert not missing, missing
+
+
+def test_script_scores_and_control_items():
+    md = text(call("tamilbench_get_script_scores"))
+    assert "Older scripts" in md and "Tamil-Brahmi" in md
+    data = json.loads(text(call("tamilbench_get_script_scores", {"response_format": "json"})))
+    assert data["scripts"][0] == "tamil-brahmi" and data["models"][0]["era_gap"]["separable"]
+    blank = next(r for r in srv._manifest("lite") if r["subset"] == "blank-controls")
+    item = call("tamilbench_get_item", {"item_id": blank["id"], "split": "lite"})
+    assert PROMPTS[S.get(blank["as_subset"]).prompt] in item.content[0].text
+    assert "Blank & effaced" not in item.content[0].text           # presented like the item it imitates
+    res = text(call("tamilbench_submit_answer", {"run_name": "pytest-blank", "item_id": blank["id"],
+                                                 "answer": "[no text]", "split": "lite"}))
+    assert "no text claimed: correct" in res
