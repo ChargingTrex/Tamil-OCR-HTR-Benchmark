@@ -58,8 +58,20 @@ class TesseractAdapter(Adapter):
             env = {**os.environ, "OMP_THREAD_LIMIT": "1"}   # parallelism comes from the runner, not OpenMP
             r = subprocess.run(cmd, capture_output=True, text=True, timeout=300, env=env)
         if r.returncode != 0:
-            raise RuntimeError(r.stderr.strip()[:300])
+            raise RuntimeError(r.stderr.strip()[:300] or _exit_reason(r.returncode))
         return Prediction(r.stdout, raw={"psm": psm})
+
+
+def _exit_reason(code: int) -> str:
+    """Describe a non-zero exit; a negative code means the process was killed by a signal
+    (Tesseract 5.3 can die with SIGFPE on some inputs, leaving stderr empty)."""
+    if code < 0:
+        import signal
+        try:
+            return f"tesseract killed by {signal.Signals(-code).name}"
+        except ValueError:
+            return f"tesseract killed by signal {-code}"
+    return f"tesseract exited with code {code}"
 
 
 class EasyOCRAdapter(Adapter):

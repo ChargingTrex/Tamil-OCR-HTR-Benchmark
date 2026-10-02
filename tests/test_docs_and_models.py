@@ -55,3 +55,9 @@ def test_debug_adapters_round_trip():
     pred = oracle.predict(b"", "image/png", "p", "s", {"text": "தமிழ்", "_target_field": "text"})
     assert pred.text == "தமிழ்"
     assert create("blank:x").predict(b"", "image/png", "p", "s", {}).text == ""
+
+
+def test_engine_crashes_are_named():
+    from tamilbench.models.local import _exit_reason
+    assert _exit_reason(-8) == "tesseract killed by SIGFPE"
+    assert _exit_reason(1) == "tesseract exited with code 1"

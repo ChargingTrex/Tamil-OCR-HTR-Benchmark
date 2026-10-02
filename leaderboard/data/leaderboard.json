@@ -795,7 +795,7 @@
    "description": "Graffiti scratched on potsherds, coins and seals."
   }
  },
- "generated_at": "2026-10-02T17:17:15+00:00",
+ "generated_at": "2026-10-02T17:18:32+00:00",
  "models": [
   {
    "id": "tesseract-tam-best",
@@ -1752,7 +1752,7 @@
    "n_errors": 1,
    "input_tokens": 0,
    "output_tokens": 0,
-   "mean_latency_s": 0.375,
+   "mean_latency_s": 0.373,
    "params": {
     "tessdata": "tessdata_best",
     "psm": "auto",
@@ -1760,7 +1760,7 @@
    },
    "kind": "ocr-engine",
    "prompt_version": "prompts-v1",
-   "scored_at": "2026-10-02T17:11:54+00:00",
+   "scored_at": "2026-10-02T17:18:18+00:00",
    "rank_recognition": 3
   },
   {
