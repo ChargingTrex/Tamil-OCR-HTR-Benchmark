@@ -86,6 +86,7 @@ class Adapter:
         pass
 
 
+_QUOTES = {'"': '"', "'": "'", "“": "”", "‘": "’", "«": "»"}
 _FENCE = re.compile(r"^```[a-zA-Z0-9_-]*\s*\n?(.*?)\n?```\s*$", re.S)
 
 
@@ -97,7 +98,7 @@ def clean_output(text: str) -> str:
     m = _FENCE.match(t)
     if m:
         t = m.group(1).strip()
-    if len(t) >= 2 and t[0] == t[-1] and t[0] in "\"'“”":
+    if len(t) >= 2 and _QUOTES.get(t[0]) == t[-1]:
         t = t[1:-1].strip()
     return t
 

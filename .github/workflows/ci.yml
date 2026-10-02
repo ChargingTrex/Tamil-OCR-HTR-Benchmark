@@ -1,0 +1,24 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Complex-script shaping libraries (Raqm, FriBiDi, HarfBuzz)
+        run: sudo apt-get update && sudo apt-get install -y libraqm0 libfribidi0 libharfbuzz0b
+      - run: pip install -e ".[dev]"
+      - name: Images match their checksums
+        run: tamilbench validate
+      - run: pytest -q

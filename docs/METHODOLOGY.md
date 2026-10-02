@@ -511,7 +511,8 @@ The only post-processing applied to any model's output, identical for all models
 
 1. Strip leading and trailing whitespace.
 2. If the whole answer is wrapped in one Markdown code fence, remove the fence.
-3. If the whole answer is wrapped in one pair of matching quotes, remove them.
+3. If the whole answer is wrapped in one pair of matching quotes (`"…"`, `'…'`, `“…”`,
+   `‘…’` or `«…»`), remove them.
 
 Nothing else is removed. Preambles such as "Here is the transcription:" are part of the
 answer and are scored as insertions, because instruction-following is part of the task.

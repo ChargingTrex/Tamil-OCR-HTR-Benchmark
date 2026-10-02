@@ -58,21 +58,33 @@ def _sort_key(m: dict):
     return (not ev, -(ov if ov is not None else -1), -(rec if rec is not None else -1))
 
 
-def _examples(data_dir: Path, results_root: Path, out_dir: Path, model_ids: list[str]) -> list[dict]:
+def _examples(data_dir: Path, results_root: Path, site_dir: Path, model_ids: list[str]) -> list[dict]:
+    """Copy a few test images per subset into ``site_dir/assets/examples`` with every evaluated
+    model's answer and its official per-item result."""
     rows = load_manifest(data_dir / "manifest-test.jsonl")
     preds = {mid: read_predictions(results_root / mid / f"{BENCHMARK_VERSION}-test" / "predictions.jsonl")
              for mid in model_ids}
-    asset_dir = out_dir.parent / "assets" / "examples"
+    asset_dir = Path(site_dir) / "assets" / "examples"
     if asset_dir.exists():
         shutil.rmtree(asset_dir)
     asset_dir.mkdir(parents=True, exist_ok=True)
-    seen: dict[str, int] = {}
-    out = []
+    picked: dict[str, list[dict]] = {}
     for r in rows:
-        k = seen.get(r["subset"], 0)
-        if k >= EXAMPLES_PER_SUBSET:
-            continue
-        seen[r["subset"]] = k + 1
+        picked.setdefault(r["subset"], []).append(r)
+    chosen = []
+    for group in picked.values():
+        # real text first (the first example of a subset should be typical), then one
+        # nonce or random-word item where the subset has them, to show the controls
+        real = [r for r in group if r.get("lexical") in (None, "corpus", "numerals")]
+        other = [r for r in group if r not in real]
+        take = real[:EXAMPLES_PER_SUBSET - 1] + other[:1]
+        for r in real[EXAMPLES_PER_SUBSET - 1:]:
+            if len(take) >= EXAMPLES_PER_SUBSET:
+                break
+            take.append(r)
+        chosen += take
+    out = []
+    for r in chosen:
         spec = S.get(r["subset"])
         src = data_dir / r["image"]
         dst = asset_dir / Path(r["image"]).name
@@ -147,7 +159,7 @@ def build(results_root: Path, data_dir: Path, out_json: Path, *, readme: Path | 
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "models": models,
         "coverage": coverage,
-        "examples": _examples(data_dir, Path(results_root), out_json, evaluated_ids),
+        "examples": _examples(data_dir, Path(results_root), out_json.parent.parent, evaluated_ids),
     }
     out_json.write_text(json.dumps(lb, ensure_ascii=False, indent=1), encoding="utf-8")
     write_site(out_json.parent.parent)
@@ -167,9 +179,17 @@ SITE_HEAD = """<!doctype html>
 """
 
 
+def page_fragment(site_dir: Path) -> str:
+    """The page body: ``_page.src.html`` with the inline masthead font face filled in."""
+    site_dir = Path(site_dir)
+    frag = (site_dir / "_page.src.html").read_text(encoding="utf-8")
+    face = site_dir / "_lohit-face.css"
+    return frag.replace("/*LOHIT-FACE*/", face.read_text(encoding="utf-8").strip() if face.exists() else "")
+
+
 def write_site(site_dir: Path) -> Path:
-    """Wrap the page fragment (``_page.html``) into the GitHub Pages ``index.html``."""
-    frag = (Path(site_dir) / "_page.html").read_text(encoding="utf-8")
+    """Wrap the page fragment into the GitHub Pages ``index.html``."""
+    frag = page_fragment(site_dir)
     out = Path(site_dir) / "index.html"
     out.write_text(SITE_HEAD + frag + "\n</body>\n</html>\n", encoding="utf-8")
     return out
@@ -190,7 +210,7 @@ def write_standalone(site_dir: Path, lb_json: Path, out: Path, max_width: int = 
         buf = io.BytesIO()
         img.save(buf, "JPEG", quality=80, optimize=True)
         ex["image"] = "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
-    frag = (Path(site_dir) / "_page.html").read_text(encoding="utf-8")
+    frag = page_fragment(site_dir)
     data = json.dumps(lb, ensure_ascii=False).replace("</", "<\\/")
     inline = f"<script>window.__LEADERBOARD__ = {data};</script>\n"
     marker = "<!-- INLINE-DATA -->"

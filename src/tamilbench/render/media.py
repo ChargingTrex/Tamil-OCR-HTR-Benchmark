@@ -17,7 +17,7 @@ from scipy import ndimage as ndi
 
 from . import effects as E
 from . import fonts as F
-from .text import ink_bbox, render_block, render_line
+from .text import render_block, render_line
 
 Rng = np.random.Generator
 

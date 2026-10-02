@@ -22,7 +22,7 @@ from . import BENCHMARK_VERSION, corpus
 from . import subsets as S
 from .render import fonts as F
 from .render import media as M
-from .taxonomy import MEDIUM_TO_ID_LABEL, Medium, Script, Task
+from .taxonomy import Medium, Script, Task
 from .text import brahmi, indic, numerals
 from .text import manipravalam as mp
 from .text.grantha import iast_to_grantha

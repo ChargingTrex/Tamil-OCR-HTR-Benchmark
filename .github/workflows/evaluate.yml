@@ -1,0 +1,85 @@
+name: evaluate
+
+# Run one model on the benchmark from GitHub Actions, using the repository's secrets,
+# and commit its results and the rebuilt leaderboard to the branch the workflow runs on.
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "Registry id (models/registry.yaml) or provider:model spec"
+        required: true
+      split:
+        description: "test (ranked) or lite (smoke test)"
+        default: test
+        type: choice
+        options: [test, lite]
+      params:
+        description: "Adapter parameters, space-separated key=value (e.g. effort=high)"
+        default: ""
+      commit:
+        description: "Commit results/ and leaderboard/ back to the branch"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: evaluate-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      MODEL: ${{ inputs.model }}
+      SPLIT: ${{ inputs.split }}
+      PARAMS: ${{ inputs.params }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: System packages (shaping libraries, Tesseract with Tamil)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libraqm0 libfribidi0 libharfbuzz0b tesseract-ocr tesseract-ocr-tam
+      - run: pip install -e ".[dev]"
+      - run: tamilbench validate
+      - name: Fetch tessdata_best (Tesseract models only)
+        if: startsWith(inputs.model, 'tesseract')
+        run: tamilbench fetch-tessdata
+      - name: Run the model
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          GOOGLE_VISION_API_KEY: ${{ secrets.GOOGLE_VISION_API_KEY }}
+          AZURE_DI_ENDPOINT: ${{ secrets.AZURE_DI_ENDPOINT }}
+          AZURE_DI_KEY: ${{ secrets.AZURE_DI_KEY }}
+          OPENAI_COMPAT_API_KEY: ${{ secrets.OPENAI_COMPAT_API_KEY }}
+          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          args=()
+          for p in $PARAMS; do args+=(--param "$p"); done
+          tamilbench run --model "$MODEL" --split "$SPLIT" "${args[@]}"
+      - run: tamilbench leaderboard
+      - uses: actions/upload-artifact@v4
+        with:
+          name: results-${{ github.run_id }}
+          path: |
+            results/
+            leaderboard/data/leaderboard.json
+      - name: Commit results
+        if: inputs.commit && inputs.split == 'test'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results leaderboard README.md
+          git diff --cached --quiet || git commit -m "Add results for $MODEL"
+          git push

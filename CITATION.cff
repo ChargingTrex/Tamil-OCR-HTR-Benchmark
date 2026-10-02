@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this benchmark, please cite it as below."
+title: "Tamil OCR / HTR Benchmark: reading Tamil from Tamil-Brahmi to the screen"
+type: dataset
+version: "v1"
+date-released: "2026-10-02"
+license: Apache-2.0
+repository-code: "https://github.com/ChargingTrex/Tamil-OCR-HTR-Benchmark"
+authors:
+  - name: "Tamil OCR / HTR Benchmark contributors"
+keywords:
+  - Tamil
+  - OCR
+  - handwritten text recognition
+  - palm-leaf manuscripts
+  - epigraphy
+  - Tamil-Brahmi
+  - Grantha
+  - benchmark
+references:
+  - type: dataset
+    title: "CICT Tirukkural Ground Truth Corpus"
+    authors:
+      - name: "Central Institute of Classical Tamil"
+    license: CC-BY-4.0

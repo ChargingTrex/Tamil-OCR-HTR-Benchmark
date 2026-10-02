@@ -1,0 +1,3645 @@
+{
+ "benchmark": {
+  "name": "Tamil OCR / HTR Benchmark",
+  "version": "v1",
+  "counts": {
+   "tamil-brahmi": 100,
+   "script-id": 144,
+   "stone": 80,
+   "print-scan": 100,
+   "medium-id": 144,
+   "palm-leaf-cict": 26,
+   "scene": 100,
+   "print-digital": 100,
+   "grantha-tamil": 60,
+   "translate-en": 100,
+   "screen": 120,
+   "handwriting": 100,
+   "copper-plate": 60,
+   "palm-leaf-synth": 80,
+   "numerals-symbols": 80,
+   "print-photo": 100,
+   "grantha": 60,
+   "pre-reform-print": 100
+  },
+  "subsets": [
+   {
+    "id": "print-digital",
+    "title": "Born-digital text",
+    "task": "recognition",
+    "track": "print",
+    "prompt": "recognition",
+    "description": "Clean Unicode text rendered in a dozen Tamil typefaces and weights — words, lines and paragraphs. The upper bound: failures here are failures of script knowledge, not of vision.",
+    "scripts": [
+     "tamil-modern"
+    ],
+    "media": [
+     "born-digital"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "word",
+     "line",
+     "block"
+    ],
+    "count": 100,
+    "policy": {
+     "spaces": "collapse"
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "print-scan",
+    "title": "Scanned print",
+    "task": "recognition",
+    "track": "print",
+    "prompt": "recognition",
+    "description": "Book and newspaper text as a flatbed scanner sees it: paper texture, ink spread, skew, speckle, bleed-through, JPEG.",
+    "scripts": [
+     "tamil-modern"
+    ],
+    "media": [
+     "print-scan"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "line",
+     "block"
+    ],
+    "count": 100,
+    "policy": {
+     "spaces": "collapse"
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "print-photo",
+    "title": "Photographed print",
+    "task": "recognition",
+    "track": "print",
+    "prompt": "recognition",
+    "description": "Pages photographed with a phone: perspective, page curl, shadows, uneven light, blur.",
+    "scripts": [
+     "tamil-modern"
+    ],
+    "media": [
+     "print-photo"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "line",
+     "block"
+    ],
+    "count": 100,
+    "policy": {
+     "spaces": "collapse"
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "numerals-symbols",
+    "title": "Tamil numerals & signs",
+    "task": "recognition",
+    "track": "print",
+    "prompt": "recognition",
+    "description": "Ledger, deed and horoscope lines using Tamil numerals (positional and ௰ ௱ ௲), the day/month/year/debit/credit/rupee signs and Tamil Supplement fractions and measures (U+11FC0–U+11FFF).",
+    "scripts": [
+     "tamil-modern"
+    ],
+    "media": [
+     "print-scan",
+     "born-digital"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "line"
+    ],
+    "count": 80,
+    "policy": {
+     "spaces": "collapse"
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "screen",
+    "title": "Screenshots",
+    "task": "recognition",
+    "track": "screen",
+    "prompt": "recognition",
+    "description": "Real browser renderings (Chromium) of news pages, chat bubbles, app settings, forms, tables and video subtitles — light and dark themes, phone and desktop widths, downscaled and re-compressed like forwarded screenshots.",
+    "scripts": [
+     "tamil-modern"
+    ],
+    "media": [
+     "screen"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "line",
+     "block"
+    ],
+    "count": 120,
+    "policy": {
+     "spaces": "collapse"
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "handwriting",
+    "title": "Handwriting (synthetic)",
+    "task": "recognition",
+    "track": "handwriting",
+    "prompt": "recognition",
+    "description": "Letters, notes and lists in handwriting-style typefaces with per-word elastic distortion, slant, baseline drift, pen-pressure variation and ruled paper. A proxy until a licensed real-HTR set is added — see docs/real-data.md.",
+    "scripts": [
+     "tamil-modern"
+    ],
+    "media": [
+     "handwritten"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "line",
+     "block"
+    ],
+    "count": 100,
+    "policy": {
+     "spaces": "collapse"
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "scene",
+    "title": "Scene text",
+    "task": "recognition",
+    "track": "scene",
+    "prompt": "recognition",
+    "description": "Shop boards, road and bus signs, LED destination boards, painted walls and flex banners, photographed in perspective under uneven light.",
+    "scripts": [
+     "tamil-modern"
+    ],
+    "media": [
+     "scene"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "word",
+     "line"
+    ],
+    "count": 100,
+    "policy": {
+     "spaces": "collapse"
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "pre-reform-print",
+    "title": "Pre-1978 print",
+    "task": "recognition",
+    "track": "manuscripts",
+    "prompt": "recognition",
+    "description": "Letterpress pages in pre-reform orthography (old ligatures for ணா றா னா ணை லை ளை னை) on aged, foxed paper. Every item contains at least one reform syllable.",
+    "scripts": [
+     "tamil-pre-reform"
+    ],
+    "media": [
+     "print-scan"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "line",
+     "block"
+    ],
+    "count": 100,
+    "policy": {
+     "spaces": "collapse"
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "palm-leaf-synth",
+    "title": "Palm leaf (synthetic)",
+    "task": "recognition",
+    "track": "manuscripts",
+    "prompt": "recognition-palm-leaf",
+    "description": "Simulated ōlaiccuvaṭi: stylus-incised, lamp-black-filled lines on fibrous leaf with string holes and edge damage; scriptio continua, puḷḷi often omitted, e/ē and o/ō merged, pre-reform letterforms.",
+    "scripts": [
+     "tamil-pre-reform"
+    ],
+    "media": [
+     "palm-leaf"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "block"
+    ],
+    "count": 80,
+    "policy": {
+     "spaces": "remove",
+     "fold_pulli": true,
+     "fold_vowel_length": true
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "palm-leaf-cict",
+    "title": "Palm leaf (real, CICT Tirukkural)",
+    "task": "recognition",
+    "track": "manuscripts",
+    "prompt": "recognition-palm-leaf-cict",
+    "description": "Real leaves of a Tirukkural palm-leaf manuscript with expert diplomatic transcriptions (10 lines per leaf), from the CICT Tirukkural Ground Truth Corpus. Uses only leaves from the source's held-out val+test splits.",
+    "scripts": [
+     "tamil-pre-reform"
+    ],
+    "media": [
+     "palm-leaf"
+    ],
+    "provenance": "real",
+    "granularity": [
+     "page"
+    ],
+    "count": 26,
+    "policy": {
+     "spaces": "remove",
+     "fold_pulli": true,
+     "fold_vowel_length": true,
+     "strip_tamil_numerals": true
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": "Central Institute of Classical Tamil (CICT), CICT Tirukkural Ground Truth Corpus, CC BY 4.0; per-leaf DOIs in the manifest."
+   },
+   {
+    "id": "grantha-tamil",
+    "title": "Grantha–Tamil (maṇipravāḷam)",
+    "task": "recognition",
+    "track": "manuscripts",
+    "prompt": "recognition-grantha-tamil",
+    "description": "Tamil manuscripts and old print that write Sanskrit words in Grantha inside Tamil text, often switching script mid-word (commentaries, astrology, medicine, colophons, inscription formulae). Transcribed with Tamil in Tamil Unicode and Grantha in IAST.",
+    "scripts": [
+     "grantha-tamil"
+    ],
+    "media": [
+     "palm-leaf",
+     "print-scan"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "line",
+     "block"
+    ],
+    "count": 60,
+    "policy": {
+     "spaces": "remove",
+     "script": "iast",
+     "fold_pulli": true,
+     "fold_vowel_length": true
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "stone",
+    "title": "Stone inscriptions & plaques",
+    "task": "recognition",
+    "track": "epigraphy",
+    "prompt": "recognition-epigraphic",
+    "description": "Engraved granite and marble: modern foundation stones, donor and memorial plaques, and medieval-style temple inscriptions (scriptio continua, Chola-style formulae) with weathering, lichen and raking light.",
+    "scripts": [
+     "tamil-modern",
+     "tamil-pre-reform"
+    ],
+    "media": [
+     "stone"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "line",
+     "block"
+    ],
+    "count": 80,
+    "policy": {
+     "spaces": "remove",
+     "fold_pulli": true,
+     "fold_vowel_length": true
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "copper-plate",
+    "title": "Copper plates & metal",
+    "task": "recognition",
+    "track": "epigraphy",
+    "prompt": "recognition-epigraphic",
+    "description": "Engraved copper-plate grants with ring holes and patina, and brass donor plaques.",
+    "scripts": [
+     "tamil-pre-reform",
+     "tamil-modern"
+    ],
+    "media": [
+     "copper-plate"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "block"
+    ],
+    "count": 60,
+    "policy": {
+     "spaces": "remove",
+     "fold_pulli": true,
+     "fold_vowel_length": true
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "tamil-brahmi",
+    "title": "Tamil-Brahmi",
+    "task": "recognition",
+    "track": "epigraphy",
+    "prompt": "recognition-tamil-brahmi",
+    "description": "Tamil-Brahmi in its three orthographic stages (TB-I, TB-II, TB-III) on cave rock, as estampages and as potsherd graffiti, read into modern Tamil.",
+    "scripts": [
+     "tamil-brahmi"
+    ],
+    "media": [
+     "stone",
+     "estampage",
+     "pottery"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "word",
+     "line"
+    ],
+    "count": 100,
+    "policy": {
+     "spaces": "remove",
+     "fold_pulli": true,
+     "fold_vowel_length": true
+    },
+    "labels": [],
+    "target": "text",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "grantha",
+    "title": "Grantha",
+    "task": "recognition",
+    "track": "epigraphy",
+    "prompt": "recognition-grantha",
+    "description": "Sanskrit in Grantha — as on Pallava/Chola copper plates, stone and palm leaves — transliterated to IAST.",
+    "scripts": [
+     "grantha"
+    ],
+    "media": [
+     "copper-plate",
+     "stone",
+     "palm-leaf",
+     "print-scan"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "line",
+     "block"
+    ],
+    "count": 60,
+    "policy": {
+     "spaces": "remove",
+     "script": "iast"
+    },
+    "labels": [],
+    "target": "iast",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "script-id",
+    "title": "Script identification",
+    "task": "script-id",
+    "track": "classification",
+    "prompt": "script-id",
+    "description": "Which script is this? Modern vs pre-reform Tamil, Tamil-Brahmi, Grantha, and the neighbouring South Indian and Sri Lankan scripts (Malayalam, Kannada, Telugu, Sinhala).",
+    "scripts": [
+     "tamil-modern",
+     "tamil-pre-reform",
+     "tamil-brahmi",
+     "grantha",
+     "malayalam",
+     "kannada",
+     "telugu",
+     "sinhala"
+    ],
+    "media": [
+     "born-digital",
+     "screen",
+     "print-scan",
+     "print-photo",
+     "handwritten",
+     "scene",
+     "palm-leaf",
+     "stone",
+     "estampage",
+     "copper-plate",
+     "pottery"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "line"
+    ],
+    "count": 144,
+    "policy": {
+     "spaces": "collapse"
+    },
+    "labels": [
+     "tamil-modern",
+     "tamil-pre-reform",
+     "tamil-brahmi",
+     "grantha",
+     "malayalam",
+     "kannada",
+     "telugu",
+     "sinhala"
+    ],
+    "target": "label",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "medium-id",
+    "title": "Medium identification",
+    "task": "medium-id",
+    "track": "classification",
+    "prompt": "medium-id",
+    "description": "What is the text written on? Screen, paper (print / handwritten), signage, palm leaf, stone, estampage, copper plate or pottery.",
+    "scripts": [
+     "tamil-modern",
+     "tamil-pre-reform",
+     "tamil-brahmi"
+    ],
+    "media": [
+     "born-digital",
+     "screen",
+     "print-scan",
+     "print-photo",
+     "handwritten",
+     "scene",
+     "palm-leaf",
+     "stone",
+     "estampage",
+     "copper-plate",
+     "pottery"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "line"
+    ],
+    "count": 144,
+    "policy": {
+     "spaces": "collapse"
+    },
+    "labels": [
+     "screen",
+     "printed-paper",
+     "handwritten-paper",
+     "scene-signage",
+     "palm-leaf",
+     "stone",
+     "estampage",
+     "copper-plate",
+     "pottery"
+    ],
+    "target": "label",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   },
+   {
+    "id": "translate-en",
+    "title": "Image → English",
+    "task": "translation",
+    "track": "translation",
+    "prompt": "translation",
+    "description": "Read Tamil sentences and signs from print, screens, signboards and handwriting and translate them into English; scored with chrF++ against a reference translation.",
+    "scripts": [
+     "tamil-modern"
+    ],
+    "media": [
+     "print-scan",
+     "screen",
+     "scene",
+     "handwritten"
+    ],
+    "provenance": "synthetic",
+    "granularity": [
+     "line"
+    ],
+    "count": 100,
+    "policy": {
+     "spaces": "collapse"
+    },
+    "labels": [],
+    "target": "english",
+    "license": "CC-BY-4.0",
+    "attribution": ""
+   }
+  ]
+ },
+ "tracks": [
+  {
+   "id": "print",
+   "name": "Print & Digital",
+   "tamil": "அச்சு & எண்ணிமம்",
+   "description": "Born-digital, scanned and photographed print; numerals and symbols.",
+   "subsets": [
+    "print-digital",
+    "print-scan",
+    "print-photo",
+    "numerals-symbols"
+   ]
+  },
+  {
+   "id": "screen",
+   "name": "Screen Text",
+   "tamil": "திரை உரை",
+   "description": "Screenshots of web, apps, chats and video.",
+   "subsets": [
+    "screen"
+   ]
+  },
+  {
+   "id": "handwriting",
+   "name": "Handwriting (HTR)",
+   "tamil": "கையெழுத்து",
+   "description": "Handwritten text on paper.",
+   "subsets": [
+    "handwriting"
+   ]
+  },
+  {
+   "id": "scene",
+   "name": "Scene Text",
+   "tamil": "காட்சி உரை",
+   "description": "Signboards and text in the wild.",
+   "subsets": [
+    "scene"
+   ]
+  },
+  {
+   "id": "manuscripts",
+   "name": "Manuscripts & Old Print",
+   "tamil": "சுவடிகள் & பழைய அச்சு",
+   "description": "Palm-leaf manuscripts, Grantha–Tamil writing and pre-1978 print.",
+   "subsets": [
+    "pre-reform-print",
+    "palm-leaf-synth",
+    "palm-leaf-cict",
+    "grantha-tamil"
+   ]
+  },
+  {
+   "id": "epigraphy",
+   "name": "Epigraphy",
+   "tamil": "கல்வெட்டியல்",
+   "description": "Stone, copper plates, pottery; Tamil-Brahmi and Grantha.",
+   "subsets": [
+    "stone",
+    "copper-plate",
+    "tamil-brahmi",
+    "grantha"
+   ]
+  },
+  {
+   "id": "classification",
+   "name": "Script & Medium ID",
+   "tamil": "எழுத்து & ஊடக அடையாளம்",
+   "description": "Identify the script stage and the writing support.",
+   "subsets": [
+    "script-id",
+    "medium-id"
+   ]
+  },
+  {
+   "id": "translation",
+   "name": "Image → English",
+   "tamil": "படம் → ஆங்கிலம்",
+   "description": "Read Tamil in an image and translate it into English.",
+   "subsets": [
+    "translate-en"
+   ]
+  }
+ ],
+ "scripts": {
+  "tamil-brahmi": {
+   "name": "Tamil-Brahmi (Tamiḻi)",
+   "tamil": "தமிழி",
+   "period": "c. 5th–3rd c. BCE to c. 3rd c. CE",
+   "description": "The earliest attested Tamil writing: cave-bed inscriptions (Mangulam, Jambai, Pugalur), potsherd graffiti (Keezhadi, Kodumanal, Arikamedu), coins and seals. Adds letters for ḻ, ḷ, ṟ, ṉ to Brahmi and, in its later stage, the puḷḷi (virama dot)."
+  },
+  "vatteluttu": {
+   "name": "Vatteluttu",
+   "tamil": "வட்டெழுத்து",
+   "period": "c. 5th–12th c. CE (into the 19th c. in Kerala)",
+   "description": "Rounded descendant of Tamil-Brahmi used in Pandya and Chera country: hero stones, temple and copper-plate grants. Not yet encoded in Unicode; read into modern Tamil."
+  },
+  "grantha": {
+   "name": "Grantha",
+   "tamil": "கிரந்தம்",
+   "period": "c. 6th c. CE to present",
+   "description": "Script used in the Tamil country to write Sanskrit — Pallava and Chola copper plates, temple inscriptions, palm-leaf manuscripts. Sibling of the Tamil script; source of ஜ ஷ ஸ ஹ க்ஷ ஸ்ரீ."
+  },
+  "grantha-tamil": {
+   "name": "Grantha–Tamil (maṇipravāḷam)",
+   "tamil": "கிரந்தத் தமிழ் (மணிப்பிரவாளம்)",
+   "period": "c. 7th c. CE to early 20th c.",
+   "description": "Tamil with its Sanskrit words in Grantha letters, often switching script inside a word (a Sanskrit stem in Grantha, a Tamil suffix in Tamil letters): Śrīvaiṣṇava and Śaiva commentaries, astrological and medical manuscripts, colophons, 19th-century Grantha–Tamil print, and the svasti śrī openings of Tamil inscriptions."
+  },
+  "tamil-medieval": {
+   "name": "Medieval Tamil script",
+   "tamil": "இடைக்காலத் தமிழ் எழுத்து",
+   "period": "c. 7th–16th c. CE",
+   "description": "The Tamil script of Pallava, Chola, Pandya and Vijayanagara inscriptions and copper plates — same letters as today, very different letterforms."
+  },
+  "tamil-pre-reform": {
+   "name": "Pre-reform Tamil",
+   "tamil": "சீர்திருத்தத்திற்கு முந்தைய தமிழ்",
+   "period": "c. 16th c. to 1978",
+   "description": "Palm-leaf manuscripts and print before the 1978 script reform: old ligatures for ணா றா னா and ணை லை ளை னை; manuscripts often omit the puḷḷi and do not distinguish e/ē, o/ō."
+  },
+  "tamil-modern": {
+   "name": "Modern Tamil",
+   "tamil": "தற்காலத் தமிழ்",
+   "period": "1978–present",
+   "description": "The reformed Tamil script of contemporary print, signage, handwriting and screens."
+  },
+  "malayalam": {
+   "name": "Malayalam",
+   "tamil": "மலையாளம்",
+   "period": "modern",
+   "description": "Distractor script."
+  },
+  "kannada": {
+   "name": "Kannada",
+   "tamil": "கன்னடம்",
+   "period": "modern",
+   "description": "Distractor script."
+  },
+  "telugu": {
+   "name": "Telugu",
+   "tamil": "தெலுங்கு",
+   "period": "modern",
+   "description": "Distractor script."
+  },
+  "sinhala": {
+   "name": "Sinhala",
+   "tamil": "சிங்களம்",
+   "period": "modern",
+   "description": "Distractor script."
+  },
+  "latin": {
+   "name": "Latin",
+   "tamil": "இலத்தீன்",
+   "period": "modern",
+   "description": "Distractor script."
+  }
+ },
+ "media": {
+  "born-digital": {
+   "name": "Born-digital",
+   "tamil": "எண்ணிம உரை",
+   "description": "Text rendered directly from Unicode — the clean upper bound."
+  },
+  "screen": {
+   "name": "Screen",
+   "tamil": "திரை",
+   "description": "Screenshots of web pages, apps, chats, subtitles and tables."
+  },
+  "print-scan": {
+   "name": "Printed paper (scan)",
+   "tamil": "அச்சு (வருடல்)",
+   "description": "Flatbed scans of printed pages."
+  },
+  "print-photo": {
+   "name": "Printed paper (photo)",
+   "tamil": "அச்சு (புகைப்படம்)",
+   "description": "Phone photographs of printed pages: perspective, curl, shadows."
+  },
+  "handwritten": {
+   "name": "Handwritten paper",
+   "tamil": "கையெழுத்து",
+   "description": "Pen or pencil on paper."
+  },
+  "scene": {
+   "name": "Scene text",
+   "tamil": "காட்சி உரை",
+   "description": "Shop boards, road signs, bus boards, wall paintings, banners."
+  },
+  "palm-leaf": {
+   "name": "Palm leaf",
+   "tamil": "ஓலைச்சுவடி",
+   "description": "Stylus-incised, lamp-black-filled palm-leaf manuscripts."
+  },
+  "stone": {
+   "name": "Stone",
+   "tamil": "கல்வெட்டு",
+   "description": "Rock-cut and temple inscriptions, plaques and foundation stones."
+  },
+  "estampage": {
+   "name": "Estampage",
+   "tamil": "மைப்படி",
+   "description": "Ink rubbings / impressions taken from inscriptions."
+  },
+  "copper-plate": {
+   "name": "Copper plate / metal",
+   "tamil": "செப்பேடு",
+   "description": "Engraved copper-plate grants and metal plaques."
+  },
+  "pottery": {
+   "name": "Pottery",
+   "tamil": "மட்பாண்ட எழுத்து",
+   "description": "Graffiti scratched on potsherds, coins and seals."
+  }
+ },
+ "generated_at": "2026-10-02T16:31:38+00:00",
+ "models": [
+  {
+   "id": "tesseract-tam-best",
+   "name": "Tesseract 5 · tam (tessdata_best)",
+   "org": "Tesseract OCR",
+   "type": "ocr-engine",
+   "released": null,
+   "provider": "tesseract",
+   "model": "tam",
+   "verify_id": false,
+   "status": "evaluated",
+   "overall": null,
+   "recognition_avg": 53.4,
+   "tracks": {
+    "print": 83.84,
+    "screen": 87.96,
+    "handwriting": 81.41,
+    "scene": 16.88,
+    "manuscripts": 36.8,
+    "epigraphy": 13.53,
+    "classification": null,
+    "translation": null
+   },
+   "subsets": {
+    "print-digital": {
+     "score": 97.0193,
+     "ci95": [
+      95.56,
+      98.32
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.0298,
+     "aer": 0.0405,
+     "wer": 0.0995,
+     "exact_match": 0.74,
+     "slices": {
+      "corpus": 96.7,
+      "lexicon": 100.0,
+      "nonce": 97.98
+     }
+    },
+    "print-scan": {
+     "score": 95.6553,
+     "ci95": [
+      93.43,
+      97.42
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.0434,
+     "aer": 0.0584,
+     "wer": 0.1537,
+     "exact_match": 0.63,
+     "slices": {
+      "nonce": 87.96,
+      "corpus": 97.37,
+      "lexicon": 96.22
+     }
+    },
+    "print-photo": {
+     "score": 81.7248,
+     "ci95": [
+      75.09,
+      87.03
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.1828,
+     "aer": 0.2274,
+     "wer": 0.4932,
+     "exact_match": 0.39,
+     "slices": {
+      "lexicon": 85.22,
+      "corpus": 83.01,
+      "nonce": 72.13
+     }
+    },
+    "numerals-symbols": {
+     "score": 60.9628,
+     "ci95": [
+      57.82,
+      63.88
+     ],
+     "n": 80,
+     "missing": 0,
+     "cer": 0.3904,
+     "aer": 0.3396,
+     "wer": 0.7396,
+     "exact_match": 0.0,
+     "slices": {
+      "numerals": 60.96
+     }
+    },
+    "screen": {
+     "score": 87.9563,
+     "ci95": [
+      84.72,
+      90.65
+     ],
+     "n": 120,
+     "missing": 0,
+     "cer": 0.1204,
+     "aer": 0.1531,
+     "wer": 0.294,
+     "exact_match": 0.0833,
+     "slices": {
+      "corpus": 87.31,
+      "nonce": 92.61
+     }
+    },
+    "handwriting": {
+     "score": 81.4069,
+     "ci95": [
+      76.59,
+      85.65
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.1859,
+     "aer": 0.2307,
+     "wer": 0.523,
+     "exact_match": 0.22,
+     "slices": {
+      "corpus": 82.11,
+      "lexicon": 79.21,
+      "nonce": 80.19
+     }
+    },
+    "scene": {
+     "score": 16.8846,
+     "ci95": [
+      11.19,
+      23.32
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.8312,
+     "aer": 0.8663,
+     "wer": 0.9867,
+     "exact_match": 0.03,
+     "slices": {
+      "nonce": 14.69,
+      "corpus": 17.24
+     }
+    },
+    "pre-reform-print": {
+     "score": 64.3316,
+     "ci95": [
+      57.5,
+      70.75
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.3567,
+     "aer": 0.4111,
+     "wer": 0.7437,
+     "exact_match": 0.07,
+     "slices": {
+      "nonce": 53.8,
+      "corpus": 68.69
+     }
+    },
+    "palm-leaf-synth": {
+     "score": 54.1738,
+     "ci95": [
+      46.62,
+      62.46
+     ],
+     "n": 80,
+     "missing": 0,
+     "cer": 0.4583,
+     "aer": 0.5003,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 53.78,
+      "nonce": 58.0
+     }
+    },
+    "palm-leaf-cict": {
+     "score": 7.9674,
+     "ci95": [
+      3.99,
+      11.45
+     ],
+     "n": 26,
+     "missing": 0,
+     "cer": 0.9203,
+     "aer": 1.06,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 7.97
+     }
+    },
+    "grantha-tamil": {
+     "score": 20.7083,
+     "ci95": [
+      16.37,
+      24.95
+     ],
+     "n": 60,
+     "missing": 0,
+     "cer": 0.7929,
+     "aer": 0.8406,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "nonce": 22.57,
+      "corpus": 20.57
+     }
+    },
+    "stone": {
+     "score": 0.0,
+     "ci95": [
+      0.0,
+      8.79
+     ],
+     "n": 80,
+     "missing": 0,
+     "cer": 1.2898,
+     "aer": 1.6404,
+     "wer": 0.875,
+     "exact_match": 0.125,
+     "slices": {
+      "corpus": 0.0,
+      "nonce": 0.0
+     }
+    },
+    "copper-plate": {
+     "score": 51.79,
+     "ci95": [
+      45.84,
+      56.79
+     ],
+     "n": 60,
+     "missing": 0,
+     "cer": 0.4821,
+     "aer": 0.5991,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 51.79
+     }
+    },
+    "tamil-brahmi": {
+     "score": 2.3133,
+     "ci95": [
+      1.46,
+      3.25
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.9769,
+     "aer": 0.988,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 2.46,
+      "nonce": 0.0
+     }
+    },
+    "grantha": {
+     "score": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "n": 60,
+     "missing": 0,
+     "cer": 1.0834,
+     "aer": 1.0327,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 0.0,
+      "nonce": 0.0
+     }
+    },
+    "script-id": null,
+    "medium-id": null,
+    "translate-en": null
+   },
+   "prior_reliance": {
+    "corpus_text": 50.77,
+    "nonce_words": 48.33
+   },
+   "n_refusals": 0,
+   "n_errors": 0,
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "mean_latency_s": 0.154,
+   "params": {
+    "tessdata": "tessdata_best",
+    "psm": "auto",
+    "oem": 1
+   },
+   "kind": "ocr-engine",
+   "prompt_version": "prompts-v1",
+   "scored_at": "2026-10-02T16:25:05+00:00",
+   "rank_recognition": 1
+  },
+  {
+   "id": "tesseract-tam",
+   "name": "Tesseract 5 · tam (Ubuntu tessdata)",
+   "org": "Tesseract OCR",
+   "type": "ocr-engine",
+   "released": null,
+   "provider": "tesseract",
+   "model": "tam",
+   "verify_id": false,
+   "status": "evaluated",
+   "overall": null,
+   "recognition_avg": 52.59,
+   "tracks": {
+    "print": 83.33,
+    "screen": 88.44,
+    "handwriting": 81.16,
+    "scene": 18.08,
+    "manuscripts": 32.73,
+    "epigraphy": 11.81,
+    "classification": null,
+    "translation": null
+   },
+   "subsets": {
+    "print-digital": {
+     "score": 97.3469,
+     "ci95": [
+      96.06,
+      98.38
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.0265,
+     "aer": 0.0389,
+     "wer": 0.1183,
+     "exact_match": 0.69,
+     "slices": {
+      "corpus": 97.05,
+      "lexicon": 100.0,
+      "nonce": 98.39
+     }
+    },
+    "print-scan": {
+     "score": 95.0107,
+     "ci95": [
+      92.38,
+      97.03
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.0499,
+     "aer": 0.0633,
+     "wer": 0.1457,
+     "exact_match": 0.62,
+     "slices": {
+      "nonce": 87.08,
+      "corpus": 96.91,
+      "lexicon": 95.01
+     }
+    },
+    "print-photo": {
+     "score": 80.4244,
+     "ci95": [
+      73.33,
+      86.14
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.1958,
+     "aer": 0.249,
+     "wer": 0.4932,
+     "exact_match": 0.43,
+     "slices": {
+      "lexicon": 82.56,
+      "corpus": 81.39,
+      "nonce": 73.77
+     }
+    },
+    "numerals-symbols": {
+     "score": 60.5442,
+     "ci95": [
+      57.46,
+      63.26
+     ],
+     "n": 80,
+     "missing": 0,
+     "cer": 0.3946,
+     "aer": 0.3453,
+     "wer": 0.7396,
+     "exact_match": 0.0,
+     "slices": {
+      "numerals": 60.54
+     }
+    },
+    "screen": {
+     "score": 88.4417,
+     "ci95": [
+      85.35,
+      91.11
+     ],
+     "n": 120,
+     "missing": 0,
+     "cer": 0.1156,
+     "aer": 0.1466,
+     "wer": 0.2889,
+     "exact_match": 0.075,
+     "slices": {
+      "corpus": 87.95,
+      "nonce": 91.95
+     }
+    },
+    "handwriting": {
+     "score": 81.159,
+     "ci95": [
+      76.68,
+      85.42
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.1884,
+     "aer": 0.2365,
+     "wer": 0.5102,
+     "exact_match": 0.22,
+     "slices": {
+      "corpus": 82.33,
+      "lexicon": 79.21,
+      "nonce": 77.71
+     }
+    },
+    "scene": {
+     "score": 18.0785,
+     "ci95": [
+      12.36,
+      24.56
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.8192,
+     "aer": 0.8578,
+     "wer": 1.0133,
+     "exact_match": 0.04,
+     "slices": {
+      "nonce": 16.33,
+      "corpus": 18.36
+     }
+    },
+    "pre-reform-print": {
+     "score": 60.8406,
+     "ci95": [
+      53.88,
+      67.43
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.3916,
+     "aer": 0.4596,
+     "wer": 0.8252,
+     "exact_match": 0.05,
+     "slices": {
+      "nonce": 50.9,
+      "corpus": 64.96
+     }
+    },
+    "palm-leaf-synth": {
+     "score": 51.7509,
+     "ci95": [
+      44.09,
+      60.06
+     ],
+     "n": 80,
+     "missing": 0,
+     "cer": 0.4825,
+     "aer": 0.5327,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 51.03,
+      "nonce": 58.74
+     }
+    },
+    "palm-leaf-cict": {
+     "score": 0.0,
+     "ci95": [
+      0.0,
+      2.1
+     ],
+     "n": 26,
+     "missing": 0,
+     "cer": 1.0605,
+     "aer": 1.3004,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 0.0
+     }
+    },
+    "grantha-tamil": {
+     "score": 18.3473,
+     "ci95": [
+      13.65,
+      22.9
+     ],
+     "n": 60,
+     "missing": 0,
+     "cer": 0.8165,
+     "aer": 0.8595,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "nonce": 17.01,
+      "corpus": 18.45
+     }
+    },
+    "stone": {
+     "score": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "n": 80,
+     "missing": 0,
+     "cer": 1.7058,
+     "aer": 2.1837,
+     "wer": 0.925,
+     "exact_match": 0.075,
+     "slices": {
+      "corpus": 0.0,
+      "nonce": 0.0
+     }
+    },
+    "copper-plate": {
+     "score": 44.8119,
+     "ci95": [
+      34.79,
+      53.12
+     ],
+     "n": 60,
+     "missing": 0,
+     "cer": 0.5519,
+     "aer": 0.6849,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 44.81
+     }
+    },
+    "tamil-brahmi": {
+     "score": 2.4455,
+     "ci95": [
+      1.66,
+      3.41
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.9755,
+     "aer": 0.9898,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 2.53,
+      "nonce": 1.14
+     }
+    },
+    "grantha": {
+     "score": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "n": 60,
+     "missing": 0,
+     "cer": 1.1864,
+     "aer": 1.1083,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 0.0,
+      "nonce": 0.0
+     }
+    },
+    "script-id": null,
+    "medium-id": null,
+    "translate-en": null
+   },
+   "prior_reliance": {
+    "corpus_text": 50.08,
+    "nonce_words": 47.75
+   },
+   "n_refusals": 0,
+   "n_errors": 0,
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "mean_latency_s": 0.116,
+   "params": {
+    "tessdata": null,
+    "psm": "auto",
+    "oem": 1
+   },
+   "kind": "ocr-engine",
+   "prompt_version": "prompts-v1",
+   "scored_at": "2026-10-02T16:25:07+00:00",
+   "rank_recognition": 2
+  },
+  {
+   "id": "tesseract-tamil-script-best",
+   "name": "Tesseract 5 · script/Tamil (tessdata_best)",
+   "org": "Tesseract OCR",
+   "type": "ocr-engine",
+   "released": null,
+   "provider": "tesseract",
+   "model": "Tamil",
+   "verify_id": false,
+   "status": "evaluated",
+   "overall": null,
+   "recognition_avg": 50.5,
+   "tracks": {
+    "print": 82.63,
+    "screen": 88.29,
+    "handwriting": 80.82,
+    "scene": 12.85,
+    "manuscripts": 35.64,
+    "epigraphy": 2.75,
+    "classification": null,
+    "translation": null
+   },
+   "subsets": {
+    "print-digital": {
+     "score": 96.7573,
+     "ci95": [
+      95.14,
+      98.16
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.0324,
+     "aer": 0.0426,
+     "wer": 0.121,
+     "exact_match": 0.67,
+     "slices": {
+      "corpus": 96.51,
+      "lexicon": 99.49,
+      "nonce": 97.18
+     }
+    },
+    "print-scan": {
+     "score": 94.6765,
+     "ci95": [
+      91.92,
+      96.76
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.0532,
+     "aer": 0.0659,
+     "wer": 0.1717,
+     "exact_match": 0.56,
+     "slices": {
+      "nonce": 85.46,
+      "corpus": 96.84,
+      "lexicon": 94.86
+     }
+    },
+    "print-photo": {
+     "score": 82.569,
+     "ci95": [
+      76.14,
+      87.87
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.1743,
+     "aer": 0.2241,
+     "wer": 0.4642,
+     "exact_match": 0.38,
+     "slices": {
+      "lexicon": 87.22,
+      "corpus": 83.79,
+      "nonce": 71.98
+     }
+    },
+    "numerals-symbols": {
+     "score": 56.5149,
+     "ci95": [
+      53.52,
+      59.36
+     ],
+     "n": 80,
+     "missing": 0,
+     "cer": 0.4349,
+     "aer": 0.4103,
+     "wer": 0.8194,
+     "exact_match": 0.0,
+     "slices": {
+      "numerals": 56.51
+     }
+    },
+    "screen": {
+     "score": 88.29,
+     "ci95": [
+      84.95,
+      91.04
+     ],
+     "n": 120,
+     "missing": 0,
+     "cer": 0.1171,
+     "aer": 0.1462,
+     "wer": 0.2749,
+     "exact_match": 0.1083,
+     "slices": {
+      "corpus": 88.12,
+      "nonce": 89.54
+     }
+    },
+    "handwriting": {
+     "score": 80.8181,
+     "ci95": [
+      75.91,
+      85.62
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.1918,
+     "aer": 0.2331,
+     "wer": 0.4668,
+     "exact_match": 0.3,
+     "slices": {
+      "corpus": 82.81,
+      "lexicon": 76.44,
+      "nonce": 75.81
+     }
+    },
+    "scene": {
+     "score": 12.8482,
+     "ci95": [
+      6.63,
+      19.62
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.8715,
+     "aer": 0.8861,
+     "wer": 1.0089,
+     "exact_match": 0.06,
+     "slices": {
+      "nonce": 11.02,
+      "corpus": 13.14
+     }
+    },
+    "pre-reform-print": {
+     "score": 63.6197,
+     "ci95": [
+      56.36,
+      70.25
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.3638,
+     "aer": 0.4133,
+     "wer": 0.7068,
+     "exact_match": 0.06,
+     "slices": {
+      "nonce": 52.71,
+      "corpus": 68.14
+     }
+    },
+    "palm-leaf-synth": {
+     "score": 51.5364,
+     "ci95": [
+      43.87,
+      59.82
+     ],
+     "n": 80,
+     "missing": 0,
+     "cer": 0.4846,
+     "aer": 0.5301,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 51.04,
+      "nonce": 56.31
+     }
+    },
+    "palm-leaf-cict": {
+     "score": 7.0258,
+     "ci95": [
+      5.25,
+      8.81
+     ],
+     "n": 26,
+     "missing": 0,
+     "cer": 0.9297,
+     "aer": 0.9752,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 7.03
+     }
+    },
+    "grantha-tamil": {
+     "score": 20.364,
+     "ci95": [
+      16.09,
+      24.48
+     ],
+     "n": 60,
+     "missing": 1,
+     "cer": 0.7964,
+     "aer": 0.8375,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "nonce": 21.18,
+      "corpus": 20.3
+     }
+    },
+    "stone": {
+     "score": 0.3724,
+     "ci95": [
+      0.0,
+      15.64
+     ],
+     "n": 80,
+     "missing": 0,
+     "cer": 0.9963,
+     "aer": 1.1671,
+     "wer": 0.9125,
+     "exact_match": 0.0875,
+     "slices": {
+      "corpus": 3.89,
+      "nonce": 0.0
+     }
+    },
+    "copper-plate": {
+     "score": 6.8568,
+     "ci95": [
+      4.35,
+      9.68
+     ],
+     "n": 60,
+     "missing": 0,
+     "cer": 0.9314,
+     "aer": 0.9791,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 6.86
+     }
+    },
+    "tamil-brahmi": {
+     "score": 0.4627,
+     "ci95": [
+      0.13,
+      0.88
+     ],
+     "n": 100,
+     "missing": 0,
+     "cer": 0.9954,
+     "aer": 0.9981,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 0.49,
+      "nonce": 0.0
+     }
+    },
+    "grantha": {
+     "score": 3.3212,
+     "ci95": [
+      0.75,
+      5.59
+     ],
+     "n": 60,
+     "missing": 0,
+     "cer": 0.9668,
+     "aer": 0.9629,
+     "wer": 1.0,
+     "exact_match": 0.0,
+     "slices": {
+      "corpus": 3.2,
+      "nonce": 5.39
+     }
+    },
+    "script-id": null,
+    "medium-id": null,
+    "translate-en": null
+   },
+   "prior_reliance": {
+    "corpus_text": 50.69,
+    "nonce_words": 47.21
+   },
+   "n_refusals": 0,
+   "n_errors": 1,
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "mean_latency_s": 0.374,
+   "params": {
+    "tessdata": "tessdata_best",
+    "psm": "auto",
+    "oem": 1
+   },
+   "kind": "ocr-engine",
+   "prompt_version": "prompts-v1",
+   "scored_at": "2026-10-02T16:25:13+00:00",
+   "rank_recognition": 3
+  },
+  {
+   "id": "claude-fable-5-1",
+   "name": "Claude Fable 5.1",
+   "org": "Anthropic",
+   "type": "proprietary-vlm",
+   "released": "2026-09",
+   "provider": "anthropic",
+   "model": "claude-fable-5-1",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "claude-opus-5-5",
+   "name": "Claude Opus 5.5",
+   "org": "Anthropic",
+   "type": "proprietary-vlm",
+   "released": "2026-09",
+   "provider": "anthropic",
+   "model": "claude-opus-5-5",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "claude-sonnet-5-5",
+   "name": "Claude Sonnet 5.5",
+   "org": "Anthropic",
+   "type": "proprietary-vlm",
+   "released": "2026-09",
+   "provider": "anthropic",
+   "model": "claude-sonnet-5-5",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "claude-haiku-4-5",
+   "name": "Claude Haiku 4.5",
+   "org": "Anthropic",
+   "type": "proprietary-vlm",
+   "released": "2025-10",
+   "provider": "anthropic",
+   "model": "claude-haiku-4-5",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "gpt-6-astra",
+   "name": "GPT-6 Astra",
+   "org": "OpenAI",
+   "type": "proprietary-vlm",
+   "released": "2026-09",
+   "provider": "openai",
+   "model": "gpt-6-astra",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "gpt-6-1-sol",
+   "name": "GPT-6.1 Sol",
+   "org": "OpenAI",
+   "type": "proprietary-vlm",
+   "released": "2026-09",
+   "provider": "openai",
+   "model": "gpt-6.1-sol",
+   "verify_id": true,
+   "status": "pending"
+  },
+  {
+   "id": "gpt-6-sol",
+   "name": "GPT-6 Sol",
+   "org": "OpenAI",
+   "type": "proprietary-vlm",
+   "released": "2026-09",
+   "provider": "openai",
+   "model": "gpt-6-sol",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "gpt-6-luna",
+   "name": "GPT-6 Luna",
+   "org": "OpenAI",
+   "type": "proprietary-vlm",
+   "released": "2026-09",
+   "provider": "openai",
+   "model": "gpt-6-luna",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "gemini-3-8-flash",
+   "name": "Gemini 3.8 Flash",
+   "org": "Google",
+   "type": "proprietary-vlm",
+   "released": "2026-09",
+   "provider": "google",
+   "model": "gemini-3.8-flash",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "gemini-3-7-flash",
+   "name": "Gemini 3.7 Flash",
+   "org": "Google",
+   "type": "proprietary-vlm",
+   "released": "2026-08",
+   "provider": "google",
+   "model": "gemini-3.7-flash",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "gemini-3-1-pro",
+   "name": "Gemini 3.1 Pro",
+   "org": "Google",
+   "type": "proprietary-vlm",
+   "released": "2026-02",
+   "provider": "google",
+   "model": "gemini-3.1-pro-preview",
+   "verify_id": true,
+   "status": "pending"
+  },
+  {
+   "id": "mistral-ocr-4",
+   "name": "Mistral OCR 4.1",
+   "org": "Mistral AI",
+   "type": "ocr-api",
+   "released": "2026-07",
+   "provider": "mistral-ocr",
+   "model": "mistral-ocr-latest",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "google-cloud-vision",
+   "name": "Google Cloud Vision (document text)",
+   "org": "Google",
+   "type": "ocr-api",
+   "released": null,
+   "provider": "google-vision",
+   "model": "document-text-detection",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "azure-read",
+   "name": "Azure AI Document Intelligence (Read)",
+   "org": "Microsoft",
+   "type": "ocr-api",
+   "released": null,
+   "provider": "azure-di",
+   "model": "prebuilt-read",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "sarvam-vision-2-1",
+   "name": "Sarvam Vision 2.1",
+   "org": "Sarvam AI",
+   "type": "indic-ocr",
+   "released": "2026-09",
+   "provider": "import",
+   "model": "sarvam-vision-2.1",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "bodhan-indicocr",
+   "name": "Bodhan IndicOCR",
+   "org": "Bodhan AI",
+   "type": "indic-ocr",
+   "released": "2026-09",
+   "provider": "import",
+   "model": "indicocr",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "qwen3-vl-235b-a22b",
+   "name": "Qwen3-VL-235B-A22B-Instruct",
+   "org": "Alibaba Qwen",
+   "type": "open-vlm",
+   "released": "2025-09",
+   "provider": "compat",
+   "model": "Qwen/Qwen3-VL-235B-A22B-Instruct",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "qwen3-vl-30b-a3b",
+   "name": "Qwen3-VL-30B-A3B-Instruct",
+   "org": "Alibaba Qwen",
+   "type": "open-vlm",
+   "released": "2025-10",
+   "provider": "compat",
+   "model": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "qwen3-5-397b-a17b",
+   "name": "Qwen3.5-397B-A17B",
+   "org": "Alibaba Qwen",
+   "type": "open-vlm",
+   "released": "2026-02",
+   "provider": "compat",
+   "model": "Qwen/Qwen3.5-397B-A17B",
+   "verify_id": true,
+   "status": "pending"
+  },
+  {
+   "id": "paddleocr-vl",
+   "name": "PaddleOCR-VL",
+   "org": "Baidu PaddlePaddle",
+   "type": "open-ocr-vlm",
+   "released": "2025-10",
+   "provider": "compat",
+   "model": "PaddlePaddle/PaddleOCR-VL",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "deepseek-ocr",
+   "name": "DeepSeek-OCR",
+   "org": "DeepSeek",
+   "type": "open-ocr-vlm",
+   "released": "2025-10",
+   "provider": "compat",
+   "model": "deepseek-ai/DeepSeek-OCR",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "deepseek-ocr-2",
+   "name": "DeepSeek-OCR 2",
+   "org": "DeepSeek",
+   "type": "open-ocr-vlm",
+   "released": "2026-01",
+   "provider": "compat",
+   "model": "deepseek-ai/DeepSeek-OCR-2",
+   "verify_id": true,
+   "status": "pending"
+  },
+  {
+   "id": "glm-ocr",
+   "name": "GLM-OCR",
+   "org": "Zhipu AI",
+   "type": "open-ocr-vlm",
+   "released": "2026-03",
+   "provider": "compat",
+   "model": "zai-org/GLM-OCR",
+   "verify_id": true,
+   "status": "pending"
+  },
+  {
+   "id": "dots-ocr",
+   "name": "dots.ocr",
+   "org": "rednote hilab",
+   "type": "open-ocr-vlm",
+   "released": "2025-07",
+   "provider": "compat",
+   "model": "rednote-hilab/dots.ocr",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "olmocr-2",
+   "name": "olmOCR 2",
+   "org": "Ai2",
+   "type": "open-ocr-vlm",
+   "released": "2025-10",
+   "provider": "compat",
+   "model": "allenai/olmOCR-2-7B-1025",
+   "verify_id": true,
+   "status": "pending"
+  },
+  {
+   "id": "gemma-3-27b",
+   "name": "Gemma 3 27B",
+   "org": "Google",
+   "type": "open-vlm",
+   "released": "2025-03",
+   "provider": "compat",
+   "model": "google/gemma-3-27b-it",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "easyocr-ta",
+   "name": "EasyOCR · ta",
+   "org": "JaidedAI",
+   "type": "ocr-engine",
+   "released": null,
+   "provider": "easyocr",
+   "model": "ta",
+   "verify_id": false,
+   "status": "pending"
+  },
+  {
+   "id": "paddleocr-ta",
+   "name": "PaddleOCR · ta",
+   "org": "Baidu PaddlePaddle",
+   "type": "ocr-engine",
+   "released": null,
+   "provider": "paddleocr",
+   "model": "ta",
+   "verify_id": false,
+   "status": "pending"
+  }
+ ],
+ "coverage": {
+  "tamil-modern": {
+   "born-digital": {
+    "synthetic": 137,
+    "real": 0
+   },
+   "print-scan": {
+    "synthetic": 166,
+    "real": 0
+   },
+   "print-photo": {
+    "synthetic": 106,
+    "real": 0
+   },
+   "screen": {
+    "synthetic": 154,
+    "real": 0
+   },
+   "handwritten": {
+    "synthetic": 118,
+    "real": 0
+   },
+   "scene": {
+    "synthetic": 153,
+    "real": 0
+   },
+   "stone": {
+    "synthetic": 45,
+    "real": 0
+   },
+   "copper-plate": {
+    "synthetic": 22,
+    "real": 0
+   },
+   "printed-paper": {
+    "synthetic": 16,
+    "real": 0
+   },
+   "handwritten-paper": {
+    "synthetic": 16,
+    "real": 0
+   },
+   "scene-signage": {
+    "synthetic": 16,
+    "real": 0
+   }
+  },
+  "tamil-pre-reform": {
+   "print-scan": {
+    "synthetic": 109,
+    "real": 0
+   },
+   "palm-leaf": {
+    "synthetic": 97,
+    "real": 26
+   },
+   "stone": {
+    "synthetic": 54,
+    "real": 0
+   },
+   "copper-plate": {
+    "synthetic": 59,
+    "real": 0
+   },
+   "estampage": {
+    "synthetic": 11,
+    "real": 0
+   },
+   "pottery": {
+    "synthetic": 3,
+    "real": 0
+   }
+  },
+  "grantha-tamil": {
+   "palm-leaf": {
+    "synthetic": 39,
+    "real": 0
+   },
+   "print-scan": {
+    "synthetic": 21,
+    "real": 0
+   }
+  },
+  "tamil-brahmi": {
+   "pottery": {
+    "synthetic": 38,
+    "real": 0
+   },
+   "stone": {
+    "synthetic": 57,
+    "real": 0
+   },
+   "estampage": {
+    "synthetic": 36,
+    "real": 0
+   },
+   "born-digital": {
+    "synthetic": 5,
+    "real": 0
+   }
+  },
+  "grantha": {
+   "print-scan": {
+    "synthetic": 22,
+    "real": 0
+   },
+   "palm-leaf": {
+    "synthetic": 23,
+    "real": 0
+   },
+   "stone": {
+    "synthetic": 16,
+    "real": 0
+   },
+   "copper-plate": {
+    "synthetic": 17,
+    "real": 0
+   }
+  },
+  "malayalam": {
+   "print-photo": {
+    "synthetic": 9,
+    "real": 0
+   },
+   "print-scan": {
+    "synthetic": 5,
+    "real": 0
+   },
+   "born-digital": {
+    "synthetic": 4,
+    "real": 0
+   }
+  },
+  "kannada": {
+   "print-photo": {
+    "synthetic": 9,
+    "real": 0
+   },
+   "print-scan": {
+    "synthetic": 5,
+    "real": 0
+   },
+   "born-digital": {
+    "synthetic": 4,
+    "real": 0
+   }
+  },
+  "telugu": {
+   "print-scan": {
+    "synthetic": 7,
+    "real": 0
+   },
+   "print-photo": {
+    "synthetic": 4,
+    "real": 0
+   },
+   "born-digital": {
+    "synthetic": 7,
+    "real": 0
+   }
+  },
+  "sinhala": {
+   "born-digital": {
+    "synthetic": 5,
+    "real": 0
+   },
+   "print-photo": {
+    "synthetic": 7,
+    "real": 0
+   },
+   "print-scan": {
+    "synthetic": 6,
+    "real": 0
+   }
+  }
+ },
+ "examples": [
+  {
+   "id": "print-digital-0000",
+   "subset": "print-digital",
+   "image": "assets/examples/print-digital-0000.png",
+   "reference": "திருச்சி தஞ்சாவூர் சாலை",
+   "script": "tamil-modern",
+   "medium": "born-digital",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "இருச்சி தஞ்சாவூர்‌ சாலை |",
+     "cer": 0.174
+    },
+    "tesseract-tam": {
+     "text": "“திருச்சி தஞ்சாவூர்‌ சாலை",
+     "cer": 0.043
+    },
+    "tesseract-tamil-script-best": {
+     "text": "திருச்சி தஞ்சாவூர்‌ சாலை",
+     "cer": 0.0
+    }
+   }
+  },
+  {
+   "id": "print-digital-0001",
+   "subset": "print-digital",
+   "image": "assets/examples/print-digital-0001.png",
+   "reference": "தமிழில் தட்டச்சு செய்வது",
+   "script": "tamil-modern",
+   "medium": "born-digital",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "தமிழில்‌ தட்டச்சு செய்வது",
+     "cer": 0.0
+    },
+    "tesseract-tam": {
+     "text": "தமிழில்‌ தட்டச்சு செய்வது",
+     "cer": 0.0
+    },
+    "tesseract-tamil-script-best": {
+     "text": "தமிழில்‌ தட்டச்சு செய்வது",
+     "cer": 0.0
+    }
+   }
+  },
+  {
+   "id": "print-digital-0011",
+   "subset": "print-digital",
+   "image": "assets/examples/print-digital-0011.png",
+   "reference": "பகிர் கவர்கள்வன் அவர்களின்",
+   "script": "tamil-modern",
+   "medium": "born-digital",
+   "provenance": "synthetic",
+   "lexical": "lexicon",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "பகிர்‌ கவர்கள்வன்‌ அவர்களின்‌",
+     "cer": 0.0
+    },
+    "tesseract-tam": {
+     "text": "பகிர்‌ கவர்கள்வன்‌ அவர்களின்‌",
+     "cer": 0.0
+    },
+    "tesseract-tamil-script-best": {
+     "text": "பகிர்‌ கவர்கள்வன்‌ அவர்களின்‌",
+     "cer": 0.0
+    }
+   }
+  },
+  {
+   "id": "print-scan-0001",
+   "subset": "print-scan",
+   "image": "assets/examples/print-scan-0001.jpg",
+   "reference": "கிராமத்தின் நடுவே ஒரு பெரிய",
+   "script": "tamil-modern",
+   "medium": "print-scan",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "கிராமத்தின்‌ நடுவே ஓரு பெரிய",
+     "cer": 0.037
+    },
+    "tesseract-tam": {
+     "text": "கிராமத்தின்‌ நடுவே ஒரு பெறிய",
+     "cer": 0.037
+    },
+    "tesseract-tamil-script-best": {
+     "text": "கிராமத்தின்‌ நடுவே ஒரு பெரிய",
+     "cer": 0.0
+    }
+   }
+  },
+  {
+   "id": "print-scan-0004",
+   "subset": "print-scan",
+   "image": "assets/examples/print-scan-0004.jpg",
+   "reference": "அம்மா சந்தைக்குக் காய்கறி",
+   "script": "tamil-modern",
+   "medium": "print-scan",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "அம்மா சந்தைக்குக்‌ காய்கறி",
+     "cer": 0.0
+    },
+    "tesseract-tam": {
+     "text": "அம்மா சந்தைக்குக்‌ காய்கறி",
+     "cer": 0.0
+    },
+    "tesseract-tamil-script-best": {
+     "text": "அம்மா சந்தைக்குக்‌ காய்கறி",
+     "cer": 0.0
+    }
+   }
+  },
+  {
+   "id": "print-scan-0000",
+   "subset": "print-scan",
+   "image": "assets/examples/print-scan-0000.jpg",
+   "reference": "யைளைக்கொல்லைல் யைற்றர்தோன் துளிள்",
+   "script": "tamil-modern",
+   "medium": "print-scan",
+   "provenance": "synthetic",
+   "lexical": "nonce",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "யைளைக்கொல்லைல்‌ க ்ற்னோன்துள !",
+     "cer": 0.273
+    },
+    "tesseract-tam": {
+     "text": "யைளைக்கொல்லைல்‌ ட்‌ பி",
+     "cer": 0.455
+    },
+    "tesseract-tamil-script-best": {
+     "text": "யைளைக்கொல்லைல்‌ Pe Ber",
+     "cer": 0.515
+    }
+   }
+  },
+  {
+   "id": "print-photo-0001",
+   "subset": "print-photo",
+   "image": "assets/examples/print-photo-0001.jpg",
+   "reference": "ஒவ்வொரு நாளும் குறைந்தது அரை\nமணி நேரம் நடைப்பயிற்சி\nசெய்யுங்கள்.",
+   "script": "tamil-modern",
+   "medium": "print-photo",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "உண்ன 7 ச\n௯ ஒவ்வொரு நாளும்‌ குறைந்தது அரை\nமணி நேரம்‌ நடைப்பயிற்சி த\nசெய்யுங்கள்‌. ்‌",
+     "cer": 0.234
+    },
+    "tesseract-tam": {
+     "text": "நை இர த ச\n௬ ஒவ்வொரு நாளும்‌ குறைந்தது அரை\nமணி நேரம்‌ நடைப்பயிற்சி வ்‌\nசெய்யுங்கள்‌. ல",
+     "cer": 0.266
+    },
+    "tesseract-tamil-script-best": {
+     "text": "BEE EEO\n“ ஒவ்வொரு நாளும்‌ குறைந்தது அரை\nமணி நேரம்‌ நடைப்பயிற்சி த\nசெய்யுங்கள்‌.",
+     "cer": 0.188
+    }
+   }
+  },
+  {
+   "id": "print-photo-0002",
+   "subset": "print-photo",
+   "image": "assets/examples/print-photo-0002.jpg",
+   "reference": "தென்னை மரங்களுக்கு இயற்கை உரம்\nஇடுவது நல்ல பலன் தரும்.",
+   "script": "tamil-modern",
+   "medium": "print-photo",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "வு தென்னை மரங்களுக்கு இயற்கை கரம்‌\nதட்ட _ | ட £) பு\n்‌ இடுவது நல்ல பலன்‌ தரும்‌. த்‌",
+     "cer": 0.481
+    },
+    "tesseract-tam": {
+     "text": "ன தென்னை மரங்களுக்கு இயற்கை கரம்‌...\nல்‌. ட த்‌ ்‌ ்‌ க\n்‌ இடுவது நல்ல பலன்‌ தரும்‌. ல்‌",
+     "cer": 0.481
+    },
+    "tesseract-tamil-script-best": {
+     "text": "வ தென்னை மரங்களுக்கு இயற்கை கரம்‌\nEL ~ F P| SE\n்‌ இடுவது நல்ல பலன்‌ தரும்‌. \"|",
+     "cer": 0.389
+    }
+   }
+  },
+  {
+   "id": "print-photo-0000",
+   "subset": "print-photo",
+   "image": "assets/examples/print-photo-0000.jpg",
+   "reference": "நாட்டு குப்பைத் விவரங்கள் இளம் செய்கிறாள்\nநடுவே",
+   "script": "tamil-modern",
+   "medium": "print-photo",
+   "provenance": "synthetic",
+   "lexical": "lexicon",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "நாட்டு குப்பைத்‌ விவரங்கள்‌ இளம்‌ செய்கிறாள்‌\nநடுவே",
+     "cer": 0.0
+    },
+    "tesseract-tam": {
+     "text": "நாட்டு குப்பைத்‌ விவரங்கள்‌ இளம்‌ செய்கிறாள்‌\nநருவே",
+     "cer": 0.021
+    },
+    "tesseract-tamil-script-best": {
+     "text": "நாட்டு குப்பைத்‌ விவரங்கள்‌ இளம்‌ செய்கிறாள்‌\nநடுவே",
+     "cer": 0.0
+    }
+   }
+  },
+  {
+   "id": "numerals-symbols-0000",
+   "subset": "numerals-symbols",
+   "image": "assets/examples/numerals-symbols-0000.jpg",
+   "reference": "𑿪 ௪௰௪ 𑿡",
+   "script": "tamil-modern",
+   "medium": "print-scan",
+   "provenance": "synthetic",
+   "lexical": "numerals",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "ன்‌ லு",
+     "cer": 1.0
+    },
+    "tesseract-tam": {
+     "text": "க.",
+     "cer": 1.0
+    },
+    "tesseract-tamil-script-best": {
+     "text": "I",
+     "cer": 1.0
+    }
+   }
+  },
+  {
+   "id": "numerals-symbols-0001",
+   "subset": "numerals-symbols",
+   "image": "assets/examples/numerals-symbols-0001.png",
+   "reference": "௱௯௰௬ 𑿏\n௹ ௭௬௬௫ 𑿈",
+   "script": "tamil-modern",
+   "medium": "born-digital",
+   "provenance": "synthetic",
+   "lexical": "numerals",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "௯ம௬ ல\n௫ ௭௬௬௫ ப",
+     "cer": 0.333
+    },
+    "tesseract-tam": {
+     "text": "௱ு௰௬ ஐ\n௫௩௭௬௬௫ ப",
+     "cer": 0.333
+    },
+    "tesseract-tamil-script-best": {
+     "text": "ரா௯௰௬ ௯\n௫ு ௪௭௭௬௫ ப",
+     "cer": 0.533
+    }
+   }
+  },
+  {
+   "id": "numerals-symbols-0002",
+   "subset": "numerals-symbols",
+   "image": "assets/examples/numerals-symbols-0002.png",
+   "reference": "௧௮௫௮ ௵ ஆடி ௴ ௧ ௳",
+   "script": "tamil-modern",
+   "medium": "born-digital",
+   "provenance": "synthetic",
+   "lexical": "numerals",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "௧௮௫௮ ஸூ ஆடி மீக வ",
+     "cer": 0.375
+    },
+    "tesseract-tam": {
+     "text": "௧௮௫௮ னா ஆடி மீக உ",
+     "cer": 0.375
+    },
+    "tesseract-tamil-script-best": {
+     "text": "௧௮௫௮ ர்‌ ஆடிமீகவ",
+     "cer": 0.5
+    }
+   }
+  },
+  {
+   "id": "screen-0000",
+   "subset": "screen",
+   "image": "assets/examples/screen-0000.jpg",
+   "reference": "இந்த மருந்தை உணவுக்குப் பின் இரண்டு வேளை உட்கொள்ளவும்.\n6:45",
+   "script": "tamil-modern",
+   "medium": "screen",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "இந்த மருந்தை உணவுக்குப்‌\nபின்‌ இரண்டு வேளை\nஉட்கொள்ளவும்‌.\n\n6:45",
+     "cer": 0.0
+    },
+    "tesseract-tam": {
+     "text": "இந்த மருந்தை உணவுக்குப்‌\nபின்‌ இரண்டு வேளை\nஉட்கொள்ளவும்‌.\n\n6:45",
+     "cer": 0.0
+    },
+    "tesseract-tamil-script-best": {
+     "text": "இந்த மருந்தை உணவுக்குப்‌\nபின்‌ இரண்டு வேளை\nஉட்கொள்ளவும்‌.\n\n6:45",
+     "cer": 0.0
+    }
+   }
+  },
+  {
+   "id": "screen-0001",
+   "subset": "screen",
+   "image": "assets/examples/screen-0001.jpg",
+   "reference": "பெயர் ஊர் மதிப்பெண்\nபிரியா கும்பகோணம் 98\nமணிகண்டன் ஓசூர் 54\nமீனாட்சி விருதுநகர் 35\nஅன்பரசி கன்னியாகுமரி 97",
+   "script": "tamil-modern",
+   "medium": "screen",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "பெயர்‌ ஊர்‌ மதிப்பெண்‌:\nபிரியா கும்பகோனம்‌. 98\nமணிகண்டன்‌ சூர்‌ &\nமீனாட்சி விருதுநகர்‌. 35\nஅன்பரசி கன்னியாகுமரி, 7",
+     "cer": 0.085
+    },
+    "tesseract-tam": {
+     "text": "பெயர்‌ ஊர்‌ மதிப்பெண்‌\nபிரியா கும்பகோணம்‌: 98.\nமணிகண்டன்‌ ஒரூர்‌ நர\nமீனாட்சி விருதுநகர்‌ டப்‌\nஅன்பரசி கன்னியாகுமரி 97",
+     "cer": 0.085
+    },
+    "tesseract-tamil-script-best": {
+     "text": "பெயர்‌ ஊர்‌ மதிப்பெண்‌\nபிரியா கும்பகோணம்‌ ]\nமணிகண்டன்‌ ஓகர்‌ 54\nமீனாட்சி விருதுநகர்‌ 3\nஅன்பரசி கன்னியாகுமரி o",
+     "cer": 0.066
+    }
+   }
+  },
+  {
+   "id": "screen-0008",
+   "subset": "screen",
+   "image": "assets/examples/screen-0008.png",
+   "reference": "இறூசார்பி சூவெ தொம தணக்க குச்சிடு",
+   "script": "tamil-modern",
+   "medium": "screen",
+   "provenance": "synthetic",
+   "lexical": "nonce",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "இறூகார்பி சூவெ தொம்‌\nதணக்க குச்சிடு",
+     "cer": 0.061
+    },
+    "tesseract-tam": {
+     "text": "'இறாசார்பி சூவெ தொம்‌\nகணக்க குச்சிடு",
+     "cer": 0.121
+    },
+    "tesseract-tamil-script-best": {
+     "text": "இறுகார்பி சூவெ தொம்‌\nகணக்க குச்சிடு",
+     "cer": 0.121
+    }
+   }
+  },
+  {
+   "id": "handwriting-0000",
+   "subset": "handwriting",
+   "image": "assets/examples/handwriting-0000.jpg",
+   "reference": "இந்த நூல் ஐந்து ஆண்டுகள்\nஆய்வுக்குப் பின் எழுதப்பட்டது.",
+   "script": "tamil-modern",
+   "medium": "handwritten",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "இந்த நூல ஐந்து ஆண்டுகள்‌\nஅய்லக்குப்‌ பின்‌ எழுதப்பட்டது.",
+     "cer": 0.073
+    },
+    "tesseract-tam": {
+     "text": "இந்த நூல ஐந்து ஆண்டுகள்‌\nஆம்லக்குப்‌ பின்‌ எழுதப்பட்டது.",
+     "cer": 0.073
+    },
+    "tesseract-tamil-script-best": {
+     "text": "இந்த நூல்‌ ஐந்து ஆண்டுகள்‌\nஆய்வுக்குப்‌ பின்‌ எழுதப்பட்டது.",
+     "cer": 0.0
+    }
+   }
+  },
+  {
+   "id": "handwriting-0001",
+   "subset": "handwriting",
+   "image": "assets/examples/handwriting-0001.jpg",
+   "reference": "புதிய கிளை அடுத்த",
+   "script": "tamil-modern",
+   "medium": "handwritten",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "",
+     "cer": 1.0
+    },
+    "tesseract-tam": {
+     "text": "",
+     "cer": 1.0
+    },
+    "tesseract-tamil-script-best": {
+     "text": "",
+     "cer": 1.0
+    }
+   }
+  },
+  {
+   "id": "handwriting-0003",
+   "subset": "handwriting",
+   "image": "assets/examples/handwriting-0003.jpg",
+   "reference": "கெங்கைக் உதிரன் படித்துக்\nதந்தனர்",
+   "script": "tamil-modern",
+   "medium": "handwritten",
+   "provenance": "synthetic",
+   "lexical": "lexicon",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "| ல்‌\nகெங்கைக்‌ உதிரன்‌ படித்துக்‌\nதந்தனர்‌",
+     "cer": 0.152
+    },
+    "tesseract-tam": {
+     "text": "”  “\n -கெங்கைக்‌ உதிரன்‌ படித்துக்‌\nதந்தனர்‌",
+     "cer": 0.152
+    },
+    "tesseract-tamil-script-best": {
+     "text": "|\n்‌ கெங்கைக்‌ உதிரன்‌ படித்துக்‌\nதந்தனர்‌",
+     "cer": 0.121
+    }
+   }
+  },
+  {
+   "id": "scene-0001",
+   "subset": "scene",
+   "image": "assets/examples/scene-0001.jpg",
+   "reference": "மதுரை மாட்டுத்தாவணி",
+   "script": "tamil-modern",
+   "medium": "scene",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "ப] ஒன்‌ 6",
+     "cer": 0.895
+    },
+    "tesseract-tam": {
+     "text": "நனைய 6",
+     "cer": 0.947
+    },
+    "tesseract-tamil-script-best": {
+     "text": "ESN",
+     "cer": 1.0
+    }
+   }
+  },
+  {
+   "id": "scene-0002",
+   "subset": "scene",
+   "image": "assets/examples/scene-0002.jpg",
+   "reference": "விபத்துப் பகுதி கவனம்",
+   "script": "tamil-modern",
+   "medium": "scene",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "வ க | ்‌",
+     "cer": 0.762
+    },
+    "tesseract-tam": {
+     "text": "/ ்‌ வல லவை",
+     "cer": 0.81
+    },
+    "tesseract-tamil-script-best": {
+     "text": "” - = | |",
+     "cer": 0.905
+    }
+   }
+  },
+  {
+   "id": "scene-0000",
+   "subset": "scene",
+   "image": "assets/examples/scene-0000.jpg",
+   "reference": "வாற்றிவ்வொள்ளே இராள்கையீ",
+   "script": "tamil-modern",
+   "medium": "scene",
+   "provenance": "synthetic",
+   "lexical": "nonce",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "இவவ ப",
+     "cer": 0.875
+    },
+    "tesseract-tam": {
+     "text": "இலவவவை கைய பு",
+     "cer": 0.833
+    },
+    "tesseract-tamil-script-best": {
+     "text": "ETT",
+     "cer": 1.0
+    }
+   }
+  },
+  {
+   "id": "pre-reform-print-0002",
+   "subset": "pre-reform-print",
+   "image": "assets/examples/pre-reform-print-0002.jpg",
+   "reference": "புதிய கிளை அடுத்த வாரம்",
+   "script": "tamil-pre-reform",
+   "medium": "print-scan",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "்‌ திய கிளை ௯ ன |",
+     "cer": 0.565
+    },
+    "tesseract-tam": {
+     "text": "ன்‌ புதிய கிளை ச்‌ ன்‌",
+     "cer": 0.522
+    },
+    "tesseract-tamil-script-best": {
+     "text": ": புதிய கிளை = |",
+     "cer": 0.565
+    }
+   }
+  },
+  {
+   "id": "pre-reform-print-0003",
+   "subset": "pre-reform-print",
+   "image": "assets/examples/pre-reform-print-0003.jpg",
+   "reference": "இருள்சேர் இருவினையும் சேரா இறைவன்",
+   "script": "tamil-pre-reform",
+   "medium": "print-scan",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "்‌ ன இருவினையும்‌ சேரா ன",
+     "cer": 0.394
+    },
+    "tesseract-tam": {
+     "text": "சற்‌ இருவினையும்‌ சேரா ன",
+     "cer": 0.364
+    },
+    "tesseract-tamil-script-best": {
+     "text": ". இருவினையும்‌ சேரா ன",
+     "cer": 0.424
+    }
+   }
+  },
+  {
+   "id": "pre-reform-print-0000",
+   "subset": "pre-reform-print",
+   "image": "assets/examples/pre-reform-print-0000.jpg",
+   "reference": "பண்டாய் யய்யெறழ் பூர்பெய்யே\nஏபூக்காலை ஞெர்குபேணில்",
+   "script": "tamil-pre-reform",
+   "medium": "print-scan",
+   "provenance": "synthetic",
+   "lexical": "nonce",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "ந ஆண்டாய்‌ யய்யெறழ்‌. பூர்பெய்யே 3\nம ப க்காலை ஞெர்குபேணில்‌ ஓ...",
+     "cer": 0.28
+    },
+    "tesseract-tam": {
+     "text": "இ ஞ்ள்டாய்‌ யய்யெறழ்‌. பூர்பெய்யே ்‌\nட *பூக்காலைஜெர்குபேணில்‌ லு...",
+     "cer": 0.38
+    },
+    "tesseract-tamil-script-best": {
+     "text": "F ஞ்ஞ்டாப்‌ யய்யெறழ்‌ பூர்பெய்யே\n| பபக்காலை ஞொர்குபேஸில்‌ இட.",
+     "cer": 0.3
+    }
+   }
+  },
+  {
+   "id": "palm-leaf-synth-0000",
+   "subset": "palm-leaf-synth",
+   "image": "assets/examples/palm-leaf-synth-0000.jpg",
+   "reference": "ஐயம் இட்டு உண் ஒப்புரவு ஒழுகு ஓதுவது ஒழியேல் ஔவியம் பேசேல் அஃகம் சுருக்கேல் கணபதி துணை சுபமஸ்து மார்கழித் திங்கள் மதிநிறைந்த நன்னாளால் நீராடப் போதுவீர் போதுமினோ நேரிழையீர் அன்பின் வழியது உயிர்நிலை அஃதிலார்க்கு என்புதோல் போர்த்த உடம்பு தெய்வத்தான் ஆகா",
+   "script": "tamil-pre-reform",
+   "medium": "palm-leaf",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": "ஐயமஇடடுஉணஒபபுரவுஒழுகுஓதுவதுஒழியேலஔவியமபேசேலஅஃகம\nசுருககேலகணபதிதுணைசுபமஸதுமாரகழிததிஙகளமதிநிறைநதநன\nனாளாலநீராடபபோதுவீரபோதுமினோநேரிழையீரஅனபினவழியதுஉ\nயிரநிலைஅஃதிலாரககுஎனபுதோலபோரததஉடமபுதெயவததானஆகா",
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "்‌ ந\nஐயமைஇடடுஉ அஒப்புரவஜமுஒதுவதுஒழுமயலவி யபமபேசேல கம\nனு ன\nசுருககேலகணபதிது 1] ஊசுபம ஸதுமாரகழிததிஙகளமைதி இநிஎறநதநன ்‌\nன ன்‌ ளை இ ப 6\n்‌ னாளாலநீராடயடே துவீரபோதுமினோநேரிழைய்‌ ரஅனபினைழியதுட\nம யிரநிலைஅ.-திலாரககுஎனபுதோலபோரதத டமபுதெயவததானஆகா ' பா",
+     "cer": 0.242
+    },
+    "tesseract-tam": {
+     "text": "்‌ லில்‌\nைமஇடடு௨ ஊஒப்புரவஓழு6 ஒதுவதுஒழுயலஒளவி பமபேசேலஅ கம\nநட ஃ- ்‌\nகருககேலகணபதிது கு ணசுபம ஸதுமாரகழிததிங்கள மதி இநிறைநதநன\nட ல ன்‌ எண்ண ட பவட்தத ட்ஃ்க ்‌\n்‌ னாளாலநீராடயடே 'துவீரபோதுமினனுநேரிழைய்‌ ரஅனபினவழியது௨\nவ யிரநிலை௮..திலாரககுஎனபுதோலபோரத்த டமபுதெயவததானஆகா ஏ.",
+     "cer": 0.29
+    },
+    "tesseract-tamil-script-best": {
+     "text": ": SE\nஐமமஇகடு2- ண்ஒப்புரவருரு ஒதுவதுஒழுயேலஒனான்‌ மப்மபேடசேல ஆ கம்‌\nத ா்‌ 2\nசருககேலகணபதிது ] ணோேசுபம ஸதுமாரகழிததிஙகளுமதி இநிறநதநன -\nS த ட -” ்‌\n: ஞாளாலந்ராடடுடே துவ்ரபோதுமினனோநேரிழைய்‌ ரஅனபினவழியது௨\noo மிரநிலைஅஃதிலாரககுஎனபுதோலபோரதத ட்மபுதெயவததானஆகா ஆ",
+     "cer": 0.285
+    }
+   }
+  },
+  {
+   "id": "palm-leaf-synth-0001",
+   "subset": "palm-leaf-synth",
+   "image": "assets/examples/palm-leaf-synth-0001.jpg",
+   "reference": "மனத்துக்கண் மாசிலன் ஆதல் அனைத்தறன் ஆகுல நீர பிற வான்நின்று உலகம் வழங்கி வருதலால் தான்அமிழ்தம் என்றுணரற் பாற்று அன்பின் வழியது உயிர்நிலை அஃதிலார்க்கு என்புதோல் போர்த்த உடம்பு தோடுடைய செவியன்",
+   "script": "tamil-pre-reform",
+   "medium": "palm-leaf",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": "மனததுககணமாசிலனஆதலஅனைததறனஆகுலநீரபிறவானநினறுஉலகம\nவழஙகிவருதலாலதானஅமிழதமஎனறுணரறபாறறுஅனபினவழியதுஉ\nயிரநிலைஅஃதிலாரககுஎனபுதொலபொரததஉடமபுதொடுடையசெவிய\nன",
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "ர ன ட டு * ்‌ ஐ ந ட உ 1] க\nமனததுககணமாசிலனஆதலஅனைததறனஅகுலநீரபிறவானநினறுஉலகம\nவழங்கிவழுதலலத-இரனஅமிழதமஎ வதுணாறபாறறு-கது அனபினவழியதுஉ\n\n்‌ யிரநிலைஅஃதிலாரக குஎனபுதொல்பொரததஉடமபு தாடுடையசெவிய ள்‌\nப்‌ 0 ன",
+     "cer": 0.217
+    },
+    "tesseract-tam": {
+     "text": "அ அணிப்‌ டு ்‌ ன்‌ று. நகப்‌ து 74] ஓ\nமனததுககஸமாசிலனஆதலஅனைததறனஅ.குலநீரபிறவானநினறுஉலகம\nவழஙகிவமுதலாலத இன அமிழதமஎ னறுணரறபாறறு அ அனளபினவழியது௨\n\n. யிரநிலைஅஃதிலாரக குஎனபுதொலபொரததஉடம்புடு தாடுபையசெவிய 3\nன. அ. பவளத்‌ னை",
+     "cer": 0.312
+    },
+    "tesseract-tamil-script-best": {
+     "text": "3 or த K = [] ஞ்‌ i fa) e\nமனததுககண்‌ மாசிலனன தலஅனைத த றனஆசுலநீரமிறவானநினறுஉலகம\nவழங்கிவருதலாலக ஜான மிழதமஎ றுணரறபாறறுவுனு அளபினவழியதுஉ\n\n| யிரநிலைஅடதிலாரக குஎனபுதொல்பொரததஉட்மப் தாடுமையசெவிய }\nor க",
+     "cer": 0.254
+    }
+   }
+  },
+  {
+   "id": "palm-leaf-synth-0018",
+   "subset": "palm-leaf-synth",
+   "image": "assets/examples/palm-leaf-synth-0018.jpg",
+   "reference": "தௌதுட்டபால் நினிணோ யொசேவெர தன்னெகாலோல் சுரீண்ண பெணிர்பி பாபேர் தீன்னி ஞெம உர்திகொரி நுவைண் இஞ்சாணூல் ஓஞ்சர் தாங்கைப்பி தூவிம வேறால்லுய் ஆறா இதெம்புழுள் நேண்ணோண் பறெள் ஞுலுசோ ஐதூறீடாய் சார்மிலனொ சென்றோ பூய்துசுய் வூம்பிர் ஊய மமா உன்றே",
+   "script": "tamil-pre-reform",
+   "medium": "palm-leaf",
+   "provenance": "synthetic",
+   "lexical": "nonce",
+   "text_native": null,
+   "text_diplomatic": "தௌதுடடபாலநினிணொயொசெவெரதனனெகாலொலசுரீணணபெணிரபிபா\nபெரதீனனிஞெமஉரதிகொரிநுவைணஇஞசாணூலஒஞசரதாஙகைபபிதூ\nவிமவெறாலலுயஆறாஇதெமபுழுளநெணணொணபறெளஞுலுசொஐதூறீடா\nயசாரமிலனொசெனறொபூயதுசுயவூமபிரஊயமமாஉனறெ",
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "3 தெளதுடடபமாலநுனிணொயொசெவெரதனனெகாலொலசுர்ணணபெணிரபிபா\n\n_ பெரதீனனிணொம இ டநிபகொரிறு வைணஇஞ்சாணூலஒஞ்ச இ தாஙகைபபிதா\n\nவிமவெறாலலுய ஆறாஇதெமபுழுளநெணஹணொணபடுற  எனுலுசொலஜதூறீடா.----\n-.. யசாரமிலனொசென்ொபூயதுசுயவூமபிரஃளயமமாஉனறெ.- லும்‌... ந",
+     "cer": 0.253
+    },
+    "tesseract-tam": {
+     "text": "3 தெளதுடட்பாலந்னிணொயொசெவெரதனனெகாலொலசுரீ்ணணபெணிரபிபா\n\n. பெரதீனனிஞெம இ உரதிகொரிநு வைணஇஞ்சாணூாலஒஞ்ச இரதாங்கைபபிதூ ்‌\n\nவிமவெறாலலுய ஆருஇதெமபுழுளநெணடணொாணபடுற  ளனுலுசொஜதாூறீடா.... ௮\n -யதாரமிலனொசெனூறாபூயதசுயவூமபிரஊயமமாஉனறெ ஆவ... ்‌",
+     "cer": 0.19
+    },
+    "tesseract-tamil-script-best": {
+     "text": ": தெளதுட்டீயாலநினினொயொசெவெரதனனெகாலொல்சரண்ணபெணிரமியா\n\n| பெரத்ீனனிஞெம இஃ 7திகொரிநு வைணவிஞசாணுலஒ ஞ்ச இரதாங்கைப்பிதா ]\n\nவிம்வெராலலுய ஆருஇதெம்புழுள்நெண்ணொணப்றெ ்‌ என்லுசொத்தூறீடா அ\nஉயசாரயில்னெசெனிறுபுயதுசுயவூ மபிரஊய்மமாஉனறெ ௬ SE 3",
+     "cer": 0.218
+    }
+   }
+  },
+  {
+   "id": "palm-leaf-cict-009",
+   "subset": "palm-leaf-cict",
+   "image": "assets/examples/palm-leaf-cict-009.jpg",
+   "reference": "யிருந்தோம்பி யில்வாழ்வ தெல்லாம் விருந்தோம்பி வேளாண்மை செய்தற் பொருட் டு\nவிருந்து புறத்ததாற்றா னுண்டல் சாவா மருந்தெநினும் வேண்டற்பாற் றன் று\nவருவிருந்து வைகலு மோம்புவான் வாழ்க்கை பருவந்து பாழ்படுத லின் று\nஅகனமர்ந்து செய்யா ளுறையு முகனமர்ந்து நல்விருந் தோம்புவா நில்\nவித்து மிட வேண்டுங் கொல்லோ விருந்தோம்பி மிச்சின் மிசைவான் புலம்\nசெல்விருந் தோம்பி வருவிருந்து பார்த்திருப்பான் நல்விருந்து வானத் தவர்க் கு\nஇநைத்துணைத் தென்ப தொன் றில்லை விருந்தின் திநைத்துணை வேழ்விப் பய ன்\nபரிந்தோம்பிப் பற்றற்றோ மென்பர் விருந்தோம்பி வேழ்வித் தலைப்படா தார்\nஉடைமையு ளின்மை விருந்தோம்ப லோம்பா மடமை மடவார்க ணு ண்டு\nமோப்பக் குழையு மநிச்ச முகந்திரிந்து நோக்கக் குழையும் விருந் து",
+   "script": "tamil-pre-reform",
+   "medium": "palm-leaf",
+   "provenance": "real",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": "Central Institute of Classical Tamil (CICT), CICT Tirukkural Ground Truth Corpus, CC BY 4.0. Data curator: Kannan Krishnan (CICT).",
+   "source": {
+    "specimen": "CICT-PLM-GT-009",
+    "chapter": 9,
+    "chapter_title": "விருந்தோம்பல்",
+    "kurals": [
+     81,
+     82,
+     83,
+     84,
+     85,
+     86,
+     87,
+     88,
+     89,
+     90
+    ],
+    "doi": "10.5281/zenodo.19906472",
+    "zenodo_record": "19906472",
+    "corpus": "CICT Tirukkural Ground Truth Corpus"
+   },
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "ணை\nவளாக வ அவ்வமவடப் கன ரன டட ன ம னல்ல தறல அகதம்‌ ; 9 வல ல்க]\nன்‌ வ ன அடவ வடுவும்‌ ன் க க்கக்‌ அத க்க அணு\nட்டம்‌ ல்‌ ஆட ட்‌ அணல்‌ பம லாசரு கலைச்‌ ப டவ பு ப க்‌ ன்‌ சரிய ன ப\nததும்‌; ஊரு விளாரிட்து லை இ ௨ மரபம ்‌ ன வனி ச ஈம புல. பக்கம தி\nந ப்ப அன்ன சங்து எல்லை அமவ களைய கள்ல ம்மானிு ந வ ஒல 0ல்‌ சகட்டு\nந தவல அளக்க ட வவ்தனடகபக்ட்வுல்‌ கள்ளு னல்‌ த\n| ப்‌ ்‌ ச வத்‌ அட க்‌ ப ௭ ச ட்ட ்‌ * ரு தழு |\nது னன்ன ட்‌ ன என்னுள்‌ கொபி்‌ ட்கள்‌. ன\nஇட்டன மனது பை ங்க கஷ் மணக்க பில்ட்‌. விரு இக மக ததுய்கற்ப பல்‌\nபடத மொபட்‌ சன்ுகைகவேத இல்ஸ்வகக் கத ன; சகன்களன்க்ங்ளைல்ல ள்ல\nஇரட்ட ப்‌ அவவர த கல்பட்டு பிட்ட ட்ப க்கிக்‌ க நழுவ வணினக்‌ சன்னா ன்‌ டட கப அதாவ படட. மக்கன்‌ க்கை ந\nமல்‌ கப்பல்‌ நட்ட க ணங்க ன ்‌ ன ட க",
+     "cer": 0.825
+    },
+    "tesseract-tam": {
+     "text": "ஆட்கள்‌ அக தாயன சது துப்பல்‌ டட மாடப்‌ ப ம யவன தமது ளிகள்‌ வடவர்‌ டட ட அறக்கக\nபடட அதது வனப்‌ வத வாவ்தடவ்த்த்‌ பண்ன அணக அரவம்‌ எ தத்துவ நிஸ்பாட அட படட்டன்‌ பத மர்வா எம்பட படம்‌ 521 மின பக்கது தப அல வல்‌ அரப்‌ நன்‌ தக அவ்ள்‌ அன்‌]\nக்‌ ரட்‌ அ வ வர்கக ல பபப தடகள ௭ அவ்‌ இன தடிக்க ரத அதி\nசர்கம்‌ அரள டட வல்‌ வடடல த்து ரதா வ வகு ்‌ ஈம வு வாரசாளரடிகிசி பரு. ஈண்ட பட டத பட்டது ஸ்டவ்‌ ட ன கி\n(இ்வுப்‌: - ஊரு வராது லை க? 2 மம வ ்‌ ன த ௩௫ ரு ௩. ரம. பூலை நன்ப பக்டத்த ம்‌ |\nடப்ப அ கடைமர்த பல்ல வ ம கனவி செமரிம்க இனமத கத. வண பனு ௮ அகட்ட தததி\nட எதன்‌ அவி ண்ட அப பலன வகை க ட 4]\n| ம ்‌்‌ 7 சரவ ட தட பில்க்கது கடட பத ரக ௫ வணககிலு சர ட்‌” ன்‌ ்‌ 3 ப்‌ க மிட 1\nர அர அவரத அவைப்‌ ன ரல என்த மய்ய கடன்கள்‌ கச்மபமட்ட உ்கிறட நட்கணம. தி\nஇடவ அனமத ர தன்கை ரதத ய்‌ பவன டையை னன்‌ அக்கு ரத தக இ கரு... தோ ரூ மூக. பபப வகத் தத்தி\nவயம்‌... கோபபச்குளடியும்‌ அச அகாக 0௩௮. ட வவத்து மண்தான்‌ வையல்ல்தல் வைம 01 ம யழ பு\nபடவி க்கப்‌ என அவலக்‌ ப அனா ப ர வம வனக த வனக ரங்கள்‌ படகல்ட 1 உட ட்ட க்கக்‌ வல்கள்‌ அல்ப. கற்கள்‌. மரு. 4 கொ க்துவட்க்‌ அல அ படப்சவட ன்‌\nமல்‌. ர, படபட இதனான்‌ பது ட்ட வ்வணல்‌ கக ம்‌ 2 வட்‌ 3",
+     "cer": 1.131
+    },
+    "tesseract-tamil-script-best": {
+     "text": "EW OR\nRE I ET EN (Ee க த\n1 EN i ய வ தணக\nRE I FAD HET TENTIE GE (Gd EI OG A ந்த்‌ Sn Y =\nIED ரு விர து னின்‌ க) CA ரம ்‌ oF EU A |\nஞா அ கின்று செம்ம னா Ce இ NC a pe IO 2\nத கோவை. இகசிழுட தேடல்‌ FEE க்ளிக்‌ க |\n| jr 2 57 Do fv த த்‌ INE Lt ்‌ : * {fe 1 |\nEE A க I\nI த டி லது OR ருரு. தம தாட்‌\nUf Cou க்கு சதமாக பிரத i EO\nME INET JR த he க த ப PE CE ல IE SO Gf In\n= TE து த ஆ =x ம 2 ல =",
+     "cer": 0.88
+    }
+   }
+  },
+  {
+   "id": "palm-leaf-cict-011",
+   "subset": "palm-leaf-cict",
+   "image": "assets/examples/palm-leaf-cict-011.jpg",
+   "reference": "செய்யாமற் செய்த உதவிக்கு வையகமும் வாநகமு மாற்ற ல ரிது\nகாலத்தி நாற்செய்த நன்றி சிறிதெநினும் ஞாலத்தின் மாணப் பெ ரிது\nபயன்மாக்காச் செய்த வுதவி நயன்றூக்கி நன்மை கடலிற் பெ ரிது\nதிநைத்துணை நன்றி செயிநும் பநைத்துணையாக் கொள்வார் பயன்றெரி வார ர்\nஉதவி வரைத்தன்றுதவி யுதவி செய்யப்பட்டார் சால்பின் வரைத் து\nமறவற்க மாசற்றா கேண்மை துறவற்க துன்பத்துட்டுப்பாயார் ந ட்பு\nஎழுமை யெளுபிறப்பு முள்ளுவர் தங்கண் விழுமந் துடைத்தவர் ந ட்பு\nநன்றி மறப்பது நன்றன்று நன்றல்ல தன்றே மறப்பது நன்று\nகொன்றந்ந யிந்நா செயிநு மவர் செய்த வொன்றுநன் றுள்ளக் கெடும்\nஎந்நன்றி கொன்றார்க்கு முய்வுண்டா முய்வில்லை செய்ந்நன்றி கொன்ற மகற் கு",
+   "script": "tamil-pre-reform",
+   "medium": "palm-leaf",
+   "provenance": "real",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": "Central Institute of Classical Tamil (CICT), CICT Tirukkural Ground Truth Corpus, CC BY 4.0. Data curator: Kannan Krishnan (CICT).",
+   "source": {
+    "specimen": "CICT-PLM-GT-011",
+    "chapter": 11,
+    "chapter_title": "செய்ந்நன்றி அறிதல்",
+    "kurals": [
+     101,
+     102,
+     103,
+     104,
+     105,
+     106,
+     107,
+     108,
+     109,
+     110
+    ],
+    "doi": "10.5281/zenodo.19914119",
+    "zenodo_record": "19914119",
+    "corpus": "CICT Tirukkural Ground Truth Corpus"
+   },
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "ளா வ்‌ இவக ௪ பபரும்‌ வைகு மு பற ணத வம்‌ அதக ட ட கி\nஇது வளர்ப்ப மிது கரண தப ககன டு வ அவ்வ நட க கட்‌ ப்ட்‌\n[1 இகவ விடாம சம்‌ குடல்‌ உ வனநன(னிடு களபைமவிடடடரலினி ப ந கட்த 0\nஎ அவி தபதி வபாட்டு. பபற பண குத க௱ஙபரயகிடட ிறஙவாடபயரை மெரி வங்க | ந்‌\nட வலிவு  கக்ணிவனாக குடைந்த வருவ இதும்வய வா விவ அடை அளக்கர்‌ ர சனக ட\nகண்வ மால லட்‌ கணட 2 தா ல க கு ண் சாப கு கயபா ஈட்ட ன்‌ ட்டில்‌ ணத ர்‌ |\nட எனு தகவு ப்பு பருரை அங்கில்லை குலை கள யட்ட்டட னின்‌ ட்ட ம்‌]\nது ட ப்‌ பயனுற - கணணிவாபனகுசாரக்‌ ம டபபதச ்‌ 1 த்தல்‌\nன்ப பிவி வா துமளி கடத லப்டப்‌ ணவ அன்‌\nன டட ச ிலையவளுவபனை ்வ வன கவ்வ களா த ண்ண ளவமைல்விக்ல -அதல்கக்ளளிலள்ள",
+     "cer": 0.831
+    },
+    "tesseract-tam": {
+     "text": "களா றபப 2 லக 2 ( பரமும்‌... வருருகு ௨ டப்ப ம்‌. பட யத ததவ தெட்பன்‌ பர த்து\nதனத்த அறாம்க திர்ா ல்க ரதத. ௪௪ண டி ஐ ஈச சஷிடைம்னைய அப (ம 112த அ அபத்தக்‌ |\n(.... குர அரும்ப ஆகிட உலக்‌! வி! னை! கிட அவிடனி ம்‌ ல்‌ ்‌ ரூ. துரு ௩ க\nசா. வி கைக்‌ வளபாறபம்‌ 001௪. பட்டு ம0- பருகு ர. அரப ருபப கட்ட களைவோானபை யப... மெரி அறு ௩ அ |\nஇரு லஸிர ல - கனிவாக ஆத ஊசி தகப்பனார்‌ அரசம்‌ பற சஸ்ன்கு பட்‌ ரக ர ஏகன்‌ |\nப வண்ணா ஸ்கல்‌ பாகு றைாம்‌ காணாச்‌ தற ௮௮ க டுண்ரரப்கதி பரபர ரூட்‌. டயட்‌ ன ட்ட்சல்‌ ஆ |\n( ண .. : அண்தமிலனு பபச பபுது எருவாக கலியபிபத மருபதானம்டடது க அரப பதர்‌ ப ட கடட ட\nஇட்து ன்‌ பத னல கழ உரக வசமாகு வால்‌ படம ஸ்ட பப்ரீ ்‌ [ப ட வரது\nத ணதவ்வவத வவட அ அவக விகட ச பகம்‌ வாவிமகள்‌ வல தவணைக்‌ ரர. அம்பட்டன்‌ பண்கலை\nந ண்ல்வப:2 அடலபலிகவக கத்யம்‌ அப வைகை களைக்க னல்‌ மம்‌ பத்ம களால்‌. பக்‌ கர்ப வக்க அச்வ ககளக்‌ பர்சில்‌ ல",
+     "cer": 1.0
+    },
+    "tesseract-tamil-script-best": {
+     "text": "Pr கக e ( ED SES Op LIS OD OI I OO\nER SnAg க re MED or al ம CO SO a த\nE Clewp த ட துகி I chu ல ; து: |\nDorr of க PAPI IEG Phe VoRd G frees nwo Cod ante T= * RE\nby wg ov a க்வி: இய பப்ப ராகா பி i hE ETS\nபகத்‌ Vd காண்ட த அ ல சடப்‌ குதி LOTT mn iP ல \\ |\nor து வடம்‌ பழு ரீனா அறிம ரத்னம்‌ சகல CR SL\n| த ப்‌ ETD Dor ம DEE - { FE\nண்கள்‌ கா பகம்‌ ல லை\neR mE Ra Cline b lena, டந்த இளி த வ ுஸ்ங்ன",
+     "cer": 0.887
+    }
+   }
+  },
+  {
+   "id": "palm-leaf-cict-014",
+   "subset": "palm-leaf-cict",
+   "image": "assets/examples/palm-leaf-cict-014.jpg",
+   "reference": "ஒளுக்கம் விழுப்பந் தரலா ளொழுக்க முயிரிநு மோம்பப் ப டும்\nபரிந்தோம்பிக் காக்க வொழுக்கந் தெரிந்தோம்பித் தேரிநு மஃதே துணை\nஒழுக்கமுடைமை குடிமை யிளுக்கம் யிழிந்த பிறப்பாயி வி டும்\nமறப்பிநு மொத்துக் கொளலாகும் பார்ப்பான் பிறப்பொழுக்கங் குன்றக் கெ டும்\nஅழுக்கா றுடையான் கண்ணாக்கம் பொன் றில்லை ஒளுக்க மிலான்க ணுய ர்வு\nஒழுக்கத்தி னொல்கா ருரவோர் யிழுக்கத்தி னேதம் படுபாக் கறி ந்து\nஒழுக்கத்தின் னெய்துவர் மென்மை யிழுக்கத்தி னெய்துவ ரெய்தாப் பழி\nநன்றிக்கு வித்தாகும் நல்லொளுக்கந் தீயொழுக்க மென்று மிடும்பை த ரும்\nஒழுக்க முடையார்க் கொல்லாவெ தீய வழுக்கியும் வாயாற் சொ லல்\nஉலகத்தொ டொட்ட வொழுகல் பலகற்றுங் கல்லா ரறிவிலா தார்",
+   "script": "tamil-pre-reform",
+   "medium": "palm-leaf",
+   "provenance": "real",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": "Central Institute of Classical Tamil (CICT), CICT Tirukkural Ground Truth Corpus, CC BY 4.0. Data curator: Kannan Krishnan (CICT).",
+   "source": {
+    "specimen": "CICT-PLM-GT-014",
+    "chapter": 14,
+    "chapter_title": "ஒழுக்கமுடைமை",
+    "kurals": [
+     131,
+     132,
+     133,
+     134,
+     135,
+     136,
+     137,
+     138,
+     139,
+     140
+    ],
+    "doi": "10.5281/zenodo.20047006",
+    "zenodo_record": "20047006",
+    "corpus": "CICT Tirukkural Ground Truth Corpus"
+   },
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "த்த று க லு வட்ட அம்ரா லொக்‌ க ட்தல்த் மு ப்்து பல்ப்‌ பட்டப்‌ அட்க வ்க்த\nவட அக தரவுத்‌ கட்க ங் காவன்டு கக்கி பல்வ த க கத\nடப்ப (ணக விலக முட்டைனு மை நகை பமிலி னி டண வப்னவி ப வல்‌ பட வபால அண்னு அழ்ட் |\nட க டவ பைவி ம லகு ன்‌ ட வரர ௪௦ னி 2 மா யமான பபப பகன்‌ வ குணனை1௪ படி | ந்‌ ்‌\n\nடன ட அடு ஜட வறு குல்பு கன்‌ மாம்‌ ப எற வரும்‌ விளி தே கரு ணி ட ௩ [ன்‌ வு ப்பத்‌\nந. பலத்து து விட சகு வழுக்கள்‌ க்கள்‌ பட யாக்‌ ஸல்‌! ர ன பன்ன ர\nஇ்கத்தயன்‌ எக்‌ ரை பபி  பகா ரபா பெம்சாகபத ஹதககை சாரபவிவ ப றி மன்பை பல உ ர ய்து\nவலை மவன்‌ எட்சடல்றகு அளி பட க ப சமா குக சர பப குக ய்மனை படபட கல்பட்பல் ப குட்டபமத்‌ ட்ப தகு க னக]\nக்யடட்ப்‌ திகு சகமுளடையா்கட1ச நவ னல ரல வரு கதம்ப எவ்விடுத நட டட வல வன்‌\nததவ லதல க ௪ல்‌ கு ரட்ட கர்வாறளு கி ப்பி ல்‌ ளி மபா ட்‌ ட வறம்‌ பயப்பட குப்ப த்‌",
+     "cer": 0.858
+    },
+    "tesseract-tam": {
+     "text": "டட: 60 ஹி வலை மழகக தரகிக்‌  டல்றை வருக ஸா லளு:த. க. மூ கட்ட! பநங்த்‌ பதில்னு டவ: அவ வ பட வ ன ண ன அ அளை கை\nவாட ட எண்ட பட்சத்‌ பயழிச நகிகம்‌ க கமல றம்கற்து மல்க கண லை... |\nசடய்‌ சணுக்‌ -, ்‌ வ்ஞ்ம்‌ ஓரு வையக. உ ட டந்த மகப்‌ பாட்னி வழப்ுபம்‌] பப வல்‌ ப வவட த க காம்‌ டட்ட தி\n[ல்‌ படி நரகல்‌ 2: ஹஐப.௮.த பமல்‌... மரம ழு டட பர பபான பற ப ரஸ்‌ 3 வகுக்க படி 7 ன ச\n\nஇக்‌ அத்ற்கு அ ௫௨.௮௭. இட கண இத சன்‌ ம. பகல்‌ டல்‌] எம்‌ வாசப்‌ ஷை சுிமி இ சாகு ஹு... ஈ ௩ ல ப்பம்‌ |\n[இ ரர 0 ௭௯ பபச அததிக்கி வப டவர்கள்‌ இர அட்டக்‌ ப்‌. ்‌ பாகு கூலி ர ர ர இ\nஇல்ன பல்லா ஸர ட ரை 60. கவா பெமெனாகலடட ட படலம்‌ சர்ப திவ ு மின்ப பிட்‌. நட ரகு |\nநகக்‌ தகவல்‌ ர ணஸன்‌ரகு அருளு ஈனா மர டபகவத்திம்‌ அநத கீரி ய்ய குகை பயம... அல்ப பன்‌... படுப ட பதித்த ஐ க ண ட... |\nஇ... 4 பழு அறவன்‌ எற்கடச்‌ பாம மாடனிகா ஜிய வரு த தப்ப அரவாறய் ட இல பட தத இ ட ன\nஇ ர ர 2௭௮ உத. ஈஇட்டைட்‌ அனு ருரு ப்லகுல்‌ ம (மி. மர ட பி ர க ச பப ர பம்‌ மட்‌... |",
+     "cer": 1.021
+    },
+    "tesseract-tamil-script-best": {
+     "text": "RS 600 wi Not ee wR Cor 6 FN Ce Pe\nக ட காகக்‌ க்க கொய்து மல I TE\na Me gp ல்‌ பிடதி ரு UD Cf a a PE 2\nI “7 SY io Bud த Clad CS SS ool Gls A ்‌\n\nBE ம HALE. தய TOT களு ௪௧ ப்‌. 0 0 வாகம்‌ CIR EEL DE ror FD. (oo AV |\nEo CE VR இலக ரல்‌ பர ன FS ப ம. ட பாகு கல்‌ m = Fr ry S\n| CE erly WW Bru GID ssyaslo கன்‌ த Cf Wu VE\nFo RN FAS அய கா மந பபா கக 4h ww DoS CI i RE\nWEES (சத்தம்‌ எமக ப1 நரா 0 சிய வடு தத வாய்கத் பிசா SES\nA EVE hh EASE EES ILD ID (IB IDO Ee 3 I",
+     "cer": 0.888
+    }
+   }
+  },
+  {
+   "id": "grantha-tamil-0001",
+   "subset": "grantha-tamil",
+   "image": "assets/examples/grantha-tamil-0001.jpg",
+   "reference": "śrīrāmānujaர் yatirājaராய்\ndarśanaத்தை pravartiப்பித்தார்\nśaraṇāgatiயே mokṣaத்துக்கு upāyaம்",
+   "script": "grantha-tamil",
+   "medium": "print-scan",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": "𑌶𑍍𑌰𑍀𑌰𑌾𑌮𑌾𑌨𑍁𑌜ர் 𑌯𑌤𑌿𑌰𑌾𑌜ராய்\n𑌦𑌰𑍍𑌶𑌨த்தை 𑌪𑍍𑌰𑌵𑌰𑍍𑌤𑌿ப்பித்தார்\n𑌶𑌰𑌣𑌾𑌗𑌤𑌿யே 𑌮𑍋𑌕𑍍𑌷த்துக்கு 𑌉𑌪𑌾𑌯ம்",
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "டு ஸ்ரீராதாநுஜர்‌ யதிராஜராய்‌ $\nஉஸ௱௰)நத்தை வரவதிப்பித்தார்‌\nஉ பாணா திய ன ்க்டந்துக்கு உவாயம்‌",
+     "cer": 0.74
+    },
+    "tesseract-tam": {
+     "text": "டட ஸ்ரீமாஜாந-2ஜர்‌ யதியாஜராய்‌ ந\n| உஸ3நத்தை உரவதி$ப்பித்தார்‌ ந\nட மாணா மதியே  செத்கடத்துக்கு உவாயம்‌",
+     "cer": 0.714
+    },
+    "tesseract-tamil-script-best": {
+     "text": "“ ஸரீராஜாந ஜர்‌ யகிறாஜராய்‌ j\n203 நத்தை வர்வதீப்பித்தார்‌ }\nதட பமாரணாோா மதியே வொ்கடித்துக்கு உவாயம்‌",
+     "cer": 0.753
+    }
+   }
+  },
+  {
+   "id": "grantha-tamil-0002",
+   "subset": "grantha-tamil",
+   "image": "assets/examples/grantha-tamil-0002.jpg",
+   "reference": "kūreśaர் ācāryābhimānaமே uttārakaம்\nஎன்று இருந்தார்",
+   "script": "grantha-tamil",
+   "medium": "palm-leaf",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": "𑌕𑍂𑌰𑍇𑌶ர் 𑌆𑌚𑌾𑌰𑍍𑌯𑌾𑌭𑌿𑌮𑌾𑌨மே 𑌉𑌤𑍍𑌤𑌾𑌰𑌕ம்\nஎன்று இருந்தார்",
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "நட படட",
+     "cer": 1.0
+    },
+    "tesseract-tam": {
+     "text": "“வண எடம்‌",
+     "cer": 0.976
+    },
+    "tesseract-tamil-script-best": {
+     "text": "I",
+     "cer": 0.976
+    }
+   }
+  },
+  {
+   "id": "grantha-tamil-0000",
+   "subset": "grantha-tamil",
+   "image": "assets/examples/grantha-tamil-0000.jpg",
+   "reference": "jigaர்கள் vuṣīyahaக்கிறான் பறாதூ உமொச்சின்",
+   "script": "grantha-tamil",
+   "medium": "palm-leaf",
+   "provenance": "synthetic",
+   "lexical": "nonce",
+   "text_native": "𑌜𑌿𑌗ர்கள்𑌵𑍁𑌷𑍀𑌯𑌹ககிறானபறாதூஉமொச்சின்",
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "ர",
+     "cer": 0.97
+    },
+    "tesseract-tam": {
+     "text": "ன",
+     "cer": 0.97
+    },
+    "tesseract-tamil-script-best": {
+     "text": "",
+     "cer": 1.0
+    }
+   }
+  },
+  {
+   "id": "stone-0000",
+   "subset": "stone",
+   "image": "assets/examples/stone-0000.jpg",
+   "reference": "தெற்கு எல்லை பெருவழி மேற்கு எல்லை ஏரி வடக்கு எல்லை குளம்",
+   "script": "tamil-pre-reform",
+   "medium": "stone",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": "தெறகுஎலலைபெருவழி\nமேறகுஎல்லைஏரிவட\nக்குஎலலைகுளம",
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "மிய துலை\n0 க்‌ தபம்‌ பல க்‌ | ந ப்‌\nதத்‌ த்‌ பது ்‌ த ப ம\nணட அதை அ பபப பல்வ\nபதத ள்ள மவ்த்‌\nட இன்வுள்்‌ ந ற்ற்தகதி ல பத்‌ மனு\nப கதவ அன்ப ல்‌ அ்கை ம்‌\nசறற நீர்ச்‌ றிட பு\nர்ந்த ்‌",
+     "cer": 1.951
+    },
+    "tesseract-tam": {
+     "text": "இதப்‌ ௮ 5 வெள\n11: *ர தட தச்த்கத்‌! பத்த ன லட்‌\nபட்ட த இல்ல 0 அதி . ரஜி ல்‌\nதந்‌ ட பப வகுத்தத் க வடட\n பாரதிதி 2,112 மவ\n.... இத்தல ப னல கக்‌ ச ச்ச்‌ பத்தன்‌\n-  ரஜத்ததகக்லும்‌. த்துல கப்ர்‌ 12௧5\nர மோ 1747 ர்‌: 2]\nரண்தளா ்‌",
+     "cer": 2.756
+    },
+    "tesseract-tamil-script-best": {
+     "text": "i\nத a Ng 2 EN\nத 224 த ' i\n\nry\nEOE: JE ENETE TG\n© ep\n\nSo A த\n\nOEIC 2p AY IGS த\n\nFEE ்‌",
+     "cer": 1.244
+    }
+   }
+  },
+  {
+   "id": "stone-0001",
+   "subset": "stone",
+   "image": "assets/examples/stone-0001.jpg",
+   "reference": "மாவட்ட மைய நூலகக் கட்டடம்",
+   "script": "tamil-modern",
+   "medium": "stone",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "மாவட்ட மைய நூலகக்‌ கட்டடம்‌",
+     "cer": 0.0
+    },
+    "tesseract-tam": {
+     "text": "| மாவட்ட மைய நூலகக்‌ கட்டடம்‌",
+     "cer": 0.056
+    },
+    "tesseract-tamil-script-best": {
+     "text": "மாவட்ட மைய நூலகக்‌ கட்டடம்‌",
+     "cer": 0.0
+    }
+   }
+  },
+  {
+   "id": "stone-0019",
+   "subset": "stone",
+   "image": "assets/examples/stone-0019.jpg",
+   "reference": "சைபீ நுதுயி உரிறெட்டீண் மெளள் யூற்றுகல் நிபைய்மி வேபூ",
+   "script": "tamil-pre-reform",
+   "medium": "stone",
+   "provenance": "synthetic",
+   "lexical": "nonce",
+   "text_native": null,
+   "text_diplomatic": "சைபீநுதுயிஉரிறெடடீண\nமெளளயூறறுகலநிபையமி\nவேபூ",
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "றத உரறேட்டள\nழு",
+     "cer": 0.78
+    },
+    "tesseract-tam": {
+     "text": "சரகம்றுன பார கறாபமகா.\nனே",
+     "cer": 0.829
+    },
+    "tesseract-tamil-script-best": {
+     "text": "a\nகோ",
+     "cer": 0.976
+    }
+   }
+  },
+  {
+   "id": "copper-plate-0000",
+   "subset": "copper-plate",
+   "image": "assets/examples/copper-plate-0000.jpg",
+   "reference": "இத்தேவர்க்குத் திருவமுதுக்கு வைத்த நிலம் அரைவேலி",
+   "script": "tamil-pre-reform",
+   "medium": "copper-plate",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": "இததேவரக்குத்திருவமுதுக்குவைத்\nதநிலம்அரைவேலி",
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "இத்தேல்க்குத்தியுவமுதுக்குமைத\nநநிலமைஅரைவேலி",
+     "cer": 0.162
+    },
+    "tesseract-tam": {
+     "text": "இத்தேளக்டுக்திமுவரதுக்கு்வத\nதநிகம்‌அரைவேலி",
+     "cer": 0.243
+    },
+    "tesseract-tamil-script-best": {
+     "text": "ததேவரக குதிர ES\nESIC",
+     "cer": 0.703
+    }
+   }
+  },
+  {
+   "id": "copper-plate-0001",
+   "subset": "copper-plate",
+   "image": "assets/examples/copper-plate-0001.jpg",
+   "reference": "தன் பெருந்தேவியர் ஆகி இன்புற நெடுதியல் ஊழியுள்",
+   "script": "tamil-pre-reform",
+   "medium": "copper-plate",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": "தனபெருநதேவியரஆகிஇனபுற\nநெடுதியலஊழியுள",
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "கலபெழுத்தேலிய தற\nறடுதியபவதிமவ",
+     "cer": 0.6
+    },
+    "tesseract-tam": {
+     "text": "தபநநதேவ்ரர அதி இன்புற\nநெடுதிபனைறி்பள.",
+     "cer": 0.429
+    },
+    "tesseract-tamil-script-best": {
+     "text": "FEMMES\nEGE",
+     "cer": 1.0
+    }
+   }
+  },
+  {
+   "id": "copper-plate-0002",
+   "subset": "copper-plate",
+   "image": "assets/examples/copper-plate-0002.jpg",
+   "reference": "இவ்வாடு கொண்டு சந்திராதித்தவல் நிசதம் உழக்கு நெய் அட்டுவோமானோம் காந்தளூர்ச் சாலை கலமறுத்தருளி வேங்கை நாடும் கங்க பாடியும்",
+   "script": "tamil-pre-reform",
+   "medium": "copper-plate",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": "இவ்வாடுகொணடுசந்திராதித்தவல்\nநிசதம்உழககுநெய்அடடுவோமானோம்\nகாந்தளூரசசாலைகலமறுததருளிவேங்\nகைநாடுமகஙகபாடியும",
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "கணண\n\n| 'னாடுதொண்டுதற்திரரதித்தன ல\n\nு நிதம்‌ உழக்கு அட்டுவோமாகோம்‌\nநாந்தரரகாைலைறுததரளிவேங்‌\n\n| ைநாடுமதறபப்றணா\n\n|",
+     "cer": 0.4
+    },
+    "tesseract-tam": {
+     "text": "“பபப பபப பட ப\n\n| இன்வாடுகொளண்டுசதிராதிக்தவல்‌\n\nநிசதம்உழதரு நெ னடடுகவோமா(ளோம்‌\nகாந்தஞூராசாலைகைறுததருவிவேங்‌\n\n| நாடும்‌\n\n)",
+     "cer": 0.433
+    },
+    "tesseract-tamil-script-best": {
+     "text": "_——____—_\n\n| ிவ்ள்டுிகாணடுந்திராதித்தவ்‌\n\nESE SEC mon\nEN ECE EIGEN\n\n| OEIENEDEENE IIE\n\n|",
+     "cer": 0.922
+    }
+   }
+  },
+  {
+   "id": "tamil-brahmi-0000",
+   "subset": "tamil-brahmi",
+   "image": "assets/examples/tamil-brahmi-0000.jpg",
+   "reference": "ஈழக் குடும்பிகன்",
+   "script": "tamil-brahmi",
+   "medium": "pottery",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": "𑀈𑀵𑀓𑁰𑀓𑀼𑀝𑀼𑀫𑁰𑀧𑀺𑀓𑀷𑁰",
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "",
+     "cer": 1.0
+    },
+    "tesseract-tam": {
+     "text": "",
+     "cer": 1.0
+    },
+    "tesseract-tamil-script-best": {
+     "text": "",
+     "cer": 1.0
+    }
+   }
+  },
+  {
+   "id": "tamil-brahmi-0001",
+   "subset": "tamil-brahmi",
+   "image": "assets/examples/tamil-brahmi-0001.jpg",
+   "reference": "சொல்லுதல் யார்க்கும் எளிய அரியவாம்",
+   "script": "tamil-brahmi",
+   "medium": "stone",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": "𑀘𑁴𑀮𑁰𑀮𑀼𑀢𑀮𑁰 𑀬𑀸\n𑀭𑁰𑀓𑁰𑀓𑀼𑀫𑁰 𑁱𑀴𑀺𑀬\n 𑀅𑀭𑀺𑀬𑀯𑀸𑀫𑁰",
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "",
+     "cer": 1.0
+    },
+    "tesseract-tam": {
+     "text": "",
+     "cer": 1.0
+    },
+    "tesseract-tamil-script-best": {
+     "text": "",
+     "cer": 1.0
+    }
+   }
+  },
+  {
+   "id": "tamil-brahmi-0002",
+   "subset": "tamil-brahmi",
+   "image": "assets/examples/tamil-brahmi-0002.jpg",
+   "reference": "முர்முணடா ஞிணிசைளுன் மிவூளெகன்",
+   "script": "tamil-brahmi",
+   "medium": "stone",
+   "provenance": "synthetic",
+   "lexical": "nonce",
+   "text_native": "𑀫𑀼𑀭𑁰𑀫𑀼𑀡𑀝𑀸\n𑀜𑀺𑀡𑀺𑀘𑁃𑀴𑀼𑀷𑁰\n𑀫𑀺𑀯𑀽𑀴𑁳𑀓𑀷𑁰",
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "",
+     "cer": 1.0
+    },
+    "tesseract-tam": {
+     "text": "",
+     "cer": 1.0
+    },
+    "tesseract-tamil-script-best": {
+     "text": "",
+     "cer": 1.0
+    }
+   }
+  },
+  {
+   "id": "grantha-0000",
+   "subset": "grantha",
+   "image": "assets/examples/grantha-0000.jpg",
+   "reference": "oṃ pūrṇamadaḥ pūrṇamidaṃ pūrṇātpūrṇamudacyate\npūrṇasya pūrṇamādāya pūrṇamevāvaśiṣyate",
+   "script": "grantha",
+   "medium": "print-scan",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": "𑍐 𑌪𑍂𑌰𑍍𑌣𑌮𑌦𑌃 𑌪𑍂𑌰𑍍𑌣𑌮𑌿𑌦𑌂 𑌪𑍂𑌰𑍍𑌣𑌾𑌤𑍍𑌪𑍂𑌰𑍍𑌣𑌮𑍁𑌦𑌚𑍍𑌯𑌤𑍇\n𑌪𑍂𑌰𑍍𑌣𑌸𑍍𑌯 𑌪𑍂𑌰𑍍𑌣𑌮𑌾𑌦𑌾𑌯 𑌪𑍂𑌰𑍍𑌣𑌮𑍇𑌵𑌾𑌵𑌶𑌿𑌷𑍍𑌯𑌤𑍇",
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "ந வலண382: வணப8ிக வணவாதூணஉுஉவதெ\nவபலூணறஹ) வலணறுசாகாய வூணபு89ச்வாவணிஷ;தெ இ\nந ஞ்‌ ்‌",
+     "cer": 1.0
+    },
+    "tesseract-tam": {
+     "text": "௫ ௨௫ண322: உ£ண$3தி% ௨ண$ாத௫ண32-உவ$தெ -\n௨:இண$ுஹ) ௨௫ண3 காய உண சேவாவரிஷ$தெ அ\nரூ ப த்‌ ்‌",
+     "cer": 1.0
+    },
+    "tesseract-tamil-script-best": {
+     "text": "ஸீ வ௦ண422: வண49ி2 வலணகாத9ண32ுஉவ்தெ\nவூண்ஹ) வ9ண;3£ாஉாய வண செவாவறிஷதெ I\ni ஆ :",
+     "cer": 0.987
+    }
+   }
+  },
+  {
+   "id": "grantha-0001",
+   "subset": "grantha",
+   "image": "assets/examples/grantha-0001.jpg",
+   "reference": "svadattāṃ paradattāṃ vā yo hareta vasundharām",
+   "script": "grantha",
+   "medium": "print-scan",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": "𑌸𑍍𑌵𑌦𑌤𑍍𑌤𑌾𑌂 𑌪𑌰𑌦𑌤𑍍𑌤𑌾𑌂 𑌵𑌾 𑌯𑍋 𑌹𑌰𑍇𑌤 𑌵𑌸𑍁𑌨𑍍𑌧𑌰𑌾𑌮𑍍",
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "ஹகதாஃ வ௱உதாஃ வா யொ ஹரெத வார்‌",
+     "cer": 1.0
+    },
+    "tesseract-tam": {
+     "text": "ஹுதா உ௱உதாஃ வா யொ ஹரறெத ஆம்‌ ர",
+     "cer": 1.0
+    },
+    "tesseract-tamil-script-best": {
+     "text": "ஹ&தா௦ வ௱&தாஃ வா யொ ஹறெத வக",
+     "cer": 1.0
+    }
+   }
+  },
+  {
+   "id": "grantha-0010",
+   "subset": "grantha",
+   "image": "assets/examples/grantha-0010.jpg",
+   "reference": "bhigumaśi śikīyīma rīnaṃga",
+   "script": "grantha",
+   "medium": "stone",
+   "provenance": "synthetic",
+   "lexical": "nonce",
+   "text_native": "𑌭𑌿𑌗𑍁𑌮𑌶𑌿 𑌶𑌿𑌕𑍀𑌯𑍀𑌮 𑌰𑍀𑌨𑌂𑌗",
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {
+    "tesseract-tam-best": {
+     "text": "ண்‌ பினா பநர",
+     "cer": 1.0
+    },
+    "tesseract-tam": {
+     "text": "தபம்‌ ப [தத",
+     "cer": 1.0
+    },
+    "tesseract-tamil-script-best": {
+     "text": "I EIT IIgs",
+     "cer": 0.833
+    }
+   }
+  },
+  {
+   "id": "script-id-0000",
+   "subset": "script-id",
+   "image": "assets/examples/script-id-0000.jpg",
+   "reference": "tamil-modern",
+   "script": "tamil-modern",
+   "medium": "handwritten",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {}
+  },
+  {
+   "id": "script-id-0001",
+   "subset": "script-id",
+   "image": "assets/examples/script-id-0001.jpg",
+   "reference": "tamil-pre-reform",
+   "script": "tamil-pre-reform",
+   "medium": "copper-plate",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {}
+  },
+  {
+   "id": "script-id-0002",
+   "subset": "script-id",
+   "image": "assets/examples/script-id-0002.jpg",
+   "reference": "tamil-brahmi",
+   "script": "tamil-brahmi",
+   "medium": "stone",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {}
+  },
+  {
+   "id": "medium-id-0000",
+   "subset": "medium-id",
+   "image": "assets/examples/medium-id-0000.png",
+   "reference": "screen",
+   "script": "tamil-modern",
+   "medium": "screen",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {}
+  },
+  {
+   "id": "medium-id-0001",
+   "subset": "medium-id",
+   "image": "assets/examples/medium-id-0001.jpg",
+   "reference": "printed-paper",
+   "script": "tamil-modern",
+   "medium": "printed-paper",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {}
+  },
+  {
+   "id": "medium-id-0045",
+   "subset": "medium-id",
+   "image": "assets/examples/medium-id-0045.png",
+   "reference": "screen",
+   "script": "tamil-modern",
+   "medium": "screen",
+   "provenance": "synthetic",
+   "lexical": "nonce",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {}
+  },
+  {
+   "id": "translate-en-0000",
+   "subset": "translate-en",
+   "image": "assets/examples/translate-en-0000.jpg",
+   "reference": "Walk for at least half an hour every day.",
+   "script": "tamil-modern",
+   "medium": "print-scan",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {}
+  },
+  {
+   "id": "translate-en-0001",
+   "subset": "translate-en",
+   "image": "assets/examples/translate-en-0001.png",
+   "reference": "The teacher explained the sums on the blackboard.",
+   "script": "tamil-modern",
+   "medium": "screen",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {}
+  },
+  {
+   "id": "translate-en-0002",
+   "subset": "translate-en",
+   "image": "assets/examples/translate-en-0002.jpg",
+   "reference": "Drinking enough water every day is good for health.",
+   "script": "tamil-modern",
+   "medium": "scene",
+   "provenance": "synthetic",
+   "lexical": "corpus",
+   "text_native": null,
+   "text_diplomatic": null,
+   "attribution": null,
+   "source": null,
+   "predictions": {}
+  }
+ ]
+}
