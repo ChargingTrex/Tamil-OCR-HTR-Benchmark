@@ -9,7 +9,7 @@
       "task": "recognition",
       "track": "print",
       "prompt": "recognition",
-      "description": "Clean Unicode text rendered in 17 Tamil typefaces — words, lines and paragraphs. The upper bound: failures here are failures of script knowledge, not of vision.",
+      "description": "Clean Unicode text rendered in a dozen Tamil typefaces and weights — words, lines and paragraphs. The upper bound: failures here are failures of script knowledge, not of vision.",
       "scripts": [
         "tamil-modern"
       ],
@@ -278,6 +278,37 @@
       "attribution": "Central Institute of Classical Tamil (CICT), CICT Tirukkural Ground Truth Corpus, CC BY 4.0; per-leaf DOIs in the manifest."
     },
     {
+      "id": "grantha-tamil",
+      "title": "Grantha–Tamil (maṇipravāḷam)",
+      "task": "recognition",
+      "track": "manuscripts",
+      "prompt": "recognition-grantha-tamil",
+      "description": "Tamil manuscripts and old print that write Sanskrit words in Grantha inside Tamil text, often switching script mid-word (commentaries, astrology, medicine, colophons, inscription formulae). Transcribed with Tamil in Tamil Unicode and Grantha in IAST.",
+      "scripts": [
+        "grantha-tamil"
+      ],
+      "media": [
+        "palm-leaf",
+        "print-scan"
+      ],
+      "provenance": "synthetic",
+      "granularity": [
+        "line",
+        "block"
+      ],
+      "count": 60,
+      "policy": {
+        "spaces": "remove",
+        "script": "iast",
+        "fold_pulli": true,
+        "fold_vowel_length": true
+      },
+      "labels": [],
+      "target": "text",
+      "license": "CC-BY-4.0",
+      "attribution": ""
+    },
+    {
       "id": "stone",
       "title": "Stone inscriptions & plaques",
       "task": "recognition",
@@ -404,7 +435,7 @@
       "task": "script-id",
       "track": "classification",
       "prompt": "script-id",
-      "description": "Which script is this? Modern vs pre-reform Tamil, Tamil-Brahmi, Grantha, and neighbouring scripts (Malayalam, Kannada, Telugu, Sinhala, Devanagari).",
+      "description": "Which script is this? Modern vs pre-reform Tamil, Tamil-Brahmi, Grantha, and the neighbouring South Indian and Sri Lankan scripts (Malayalam, Kannada, Telugu, Sinhala).",
       "scripts": [
         "tamil-modern",
         "tamil-pre-reform",
@@ -413,8 +444,7 @@
         "malayalam",
         "kannada",
         "telugu",
-        "sinhala",
-        "devanagari"
+        "sinhala"
       ],
       "media": [
         "born-digital",
@@ -445,8 +475,7 @@
         "malayalam",
         "kannada",
         "telugu",
-        "sinhala",
-        "devanagari"
+        "sinhala"
       ],
       "target": "label",
       "license": "CC-BY-4.0",
@@ -531,22 +560,23 @@
     }
   ],
   "counts": {
+    "tamil-brahmi": 100,
     "script-id": 144,
-    "handwriting": 100,
-    "translate-en": 100,
-    "pre-reform-print": 100,
-    "print-photo": 100,
-    "print-digital": 100,
+    "stone": 80,
+    "print-scan": 100,
+    "medium-id": 144,
+    "palm-leaf-cict": 26,
     "scene": 100,
+    "print-digital": 100,
+    "grantha-tamil": 60,
+    "translate-en": 100,
+    "screen": 120,
+    "handwriting": 100,
+    "copper-plate": 60,
     "palm-leaf-synth": 80,
     "numerals-symbols": 80,
-    "palm-leaf-cict": 26,
-    "stone": 80,
-    "copper-plate": 60,
-    "screen": 120,
-    "tamil-brahmi": 100,
-    "medium-id": 144,
+    "print-photo": 100,
     "grantha": 60,
-    "print-scan": 100
+    "pre-reform-print": 100
   }
 }

@@ -100,9 +100,10 @@ def born_digital(lines, rng: Rng, font: F.FontSpec | None = None, size: int | No
 
 # ============================================================================ print
 
-def _print_page(lines, rng: Rng, font: F.FontSpec, size: int, *, aged: float, letterpress: bool):
+def _print_page(lines, rng: Rng, font: F.FontSpec, size: int, *, aged: float, letterpress: bool,
+                fallback: list[F.FontSpec] | None = None):
     r = render_block(lines, font, size, line_spacing=rng.uniform(1.0, 1.25),
-                     align=_pick(rng, ["left", "left", "center"]))
+                     align=_pick(rng, ["left", "left", "center"]), fallback=fallback)
     m = E.ink_spread(r.mask, sigma=rng.uniform(0.3, 0.8), gain=rng.uniform(1.0, 1.4))
     if letterpress:
         m = E.ink_dropout(m, rng, amount=rng.uniform(0.05, 0.25), scale=rng.uniform(3, 8))
@@ -119,11 +120,11 @@ def _print_page(lines, rng: Rng, font: F.FontSpec, size: int, *, aged: float, le
 
 
 def print_scan(lines, rng: Rng, font: F.FontSpec | None = None, *, aged: float = 0.0, letterpress=False,
-               size: int | None = None):
+               size: int | None = None, fallback: list[F.FontSpec] | None = None):
     text = "\n".join(lines)
     font = font or _fonts_for(rng, ("tamil",), text, exclude=("nolatin", "hand", "classical", "rounded"))
     size = size or int(rng.integers(26, 42))
-    arr = _print_page(lines, rng, font, size, aged=aged, letterpress=letterpress)
+    arr = _print_page(lines, rng, font, size, aged=aged, letterpress=letterpress, fallback=fallback)
     img, meta = _finish_scan(arr, rng, gray_p=0.1 if aged else 0.4)
     return img, {"font": font.id, "size": size, "aged": round(aged, 2), **meta}
 
@@ -296,11 +297,12 @@ def _cut_before(mask: np.ndarray, limit: int, lo: int, window: int) -> int:
     return int(a + free[-1])
 
 
-def palm_leaf(lines, rng: Rng, font: F.FontSpec | None = None, size: int | None = None):
+def palm_leaf(lines, rng: Rng, font: F.FontSpec | None = None, size: int | None = None,
+              fallback: list[F.FontSpec] | None = None):
     font = font or F.BY_ID["lohit-classical"]
     size = size or int(rng.integers(26, 34))
     pitch = int(size * rng.uniform(1.25, 1.45))
-    line_masks = [render_line(ln, font, size) for ln in lines]
+    line_masks = [render_line(ln, font, size, fallback=fallback) for ln in lines]
     text_w = max(m.shape[1] for m in line_masks)
     n = len(lines)
     margin_x = int(size * rng.uniform(2.0, 4.0))

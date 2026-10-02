@@ -73,12 +73,15 @@ FONTS: list[FontSpec] = [
     _f("telugu-serif", "NotoSerifTelugu-Regular.ttf", "telugu"),
     _f("sinhala-sans", "NotoSansSinhala-Regular.ttf", "sinhala"),
     _f("sinhala-serif", "NotoSerifSinhala-Regular.ttf", "sinhala"),
-    _f("devanagari-sans", "NotoSansDevanagari-Regular.ttf", "devanagari"),
-    _f("devanagari-serif", "NotoSerifDevanagari-Regular.ttf", "devanagari"),
 ]
 BY_ID = {f.id: f for f in FONTS}
 LATIN_FALLBACK = BY_ID["noto-sans"]
 SUPPLEMENT = BY_ID["tamil-supplement"]
+
+
+def grantha_for(font: FontSpec) -> FontSpec:
+    """The Grantha face that matches ``font`` (serif with serif), for Grantha–Tamil mixed text."""
+    return BY_ID["grantha-serif" if "serif" in font.tags else "grantha-sans"]
 
 
 def select(*tags: str, exclude: tuple[str, ...] = ()) -> list[FontSpec]:

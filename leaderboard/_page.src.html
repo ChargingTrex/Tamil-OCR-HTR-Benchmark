@@ -1,0 +1,676 @@
+<title>Tamil OCR · HTR Leaderboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Tamil:wdth,wght@75..125,400..800&family=Hind+Madurai:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Brahmi&family=Noto+Sans+Grantha&display=swap">
+<style>
+/* Layout: a palm-leaf masthead (the subject's own writing surface) over a ledger-like page —
+   one wide ranking table, then small multiples, a subset heatmap, examples and coverage. */
+:root {
+  --ground: #f3f4ef;
+  --surface: #fcfcfa;
+  --ink: #17160f;
+  --ink-2: #4c4a42;
+  --muted: #7d7a72;
+  --rule: #e0dfd7;
+  --rule-strong: #c6c4ba;
+  --leaf-1: #e3c27f;
+  --leaf-2: #cfa65a;
+  --leaf-edge: #9c7531;
+  --leaf-ink: #241a0c;
+  --gold: #8a6420;
+  --accent: #2a78d6;
+  --accent-strong: #1c5cab;
+  --accent-soft: #9ec5f4;
+  --accent-wash: rgba(42, 120, 214, 0.10);
+  --verdigris: #2b7a69;
+  --verdigris-wash: rgba(43, 122, 105, 0.12);
+  --error: #c43d3d;
+  --error-wash: rgba(196, 61, 61, 0.14);
+  --h0: #eef4fd; --h1: #cde2fb; --h2: #9ec5f4; --h3: #6da7ec; --h4: #3987e5; --h5: #256abf; --h6: #104281;
+  --h-ink-lo: #17160f; --h-ink-hi: #ffffff;
+  --font-display: "Anek Tamil", "Hind Madurai", system-ui, sans-serif;
+  --font-body: "Hind Madurai", "Noto Sans Tamil", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-brahmi: "Noto Sans Brahmi", serif;
+  --font-grantha: "Noto Sans Grantha", serif;
+  --font-classical: "Lohit Tamil Classical Subset", "Hind Madurai", serif;
+  --radius: 6px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --maxw: 1240px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #11110e; --surface: #1a1a17; --ink: #f1eee4; --ink-2: #c6c2b6; --muted: #8f8b80;
+    --rule: #2c2a25; --rule-strong: #403d36;
+    --leaf-1: #c9a35c; --leaf-2: #b38a42; --leaf-edge: #7d5c22; --leaf-ink: #1d1509; --gold: #e2b45a;
+    --accent: #3987e5; --accent-strong: #86b6ef; --accent-soft: #1c5cab; --accent-wash: rgba(57, 135, 229, 0.16);
+    --verdigris: #5fc0a8; --verdigris-wash: rgba(95, 192, 168, 0.14);
+    --error: #ef7a7a; --error-wash: rgba(239, 122, 122, 0.18);
+    --h0: #16202c; --h1: #10345e; --h2: #1c5cab; --h3: #2a78d6; --h4: #5598e7; --h5: #9ec5f4; --h6: #dbe9fc;
+    --h-ink-lo: #f1eee4; --h-ink-hi: #0d1520;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #11110e; --surface: #1a1a17; --ink: #f1eee4; --ink-2: #c6c2b6; --muted: #8f8b80;
+  --rule: #2c2a25; --rule-strong: #403d36;
+  --leaf-1: #c9a35c; --leaf-2: #b38a42; --leaf-edge: #7d5c22; --leaf-ink: #1d1509; --gold: #e2b45a;
+  --accent: #3987e5; --accent-strong: #86b6ef; --accent-soft: #1c5cab; --accent-wash: rgba(57, 135, 229, 0.16);
+  --verdigris: #5fc0a8; --verdigris-wash: rgba(95, 192, 168, 0.14);
+  --error: #ef7a7a; --error-wash: rgba(239, 122, 122, 0.18);
+  --h0: #16202c; --h1: #10345e; --h2: #1c5cab; --h3: #2a78d6; --h4: #5598e7; --h5: #9ec5f4; --h6: #dbe9fc;
+  --h-ink-lo: #f1eee4; --h-ink-hi: #0d1520;
+  color-scheme: dark;
+}
+/*LOHIT-FACE*/
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--font-body); font-size: 15.5px; line-height: 1.55; }
+a { color: var(--accent-strong); text-underline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--gutter); }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; letter-spacing: -0.005em; }
+h2 { font-size: 1.6rem; font-weight: 650; font-stretch: 112%; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+.eyebrow { font-size: 0.72rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.lede { color: var(--ink-2); max-width: 68ch; margin: 0.4rem 0 0; }
+.num { font-variant-numeric: tabular-nums; }
+section { padding-block: 2.6rem 0.6rem; }
+.section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 1.5rem; margin-bottom: 1rem; }
+.section-head > div { min-width: 0; }
+
+/* ---------------- masthead ---------------- */
+header.masthead { padding-block: 2.2rem 0.4rem; }
+.title-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 0.8rem 2rem; }
+.title-row h1 { font-size: clamp(2rem, 4.6vw, 3.25rem); line-height: 1.02; font-weight: 720; font-stretch: 118%; }
+.title-row h1 span { display: block; font-size: 0.42em; font-weight: 500; font-stretch: 100%; color: var(--ink-2); margin-top: 0.45rem; letter-spacing: 0; }
+.facts { display: flex; flex-wrap: wrap; gap: 0.35rem 1.4rem; color: var(--ink-2); font-size: 0.92rem; }
+.facts b { color: var(--ink); font-weight: 600; }
+.leaf {
+  position: relative; margin-top: 1.4rem; border-radius: 22px / 50%;
+  background:
+    radial-gradient(120% 140% at 50% 50%, transparent 55%, rgba(80, 52, 12, 0.28) 100%),
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0 2px, rgba(120, 82, 24, 0.10) 2px 3px, transparent 3px 7px),
+    linear-gradient(180deg, var(--leaf-1), var(--leaf-2));
+  box-shadow: inset 0 0 0 1px var(--leaf-edge);
+  padding: 1.1rem clamp(2.6rem, 7vw, 5.2rem);
+  color: var(--leaf-ink);
+}
+.leaf::before, .leaf::after { content: ""; position: absolute; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: var(--ground); box-shadow: inset 0 0 0 1.5px var(--leaf-edge); }
+.leaf::before { left: clamp(0.9rem, 2.6vw, 2rem); }
+.leaf::after { right: clamp(0.9rem, 2.6vw, 2rem); }
+.timeline { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.6rem 1.4rem; align-items: end; }
+.stage { min-width: 0; }
+.stage .glyphs { font-size: clamp(1.25rem, 2.6vw, 1.85rem); line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+.stage .cap { font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; opacity: 0.85; }
+.stage .cap i { font-style: normal; font-weight: 500; text-transform: none; letter-spacing: 0; opacity: 0.85; }
+.g-brahmi { font-family: var(--font-brahmi); }
+.g-grantha { font-family: var(--font-grantha); }
+.g-classical { font-family: var(--font-classical); }
+.g-modern { font-family: var(--font-body); }
+@media (max-width: 760px) { .timeline { grid-template-columns: repeat(2, minmax(0, 1fr)); } .leaf { border-radius: 18px; } }
+
+nav.jump { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--ground) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--rule); margin-top: 1.4rem; }
+nav.jump .wrap { display: flex; gap: 0.2rem 1.1rem; overflow-x: auto; padding-block: 0.55rem; scrollbar-width: none; }
+nav.jump a { white-space: nowrap; color: var(--ink-2); text-decoration: none; font-size: 0.88rem; font-weight: 500; }
+nav.jump a:hover { color: var(--ink); }
+
+/* ---------------- leaderboard table ---------------- */
+.table-box { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); }
+table.lb { width: 100%; border-collapse: collapse; min-width: 980px; }
+table.lb th, table.lb td { padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--rule); text-align: right; vertical-align: middle; }
+table.lb thead th { font-size: 0.74rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--surface); position: sticky; top: 0; }
+table.lb th.l, table.lb td.l { text-align: left; }
+table.lb tbody tr { cursor: pointer; }
+table.lb tbody tr:hover td { background: var(--accent-wash); }
+table.lb tbody tr.is-sel td { background: var(--accent-wash); box-shadow: inset 0 -1px 0 var(--accent); }
+table.lb tbody tr:last-child td { border-bottom: 0; }
+.sort { all: unset; cursor: pointer; display: inline-flex; gap: 0.25rem; align-items: center; }
+.sort[aria-sort="descending"]::after { content: "↓"; color: var(--accent-strong); }
+.rank { font-family: var(--font-display); font-weight: 650; font-size: 1.05rem; color: var(--ink-2); }
+.rank.r1 { color: var(--gold); }
+.model-name { font-weight: 600; color: var(--ink); }
+.model-sub { display: flex; flex-wrap: wrap; gap: 0.3rem 0.5rem; align-items: center; color: var(--muted); font-size: 0.8rem; margin-top: 0.1rem; }
+.pill { display: inline-block; font-size: 0.7rem; line-height: 1.5; padding: 0 0.45rem; border-radius: 999px; border: 1px solid var(--rule-strong); color: var(--ink-2); white-space: nowrap; }
+.pill.real { border-color: var(--verdigris); color: var(--verdigris); background: var(--verdigris-wash); }
+.score { display: inline-grid; gap: 3px; justify-items: end; min-width: 3.2rem; }
+.score .v { font-variant-numeric: tabular-nums; font-weight: 500; }
+.score .v.big { font-weight: 650; font-size: 1.05rem; }
+.score .bar { width: 3.2rem; height: 3px; background: var(--rule); border-radius: 2px; overflow: hidden; }
+.score .bar i { display: block; height: 100%; background: var(--accent); border-radius: 0 2px 2px 0; }
+.na { color: var(--muted); }
+.table-note { color: var(--muted); font-size: 0.84rem; margin-top: 0.7rem; max-width: 92ch; }
+.pending-head { margin-top: 1.8rem; display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; }
+.pending { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 0.6rem; margin-top: 0.8rem; }
+.pending .card { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.6rem 0.75rem; min-width: 0; }
+.pending .card .model-name { font-size: 0.95rem; }
+.pending code { font-family: var(--font-mono); font-size: 0.74rem; color: var(--ink-2); word-break: break-all; }
+
+/* ---------------- small multiples ---------------- */
+.multiples { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.mult { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.85rem 0.95rem 0.9rem; min-width: 0; }
+.mult h3 { margin-bottom: 0.1rem; }
+.mult .sub { color: var(--muted); font-size: 0.8rem; margin-bottom: 0.65rem; min-height: 2.5em; }
+.brow { display: grid; grid-template-columns: minmax(0, 8.5rem) minmax(0, 1fr) 2.6rem; align-items: center; gap: 0.5rem; padding-block: 3px; }
+.brow .lab { font-size: 0.8rem; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.brow .track { position: relative; height: 14px; border-left: 1px solid var(--rule-strong); }
+.brow .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); border-radius: 0 4px 4px 0; transition: background-color 120ms; }
+.brow .val { font-size: 0.8rem; text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); }
+.brow.dim .fill { background: var(--accent-soft); }
+.brow.dim .lab, .brow.dim .val { color: var(--muted); }
+.brow .nsup { font-size: 0.74rem; color: var(--muted); }
+
+/* ---------------- heatmap ---------------- */
+.heat-box { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.6rem; }
+table.heat { border-collapse: separate; border-spacing: 2px; min-width: 900px; width: 100%; }
+table.heat th { font-size: 0.7rem; font-weight: 600; color: var(--muted); padding: 0.25rem 0.2rem; vertical-align: bottom; }
+table.heat th.grp { color: var(--ink-2); letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 1px solid var(--rule-strong); }
+table.heat th.sub { font-weight: 500; writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; height: 8.2rem; white-space: nowrap; }
+table.heat th.row { text-align: left; font-size: 0.8rem; color: var(--ink-2); font-weight: 500; white-space: nowrap; padding-right: 0.6rem; }
+table.heat td { text-align: center; font-size: 0.74rem; font-variant-numeric: tabular-nums; height: 2rem; min-width: 2.3rem; border-radius: 3px; }
+table.heat td.na { background: transparent; color: var(--muted); }
+table.heat tr.dim th.row { color: var(--muted); }
+table.heat tr.dim td:not(.na) { opacity: 0.45; }
+.b0 { background: var(--h0); color: var(--h-ink-lo); } .b1 { background: var(--h1); color: var(--h-ink-lo); }
+.b2 { background: var(--h2); color: var(--h-ink-lo); } .b3 { background: var(--h3); color: var(--h-ink-lo); }
+.b4 { background: var(--h4); color: var(--h-ink-hi); } .b5 { background: var(--h5); color: var(--h-ink-hi); }
+.b6 { background: var(--h6); color: var(--h-ink-hi); }
+:root[data-theme="dark"] .b0, :root[data-theme="dark"] .b1, :root[data-theme="dark"] .b2, :root[data-theme="dark"] .b3 { color: var(--h-ink-lo); }
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.9rem; font-size: 0.78rem; color: var(--muted); margin-top: 0.7rem; }
+.ramp { display: inline-flex; gap: 2px; align-items: center; }
+.ramp span { width: 26px; height: 10px; border-radius: 2px; }
+.ramp-labels { display: inline-flex; justify-content: space-between; width: 194px; font-variant-numeric: tabular-nums; }
+
+/* ---------------- prior reliance ---------------- */
+.dumb { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.9rem 1rem; }
+.drow { display: grid; grid-template-columns: minmax(0, 12rem) minmax(0, 1fr) 4.2rem; gap: 0.7rem; align-items: center; padding-block: 0.35rem; }
+.drow .lab { font-size: 0.85rem; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.drow .axis { position: relative; height: 22px; }
+.drow .axis::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid var(--rule); }
+.drow .seg { position: absolute; top: 50%; height: 2px; margin-top: -1px; background: var(--muted); }
+.drow .dot { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; box-shadow: 0 0 0 2px var(--surface); }
+.dot.real { background: var(--h5); } .dot.nonce { background: var(--h2); }
+.drow .gap { font-size: 0.8rem; text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.drow.dim { opacity: 0.45; }
+.ticks { display: grid; grid-template-columns: minmax(0, 12rem) minmax(0, 1fr) 4.2rem; gap: 0.7rem; font-size: 0.72rem; color: var(--muted); }
+.ticks .scale { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
+.key { display: inline-flex; align-items: center; gap: 0.35rem; }
+.key i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+/* ---------------- examples ---------------- */
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+.chip { font: inherit; font-size: 0.82rem; padding: 0.25rem 0.75rem; border-radius: 999px; border: 1px solid var(--rule-strong); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.examples { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+.ex { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+.ex .img { background: color-mix(in srgb, var(--ground) 70%, var(--rule)); display: flex; align-items: center; justify-content: center; height: 190px; padding: 0.4rem; }
+.ex .img img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 3px; }
+.ex .body { padding: 0.7rem 0.85rem 0.85rem; display: grid; gap: 0.55rem; min-width: 0; }
+.ex .meta { display: flex; flex-wrap: wrap; gap: 0.3rem; align-items: center; }
+.ex .meta .t { font-weight: 600; font-size: 0.86rem; margin-right: 0.2rem; }
+.ex .lbl { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.ex .ref { font-size: 0.95rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ex .ref.native { color: var(--ink-2); font-size: 1.05rem; }
+.ex .pred { border-top: 1px solid var(--rule); padding-top: 0.45rem; display: grid; gap: 0.15rem; min-width: 0; }
+.ex .pred .who { display: flex; justify-content: space-between; gap: 0.5rem; font-size: 0.78rem; color: var(--muted); }
+.ex .pred .who b { color: var(--ink-2); font-weight: 600; }
+.ex .pred .txt { font-size: 0.9rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ex .pred .txt.empty { color: var(--muted); font-style: italic; }
+.ex mark { background: var(--error-wash); color: inherit; text-decoration: underline; text-decoration-color: var(--error); text-underline-offset: 3px; border-radius: 2px; }
+.ex .ok { color: var(--verdigris); font-weight: 600; } .ex .bad { color: var(--error); font-weight: 600; }
+.attrib { font-size: 0.74rem; color: var(--muted); }
+
+/* ---------------- coverage ---------------- */
+.cov-box { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); }
+table.cov { border-collapse: collapse; width: 100%; min-width: 880px; }
+table.cov th, table.cov td { padding: 0.5rem 0.55rem; border-bottom: 1px solid var(--rule); font-size: 0.82rem; text-align: center; }
+table.cov thead th { color: var(--muted); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.03em; text-transform: uppercase; }
+table.cov th.s { text-align: left; min-width: 13rem; }
+table.cov th.s b { display: block; font-size: 0.9rem; color: var(--ink); font-weight: 600; text-transform: none; letter-spacing: 0; }
+table.cov th.s span { font-weight: 400; color: var(--muted); font-size: 0.76rem; text-transform: none; letter-spacing: 0; }
+.cnt { display: inline-flex; gap: 0.25rem; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; }
+.cnt .r { color: var(--verdigris); font-weight: 600; }
+td.gap-cell { color: var(--muted); font-style: italic; text-align: left; }
+.empty-dot { color: var(--rule-strong); }
+
+/* ---------------- method / run ---------------- */
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 1rem 1.1rem; min-width: 0; }
+.panel p, .panel li { color: var(--ink-2); font-size: 0.92rem; }
+.panel ul { padding-left: 1.1rem; margin: 0.5rem 0 0; display: grid; gap: 0.3rem; }
+.code { position: relative; background: color-mix(in srgb, var(--ground) 60%, var(--surface)); border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.75rem 0.85rem; overflow-x: auto; }
+.code pre { margin: 0; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.6; color: var(--ink); }
+.code .c { color: var(--muted); }
+.copy { position: absolute; top: 0.45rem; right: 0.45rem; font: inherit; font-size: 0.74rem; padding: 0.15rem 0.55rem; border-radius: 4px; border: 1px solid var(--rule-strong); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+footer { margin-top: 3rem; border-top: 1px solid var(--rule); padding-block: 1.4rem 2.4rem; color: var(--muted); font-size: 0.84rem; }
+footer .cols { gap: 0.6rem 2rem; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+@media (max-width: 560px) {
+  .brow { grid-template-columns: minmax(0, 6.5rem) minmax(0, 1fr) 2.4rem; }
+  .drow, .ticks { grid-template-columns: minmax(0, 7rem) minmax(0, 1fr) 3.4rem; }
+}
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="title-row">
+      <h1>Tamil OCR · HTR Benchmark<span lang="ta">தமிழ் எழுத்துணரி அளவுகோல் · from Tamil-Brahmi to the screen</span></h1>
+      <div class="facts" id="facts"></div>
+    </div>
+    <div class="leaf" role="img" aria-label="Tamil writing across time: tamiḻ in Tamil-Brahmi, svasti śrī in Grantha, the 1978 reform syllables in their old and new forms">
+      <div class="timeline">
+        <div class="stage"><div class="glyphs g-brahmi" lang="ta-Brah">𑀢𑀫𑀺𑀵𑁰</div><div class="cap">Tamil-Brahmi <i>· tamiḻ · c. 3rd c. BCE</i></div></div>
+        <div class="stage"><div class="glyphs g-grantha" lang="sa-Gran">𑌸𑍍𑌵𑌸𑍍𑌤𑌿 𑌶𑍍𑌰𑍀</div><div class="cap">Grantha <i>· svasti śrī · Chola grants</i></div></div>
+        <div class="stage"><div class="glyphs g-classical" lang="ta">ணா றா னா ணை லை</div><div class="cap">Before 1978 <i>· palm leaf &amp; print</i></div></div>
+        <div class="stage"><div class="glyphs g-modern" lang="ta">ணா றா னா ணை லை</div><div class="cap">Today <i>· reformed script</i></div></div>
+      </div>
+    </div>
+  </div>
+  <nav class="jump" aria-label="Sections">
+    <div class="wrap">
+      <a href="#leaderboard">Leaderboard</a><a href="#tracks">By track</a><a href="#subsets">By subset</a>
+      <a href="#prior">Reading vs guessing</a><a href="#examples">Examples</a><a href="#coverage">Coverage</a>
+      <a href="#method">Scoring</a><a href="#run">Evaluate a model</a>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section id="leaderboard" aria-labelledby="h-lb">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Benchmark <span id="bver">v1</span> · public test split</div>
+        <h2 id="h-lb">Leaderboard</h2>
+        <p class="lede">Scores are 0–100, higher is better. Reading tracks score 100·(1−CER); identification is macro-F1; translation is chrF++. Select a row to highlight that model in every chart.</p>
+      </div>
+    </div>
+    <div class="table-box"><table class="lb" id="lb-table"><thead></thead><tbody></tbody></table></div>
+    <p class="table-note" id="lb-note"></p>
+    <div class="pending-head"><h3>Awaiting evaluation</h3><span class="eyebrow" id="pending-count"></span></div>
+    <p class="lede" style="font-size:0.9rem">Adapters for these models are ready. Each needs only an API key or an inference endpoint: <code style="font-family:var(--font-mono);font-size:0.82rem">tamilbench run --model &lt;id&gt;</code>.</p>
+    <div class="pending" id="pending"></div>
+  </section>
+
+  <section id="tracks" aria-labelledby="h-tracks">
+    <div class="section-head"><div>
+      <div class="eyebrow">Eight tracks</div>
+      <h2 id="h-tracks">Strengths by track</h2>
+      <p class="lede">Each panel ranks the evaluated models on one track. “Not supported” marks a task a system does not perform; it is not scored as zero.</p>
+    </div></div>
+    <div class="multiples" id="multiples"></div>
+  </section>
+
+  <section id="subsets" aria-labelledby="h-sub">
+    <div class="section-head"><div>
+      <div class="eyebrow">Seventeen subsets</div>
+      <h2 id="h-sub">Where models fail</h2>
+      <p class="lede">Every subset score for every model. Columns run from today's screens to Tamil-Brahmi rock and Grantha copper plates.</p>
+    </div></div>
+    <div class="heat-box"><table class="heat" id="heat"></table></div>
+    <div class="legend" id="heat-legend"></div>
+  </section>
+
+  <section id="prior" aria-labelledby="h-prior">
+    <div class="section-head"><div>
+      <div class="eyebrow">Diagnostic · not ranked</div>
+      <h2 id="h-prior">Reading vs guessing</h2>
+      <p class="lede">Every reading subset hides lines of nonce words — Tamil-shaped but meaningless. A system that reads letter by letter scores the same on both; one that leans on its language model drops on nonce words.</p>
+    </div></div>
+    <div class="dumb" id="dumb"></div>
+  </section>
+
+  <section id="examples" aria-labelledby="h-ex">
+    <div class="section-head"><div>
+      <div class="eyebrow">From the test set</div>
+      <h2 id="h-ex">Examples</h2>
+      <p class="lede">Reference text and each evaluated model's answer, with the official per-item score. Underlined characters differ from the reference.</p>
+    </div></div>
+    <div class="chips" id="ex-filter" role="group" aria-label="Filter examples by track"></div>
+    <div class="examples" id="ex-grid"></div>
+  </section>
+
+  <section id="coverage" aria-labelledby="h-cov">
+    <div class="section-head"><div>
+      <div class="eyebrow">2,500 years × 11 surfaces</div>
+      <h2 id="h-cov">What the test set covers</h2>
+      <p class="lede">Test items per script stage and writing medium. <span class="cnt"><span class="r">●</span></span> marks real artefacts; all other items are rendered by the benchmark. Empty rows are the gaps the next version will fill with real data.</p>
+    </div></div>
+    <div class="cov-box"><table class="cov" id="cov"></table></div>
+  </section>
+
+  <section id="method" aria-labelledby="h-method">
+    <div class="section-head"><div>
+      <div class="eyebrow">Rubric</div>
+      <h2 id="h-method">How scoring works</h2>
+      <p class="lede">The full rubric, every prompt and worked examples are in <a href="https://github.com/ChargingTrex/Tamil-OCR-HTR-Benchmark/blob/HEAD/docs/METHODOLOGY.md">docs/METHODOLOGY.md</a>.</p>
+    </div></div>
+    <div class="cols">
+      <div class="panel"><h3>Reading</h3><ul>
+        <li>CER over Unicode code points after NFC, zero-width removal and quote/dash folding; subset score 100·(1−CER).</li>
+        <li>Inscriptions, palm leaves and Tamil-Brahmi ignore word spacing, the puḷḷi and e/ē–o/ō length — conventions scribes did not mark.</li>
+        <li>The real palm leaves are scored against the scribe's own spelling: reciting the canonical Tirukkural is an error.</li>
+      </ul></div>
+      <div class="panel"><h3>Identification &amp; translation</h3><ul>
+        <li>Script and medium ID: one label from a closed list; anything else counts as wrong; macro-F1.</li>
+        <li>Translation: corpus chrF++ (character 6-grams, word 2-grams, β = 2) against one reference.</li>
+        <li>95 % bootstrap intervals on every subset score.</li>
+      </ul></div>
+      <div class="panel"><h3>Aggregation</h3><ul>
+        <li>Track = mean of its subsets. Overall = mean of 8 tracks. OCR/HTR = mean of the 6 reading tracks.</li>
+        <li>Tasks a system does not perform are “—”, never zero. Refusals and errors score as empty answers.</li>
+        <li>Same images, prompts and scoring for every model; settings such as reasoning effort are fixed per entry.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section id="run" aria-labelledby="h-run">
+    <div class="section-head"><div>
+      <div class="eyebrow">Add a result</div>
+      <h2 id="h-run">Evaluate a model</h2>
+      <p class="lede">Clone the repository, set the provider's key, run, and open a pull request with the results directory.</p>
+    </div></div>
+    <div class="code"><button class="copy" type="button" data-copy="cmds">Copy</button><pre id="cmds"><span class="c"># install (Python ≥ 3.10)</span>
+pip install -e ".[dev]" anthropic
+<span class="c"># frontier APIs — keys come from the environment</span>
+ANTHROPIC_API_KEY=… tamilbench run --model claude-opus-5-5
+OPENAI_API_KEY=…    tamilbench run --model gpt-6-astra
+GEMINI_API_KEY=…    tamilbench run --model gemini-3-8-flash
+<span class="c"># open weights behind vLLM / SGLang / Ollama</span>
+tamilbench run --model "compat:Qwen/Qwen3-VL-30B-A3B-Instruct?base_url=http://localhost:8000/v1"
+<span class="c"># any other system: run it yourself, then import its answers</span>
+tamilbench import-predictions --model my-ocr --file answers.jsonl
+tamilbench leaderboard</pre></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap cols">
+    <div>Benchmark data: synthetic items CC BY 4.0. Real palm leaves: Central Institute of Classical Tamil, <i>CICT Tirukkural Ground Truth Corpus</i>, CC BY 4.0. Fonts: SIL Open Font License. Code: Apache-2.0.</div>
+    <div>Scores are only as good as the configuration they record; every entry lists its model identifier and settings. Generated <span id="gen-date"></span>.</div>
+  </div>
+</footer>
+
+<noscript><p class="wrap">This leaderboard needs JavaScript. The same table is in the repository README.</p></noscript>
+<!-- INLINE-DATA -->
+<script>
+(function () {
+  "use strict";
+  const $ = (s, el = document) => el.querySelector(s);
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const fmt = (v) => (v == null ? "—" : v.toFixed(1));
+  const TYPE_LABEL = { "proprietary-vlm": "API model", "open-vlm": "Open weights", "open-ocr-vlm": "Open OCR model",
+    "ocr-api": "OCR service", "ocr-engine": "OCR engine", "indic-ocr": "Indic OCR", imported: "Imported" };
+  let LB = null, selected = null, sortKey = "overall", exFilter = "all";
+
+  function bin(v) { return v < 10 ? 0 : v < 25 ? 1 : v < 40 ? 2 : v < 55 ? 3 : v < 70 ? 4 : v < 85 ? 5 : 6; }
+
+  function evaluated() { return LB.models.filter((m) => m.status === "evaluated"); }
+
+  function select(id) {
+    selected = selected === id ? null : id;
+    renderTable(); renderMultiples(); renderHeat(); renderPrior();
+  }
+
+  // ------------------------------------------------------------- masthead facts
+  function renderFacts() {
+    const counts = LB.benchmark.counts || {};
+    const total = Object.values(counts).reduce((a, b) => a + b, 0);
+    const real = Object.entries(LB.coverage || {}).reduce((a, [, media]) => a + Object.values(media).reduce((s, c) => s + (c.real || 0), 0), 0);
+    const f = $("#facts");
+    [[total.toLocaleString("en"), "test images"], [String(LB.benchmark.subsets.length), "subsets"], ["8", "tracks"],
+     [String(evaluated().length), "models scored"], [String(real), "real palm leaves"]].forEach(([b, t]) => {
+      const s = el("span"); s.append(el("b", null, b), document.createTextNode(" " + t)); f.append(s);
+    });
+    $("#bver").textContent = LB.benchmark.version;
+    $("#gen-date").textContent = (LB.generated_at || "").slice(0, 10);
+  }
+
+  // ------------------------------------------------------------- leaderboard table
+  function scoreCell(v, big) {
+    const td = el("td");
+    if (v == null) { td.append(el("span", "na", "—")); return td; }
+    const w = el("span", "score");
+    w.append(el("span", "v" + (big ? " big" : ""), fmt(v)));
+    const bar = el("span", "bar"); const i = el("i"); i.style.width = Math.max(0, Math.min(100, v)) + "%"; bar.append(i); w.append(bar);
+    td.append(w); return td;
+  }
+  function renderTable() {
+    const cols = [["overall", "Overall"], ["recognition_avg", "OCR/HTR"]].concat(LB.tracks.map((t) => ["t:" + t.id, t.name]));
+    const thead = $("#lb-table thead"); thead.textContent = "";
+    const hr = el("tr");
+    hr.append(el("th", "l", "#"), el("th", "l", "Model"));
+    cols.forEach(([k, label]) => {
+      const th = el("th"); const b = el("button", "sort", label); b.type = "button";
+      if (k === sortKey) b.setAttribute("aria-sort", "descending");
+      b.addEventListener("click", () => { sortKey = k; renderTable(); });
+      th.append(b); hr.append(th);
+    });
+    thead.append(hr);
+    const val = (m, k) => (k.startsWith("t:") ? (m.tracks || {})[k.slice(2)] : m[k]);
+    const rows = evaluated().slice().sort((a, b) => {
+      const va = val(a, sortKey), vb = val(b, sortKey);
+      if (va == null && vb == null) return (b.recognition_avg || 0) - (a.recognition_avg || 0);
+      if (va == null) return 1; if (vb == null) return -1; return vb - va;
+    });
+    const tbody = $("#lb-table tbody"); tbody.textContent = "";
+    rows.forEach((m) => {
+      const tr = el("tr"); if (m.id === selected) tr.className = "is-sel";
+      tr.tabIndex = 0; tr.setAttribute("aria-selected", m.id === selected ? "true" : "false");
+      tr.addEventListener("click", () => select(m.id));
+      tr.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(m.id); } });
+      const rank = m.rank_overall != null ? String(m.rank_overall) : "(" + (m.rank_recognition || "–") + ")";
+      tr.append(el("td", "l rank" + (m.rank_overall === 1 || (m.rank_overall == null && m.rank_recognition === 1 && !evaluated().some((x) => x.rank_overall)) ? " r1" : ""), rank));
+      const name = el("td", "l"); name.append(el("div", "model-name", m.name));
+      const sub = el("div", "model-sub"); sub.append(el("span", null, m.org || ""), el("span", "pill", TYPE_LABEL[m.type] || m.type || ""));
+      const p = m.params || {}; const knobs = Object.entries(p).filter(([, v]) => v != null && v !== "").map(([k, v]) => k + " " + v).join(" · ");
+      if (knobs) sub.append(el("span", null, knobs));
+      name.append(sub); tr.append(name);
+      cols.forEach(([k], i) => tr.append(scoreCell(val(m, k), i < 2)));
+      tbody.append(tr);
+    });
+    $("#lb-note").textContent = "Ranks in parentheses are OCR/HTR ranks for systems that only read (no identification or translation), so they have no Overall. " +
+      "Overall is the unweighted mean of the eight tracks; OCR/HTR is the mean of the six reading tracks.";
+  }
+  function renderPending() {
+    const box = $("#pending"); box.textContent = "";
+    const pend = LB.models.filter((m) => m.status !== "evaluated");
+    $("#pending-count").textContent = pend.length + " models";
+    pend.forEach((m) => {
+      const c = el("div", "card"); c.append(el("div", "model-name", m.name));
+      const s = el("div", "model-sub"); s.append(el("span", null, m.org || ""), el("span", "pill", TYPE_LABEL[m.type] || m.type || ""));
+      if (m.released) s.append(el("span", null, m.released));
+      c.append(s);
+      const code = el("code", null, m.provider === "import" ? "import-predictions --model " + m.id : "--model " + m.id);
+      c.append(code);
+      if (m.verify_id) c.append(el("div", "model-sub", "API identifier to be confirmed"));
+      box.append(c);
+    });
+  }
+
+  // ------------------------------------------------------------- small multiples
+  function renderMultiples() {
+    const box = $("#multiples"); box.textContent = "";
+    const ev = evaluated();
+    LB.tracks.forEach((t) => {
+      const card = el("div", "mult");
+      card.append(el("h3", null, t.name));
+      const sub = el("div", "sub"); sub.textContent = t.description; card.append(sub);
+      const rows = ev.map((m) => ({ m, v: (m.tracks || {})[t.id] })).sort((a, b) => (b.v == null ? -1 : b.v) - (a.v == null ? -1 : a.v));
+      rows.forEach(({ m, v }) => {
+        const r = el("div", "brow" + (selected && selected !== m.id ? " dim" : ""));
+        r.append(el("span", "lab", m.name));
+        const track = el("span", "track");
+        if (v == null) { track.append(el("span", "nsup", "not supported")); }
+        else { const f = el("span", "fill"); f.style.width = Math.max(0.6, v) + "%"; track.append(f); }
+        r.append(track, el("span", "val", fmt(v)));
+        r.title = m.name + " · " + t.name + ": " + fmt(v);
+        card.append(r);
+      });
+      box.append(card);
+    });
+  }
+
+  // ------------------------------------------------------------- heatmap
+  function renderHeat() {
+    const tbl = $("#heat"); tbl.textContent = "";
+    const subsets = LB.benchmark.subsets; const byId = Object.fromEntries(subsets.map((s) => [s.id, s]));
+    const head1 = el("tr"), head2 = el("tr");
+    head1.append(el("th")); head2.append(el("th"));
+    LB.tracks.forEach((t) => {
+      const th = el("th", "grp", t.name); th.colSpan = t.subsets.length; head1.append(th);
+      t.subsets.forEach((sid) => { const s = byId[sid]; const h = el("th", "sub", s ? s.title : sid); h.title = s ? s.description : sid; head2.append(h); });
+    });
+    const thead = el("thead"); thead.append(head1, head2); tbl.append(thead);
+    const tb = el("tbody");
+    evaluated().forEach((m) => {
+      const tr = el("tr", selected && selected !== m.id ? "dim" : "");
+      tr.append(el("th", "row", m.name));
+      LB.tracks.forEach((t) => t.subsets.forEach((sid) => {
+        const r = (m.subsets || {})[sid];
+        if (!r) { const td = el("td", "na", "—"); td.title = m.name + " · " + (byId[sid] || {}).title + ": not supported"; tr.append(td); return; }
+        const td = el("td", "b" + bin(r.score), r.score.toFixed(0));
+        td.title = m.name + " · " + (byId[sid] || {}).title + ": " + r.score.toFixed(1) + "  (95% CI " + r.ci95[0].toFixed(1) + "–" + r.ci95[1].toFixed(1) + ")";
+        td.tabIndex = 0; tr.append(td);
+      }));
+      tb.append(tr);
+    });
+    tbl.append(tb);
+    const lg = $("#heat-legend"); lg.textContent = "";
+    const ramp = el("span", "ramp"); for (let i = 0; i < 7; i++) { const s = el("span"); s.style.background = "var(--h" + i + ")"; ramp.append(s); }
+    const labs = el("span", "ramp-labels"); ["0", "25", "55", "85", "100"].forEach((x) => labs.append(el("span", null, x)));
+    const col = el("span"); col.style.display = "inline-grid"; col.style.gap = "2px"; col.append(ramp, labs);
+    lg.append(el("span", null, "Subset score"), col, el("span", null, "Bins: <10, 10–25, 25–40, 40–55, 55–70, 70–85, ≥85. “—” = task not supported. Hover a cell for its 95% interval."));
+  }
+
+  // ------------------------------------------------------------- prior reliance
+  function renderPrior() {
+    const box = $("#dumb"); box.textContent = "";
+    const ev = evaluated().filter((m) => m.prior_reliance && m.prior_reliance.nonce_words != null);
+    const keys = el("div", "legend"); keys.style.marginTop = "0"; keys.style.marginBottom = "0.6rem";
+    const k1 = el("span", "key"); const d1 = el("i"); d1.style.background = "var(--h5)"; k1.append(d1, document.createTextNode("Real text"));
+    const k2 = el("span", "key"); const d2 = el("i"); d2.style.background = "var(--h2)"; k2.append(d2, document.createTextNode("Nonce words"));
+    keys.append(k1, k2, el("span", null, "Mean score over reading subsets that contain both. Gap = real − nonce."));
+    box.append(keys);
+    if (!ev.length) { box.append(el("p", "table-note", "No evaluated model yet.")); return; }
+    ev.forEach((m) => {
+      const a = m.prior_reliance.corpus_text, b = m.prior_reliance.nonce_words;
+      const r = el("div", "drow" + (selected && selected !== m.id ? " dim" : ""));
+      r.append(el("span", "lab", m.name));
+      const ax = el("span", "axis");
+      const seg = el("span", "seg"); seg.style.left = Math.min(a, b) + "%"; seg.style.width = Math.abs(a - b) + "%"; ax.append(seg);
+      const dr = el("span", "dot real"); dr.style.left = a + "%"; dr.title = m.name + " · real text " + fmt(a);
+      const dn = el("span", "dot nonce"); dn.style.left = b + "%"; dn.title = m.name + " · nonce words " + fmt(b);
+      ax.append(dr, dn); r.append(ax);
+      const g = a - b; r.append(el("span", "gap", (g >= 0 ? "+" : "−") + Math.abs(g).toFixed(1)));
+      box.append(r);
+    });
+    const ticks = el("div", "ticks"); ticks.append(el("span"));
+    const sc = el("span", "scale"); ["0", "25", "50", "75", "100"].forEach((x) => sc.append(el("span", null, x))); ticks.append(sc, el("span"));
+    box.append(ticks);
+  }
+
+  // ------------------------------------------------------------- examples
+  function diffMarks(ref, hyp) {
+    // Highlight characters of hyp that are not aligned to an identical character of ref (visual aid only).
+    const A = Array.from((ref || "").normalize("NFC")), B = Array.from((hyp || "").normalize("NFC"));
+    const n = A.length, m = B.length;
+    if (n * m > 400000) return [[hyp, false]];
+    const d = Array.from({ length: n + 1 }, (_, i) => { const r = new Uint32Array(m + 1); r[0] = i; return r; });
+    for (let j = 0; j <= m; j++) d[0][j] = j;
+    for (let i = 1; i <= n; i++) for (let j = 1; j <= m; j++)
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (A[i - 1] === B[j - 1] ? 0 : 1));
+    const bad = new Array(m).fill(false); let i = n, j = m;
+    while (i > 0 && j > 0) {
+      if (d[i][j] === d[i - 1][j - 1] + (A[i - 1] === B[j - 1] ? 0 : 1)) { if (A[i - 1] !== B[j - 1]) bad[j - 1] = true; i--; j--; }
+      else if (d[i][j] === d[i - 1][j] + 1) i--; else { bad[j - 1] = true; j--; }
+    }
+    while (j > 0) { bad[j - 1] = true; j--; }
+    const out = []; B.forEach((ch, k) => { const last = out[out.length - 1]; if (last && last[1] === bad[k]) last[0] += ch; else out.push([ch, bad[k]]); });
+    return out;
+  }
+  function renderExFilter() {
+    const box = $("#ex-filter"); box.textContent = "";
+    [["all", "All"]].concat(LB.tracks.map((t) => [t.id, t.name])).forEach(([id, name]) => {
+      const b = el("button", "chip", name); b.type = "button"; b.setAttribute("aria-pressed", id === exFilter ? "true" : "false");
+      b.addEventListener("click", () => { exFilter = id; renderExFilter(); renderExamples(); });
+      box.append(b);
+    });
+  }
+  function renderExamples() {
+    const grid = $("#ex-grid"); grid.textContent = "";
+    const subsets = Object.fromEntries(LB.benchmark.subsets.map((s) => [s.id, s]));
+    const names = Object.fromEntries(LB.models.map((m) => [m.id, m.name]));
+    const items = LB.examples.filter((x) => exFilter === "all" || (subsets[x.subset] || {}).track === exFilter);
+    items.forEach((x) => {
+      const s = subsets[x.subset] || {};
+      const card = el("article", "ex");
+      const im = el("div", "img"); const img = el("img"); img.loading = "lazy"; img.src = x.image; img.alt = "Test image from " + (s.title || x.subset); im.append(img); card.append(im);
+      const body = el("div", "body");
+      const meta = el("div", "meta"); meta.append(el("span", "t", s.title || x.subset));
+      const scr = (LB.scripts[x.script] || {}).name, med = (LB.media[x.medium] || {}).name;
+      if (scr) meta.append(el("span", "pill", scr)); if (med) meta.append(el("span", "pill", med));
+      if (x.provenance === "real") meta.append(el("span", "pill real", "Real artefact"));
+      body.append(meta);
+      const refWrap = el("div"); refWrap.append(el("div", "lbl", s.task === "translation" ? "Reference translation" : (s.task === "recognition" ? "Reference" : "Correct label")));
+      const ref = el("div", "ref", x.reference); if (s.task === "recognition" && s.target !== "iast") ref.lang = "ta"; refWrap.append(ref);
+      if (x.text_native && s.id === "tamil-brahmi") { const nat = el("div", "ref native g-brahmi", x.text_native); refWrap.append(nat); }
+      body.append(refWrap);
+      Object.entries(x.predictions || {}).forEach(([mid, p]) => {
+        const pr = el("div", "pred"); const who = el("div", "who"); who.append(el("b", null, names[mid] || mid));
+        if (p.cer != null) who.append(el("span", "num", "CER " + p.cer.toFixed(2)));
+        else if (p.ok != null) who.append(el("span", p.ok ? "ok" : "bad", p.ok ? "correct" : "wrong"));
+        else if (p.chrf != null) who.append(el("span", "num", "chrF++ " + p.chrf.toFixed(1)));
+        pr.append(who);
+        const txt = el("div", "txt" + (p.text ? "" : " empty"));
+        if (!p.text) txt.textContent = "(no answer)";
+        else if (s.task === "recognition") diffMarks(x.reference, p.text).forEach(([chunk, bad]) => txt.append(bad ? el("mark", null, chunk) : document.createTextNode(chunk)));
+        else txt.textContent = p.text;
+        pr.append(txt); body.append(pr);
+      });
+      if (x.attribution) body.append(el("div", "attrib", x.attribution + (x.source && x.source.doi ? " · doi:" + x.source.doi : "")));
+      card.append(body); grid.append(card);
+    });
+  }
+
+  // ------------------------------------------------------------- coverage
+  function renderCoverage() {
+    const tbl = $("#cov"); tbl.textContent = "";
+    const lineage = ["tamil-brahmi", "vatteluttu", "grantha", "grantha-tamil", "tamil-medieval", "tamil-pre-reform", "tamil-modern"];
+    const media = Object.keys(LB.media);
+    const thead = el("thead"); const hr = el("tr"); hr.append(el("th", "s", "Script stage"));
+    media.forEach((m) => hr.append(el("th", null, LB.media[m].name)));
+    thead.append(hr); tbl.append(thead);
+    const tb = el("tbody");
+    lineage.forEach((sid) => {
+      const info = LB.scripts[sid] || { name: sid, period: "" };
+      const tr = el("tr"); const th = el("th", "s"); th.append(el("b", null, info.name), el("span", null, info.period)); tr.append(th);
+      const row = (LB.coverage || {})[sid];
+      if (!row) { const td = el("td", "gap-cell", "Not yet covered — needs real, licensed images with expert readings."); td.colSpan = media.length; tr.append(td); tb.append(tr); return; }
+      media.forEach((m) => {
+        const c = row[m]; const td = el("td");
+        if (!c || (c.synthetic + c.real) === 0) td.append(el("span", "empty-dot", "·"));
+        else { const w = el("span", "cnt"); if (c.synthetic) w.append(el("span", null, String(c.synthetic))); if (c.real) w.append(el("span", "r", "● " + c.real)); td.append(w); }
+        tr.append(td);
+      });
+      tb.append(tr);
+    });
+    tbl.append(tb);
+  }
+
+  // ------------------------------------------------------------- copy buttons
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest(".copy"); if (!b) return;
+    const pre = document.getElementById(b.dataset.copy); const text = pre ? pre.innerText : "";
+    const done = () => { b.textContent = "Copied"; setTimeout(() => (b.textContent = "Copy"), 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, () => selectText(pre));
+    else selectText(pre);
+  });
+  function selectText(node) { if (!node) return; const r = document.createRange(); r.selectNodeContents(node); const s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+
+  function renderAll() { renderFacts(); renderTable(); renderPending(); renderMultiples(); renderHeat(); renderPrior(); renderExFilter(); renderExamples(); renderCoverage(); }
+
+  if (window.__LEADERBOARD__) { LB = window.__LEADERBOARD__; renderAll(); }
+  else fetch("data/leaderboard.json").then((r) => r.json()).then((d) => { LB = d; renderAll(); })
+    .catch(() => { $("#lb-note").textContent = "Could not load data/leaderboard.json."; });
+})();
+</script>

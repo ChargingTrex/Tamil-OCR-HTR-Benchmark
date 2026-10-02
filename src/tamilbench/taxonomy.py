@@ -15,12 +15,13 @@ from enum import Enum
 
 
 class Script(str, Enum):
-    """Writing systems / script stages. The first six are the Tamil lineage under test;
+    """Writing systems / script stages. The first seven are the Tamil lineage under test;
     the rest are distractors used by the script-identification task."""
 
     TAMIL_BRAHMI = "tamil-brahmi"
     VATTELUTTU = "vatteluttu"
     GRANTHA = "grantha"
+    GRANTHA_TAMIL = "grantha-tamil"
     TAMIL_MEDIEVAL = "tamil-medieval"
     TAMIL_PRE_REFORM = "tamil-pre-reform"
     TAMIL_MODERN = "tamil-modern"
@@ -28,7 +29,6 @@ class Script(str, Enum):
     KANNADA = "kannada"
     TELUGU = "telugu"
     SINHALA = "sinhala"
-    DEVANAGARI = "devanagari"
     LATIN = "latin"
 
 
@@ -110,6 +110,13 @@ SCRIPTS: dict[Script, ScriptInfo] = {
         "temple inscriptions, palm-leaf manuscripts. Sibling of the Tamil script; source of "
         "ஜ ஷ ஸ ஹ க்ஷ ஸ்ரீ.",
         in_unicode=True),
+    Script.GRANTHA_TAMIL: ScriptInfo(
+        "Grantha–Tamil (maṇipravāḷam)", "கிரந்தத் தமிழ் (மணிப்பிரவாளம்)", "c. 7th c. CE to early 20th c.",
+        "Tamil with its Sanskrit words in Grantha letters, often switching script inside a word "
+        "(a Sanskrit stem in Grantha, a Tamil suffix in Tamil letters): Śrīvaiṣṇava and Śaiva "
+        "commentaries, astrological and medical manuscripts, colophons, 19th-century Grantha–Tamil "
+        "print, and the svasti śrī openings of Tamil inscriptions.",
+        in_unicode=True),
     Script.TAMIL_MEDIEVAL: ScriptInfo(
         "Medieval Tamil script", "இடைக்காலத் தமிழ் எழுத்து", "c. 7th–16th c. CE",
         "The Tamil script of Pallava, Chola, Pandya and Vijayanagara inscriptions and copper "
@@ -129,7 +136,6 @@ SCRIPTS: dict[Script, ScriptInfo] = {
     Script.KANNADA: ScriptInfo("Kannada", "கன்னடம்", "modern", "Distractor script.", True, False),
     Script.TELUGU: ScriptInfo("Telugu", "தெலுங்கு", "modern", "Distractor script.", True, False),
     Script.SINHALA: ScriptInfo("Sinhala", "சிங்களம்", "modern", "Distractor script.", True, False),
-    Script.DEVANAGARI: ScriptInfo("Devanagari", "தேவநாகரி", "modern", "Distractor script.", True, False),
     Script.LATIN: ScriptInfo("Latin", "இலத்தீன்", "modern", "Distractor script.", True, False),
 }
 
@@ -181,7 +187,7 @@ TRACKS: dict[Track, TrackInfo] = {
     Track.HANDWRITING: TrackInfo("Handwriting (HTR)", "கையெழுத்து", "Handwritten text on paper."),
     Track.SCENE: TrackInfo("Scene Text", "காட்சி உரை", "Signboards and text in the wild."),
     Track.MANUSCRIPTS: TrackInfo("Manuscripts & Old Print", "சுவடிகள் & பழைய அச்சு",
-                                 "Palm-leaf manuscripts and pre-1978 print."),
+                                 "Palm-leaf manuscripts, Grantha–Tamil writing and pre-1978 print."),
     Track.EPIGRAPHY: TrackInfo("Epigraphy", "கல்வெட்டியல்",
                                "Stone, copper plates, pottery; Tamil-Brahmi and Grantha."),
     Track.CLASSIFICATION: TrackInfo("Script & Medium ID", "எழுத்து & ஊடக அடையாளம்",
@@ -205,17 +211,16 @@ class LabelSet:
 SCRIPT_ID_LABELS = LabelSet(
     labels=[s.value for s in (
         Script.TAMIL_MODERN, Script.TAMIL_PRE_REFORM, Script.TAMIL_BRAHMI, Script.GRANTHA,
-        Script.MALAYALAM, Script.KANNADA, Script.TELUGU, Script.SINHALA, Script.DEVANAGARI)],
+        Script.MALAYALAM, Script.KANNADA, Script.TELUGU, Script.SINHALA)],
     descriptions={
         Script.TAMIL_MODERN.value: "modern Tamil script (post-1978 reformed letterforms)",
         Script.TAMIL_PRE_REFORM.value: "Tamil script with pre-1978 letterforms (old ligatures for ணா றா னா ணை லை ளை னை)",
         Script.TAMIL_BRAHMI.value: "Tamil-Brahmi (Tamili), the ancient Brahmi-derived script of early Tamil inscriptions",
-        Script.GRANTHA.value: "Grantha script (used in South India to write Sanskrit)",
+        Script.GRANTHA.value: "Grantha script (used in the Tamil country to write Sanskrit)",
         Script.MALAYALAM.value: "Malayalam script",
         Script.KANNADA.value: "Kannada script",
         Script.TELUGU.value: "Telugu script",
         Script.SINHALA.value: "Sinhala script",
-        Script.DEVANAGARI.value: "Devanagari script",
     },
 )
 

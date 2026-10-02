@@ -1,7 +1,8 @@
 """Render Tamil text in neighbouring Brahmic scripts.
 
 Used only to make *distractor* images for the script-identification task: the
-words are Tamil written in Malayalam/Kannada/Telugu/Devanagari/Sinhala letters, which
+words are Tamil written in Malayalam/Kannada/Telugu/Sinhala letters — the South Indian
+and Sri Lankan scripts most easily confused with Tamil and Grantha, which
 keeps the visual statistics of each script while making the task about the script, not
 the language. (Tamil words in Malayalam script are a deliberately hard case — the two
 scripts share a common ancestor.)
@@ -17,7 +18,6 @@ _OFFSETS = {
     Script.MALAYALAM: 0x0D00 - 0x0B80,
     Script.TELUGU: 0x0C00 - 0x0B80,
     Script.KANNADA: 0x0C80 - 0x0B80,
-    Script.DEVANAGARI: 0x0900 - 0x0B80,
 }
 
 # Tamil letters whose parallel slot is empty or archaic in the target script.
@@ -25,8 +25,6 @@ _OVERRIDES = {
     Script.MALAYALAM: {"ன": "ന"},
     Script.TELUGU: {"ன": "న", "ழ": "ళ"},
     Script.KANNADA: {"ன": "ನ", "ழ": "ಳ"},
-    Script.DEVANAGARI: {"ன": "न", "ழ": "ळ", "ற": "र", "எ": "ए", "ஒ": "ओ",
-                        "ெ": "े", "ொ": "ो"},
 }
 
 _SINHALA = {
@@ -41,7 +39,7 @@ _SINHALA = {
     "ஃ": "ඃ",
 }
 
-SUPPORTED_SCRIPTS = (Script.MALAYALAM, Script.KANNADA, Script.TELUGU, Script.DEVANAGARI, Script.SINHALA)
+SUPPORTED_SCRIPTS = (Script.MALAYALAM, Script.KANNADA, Script.TELUGU, Script.SINHALA)
 
 
 def convert(text: str, script: Script) -> str:

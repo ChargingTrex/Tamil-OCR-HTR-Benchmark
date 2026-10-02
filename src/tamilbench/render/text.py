@@ -2,8 +2,8 @@
 
 Tamil needs complex text layout (the two-part vowel signs of கொ/கோ/கௌ wrap around the
 consonant), so all rendering goes through Pillow's Raqm/HarfBuzz backend. Characters a
-font does not cover fall back run-by-run to another font (e.g. Tamil Supplement signs, or
-Latin inside a Tamil-only face).
+font does not cover fall back run-by-run to another font (e.g. Tamil Supplement signs,
+Latin inside a Tamil-only face, or Grantha words inside Tamil text).
 """
 
 from __future__ import annotations
@@ -52,7 +52,7 @@ def _language(font: F.FontSpec) -> str | None:
 def render_line(text: str, font: F.FontSpec, size: int, *, fallback: list[F.FontSpec] | None = None,
                 tracking: float = 0.0) -> np.ndarray:
     """Render one line to a tight float mask (height ≈ 1.6 × size)."""
-    chain = [font] + (fallback or []) + [F.LATIN_FALLBACK, F.SUPPLEMENT]
+    chain = [font] + (fallback or []) + [F.LATIN_FALLBACK, F.SUPPLEMENT, F.grantha_for(font)]
     runs = _runs(text, chain)
     pieces = []
     asc_max, desc_max = 0, 0

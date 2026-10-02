@@ -1,0 +1,304 @@
+{
+  "overall": null,
+  "recognition_avg": 53.4,
+  "tracks": {
+    "print": 83.84,
+    "screen": 87.96,
+    "handwriting": 81.41,
+    "scene": 16.88,
+    "manuscripts": 36.8,
+    "epigraphy": 13.53,
+    "classification": null,
+    "translation": null
+  },
+  "subsets": {
+    "print-digital": {
+      "n": 100,
+      "cer": 0.029806747461513267,
+      "aer": 0.04050499736980537,
+      "wer": 0.09946236559139784,
+      "exact_match": 0.74,
+      "score": 97.01932525384868,
+      "ci95": [
+        95.56,
+        98.32
+      ],
+      "slices": {
+        "corpus": 96.7,
+        "lexicon": 100.0,
+        "nonce": 97.98
+      },
+      "missing": 0
+    },
+    "print-scan": {
+      "n": 100,
+      "cer": 0.043447123418476966,
+      "aer": 0.058355437665782495,
+      "wer": 0.1536926147704591,
+      "exact_match": 0.63,
+      "score": 95.6552876581523,
+      "ci95": [
+        93.43,
+        97.42
+      ],
+      "slices": {
+        "nonce": 87.96,
+        "corpus": 97.37,
+        "lexicon": 96.22
+      },
+      "missing": 0
+    },
+    "print-photo": {
+      "n": 100,
+      "cer": 0.18275154004106775,
+      "aer": 0.22742230347349177,
+      "wer": 0.4932301740812379,
+      "exact_match": 0.39,
+      "score": 81.72484599589322,
+      "ci95": [
+        75.09,
+        87.03
+      ],
+      "slices": {
+        "lexicon": 85.22,
+        "corpus": 83.01,
+        "nonce": 72.13
+      },
+      "missing": 0
+    },
+    "numerals-symbols": {
+      "n": 80,
+      "cer": 0.39037153322867607,
+      "aer": 0.3396011396011396,
+      "wer": 0.7395833333333334,
+      "exact_match": 0.0,
+      "score": 60.96284667713239,
+      "ci95": [
+        57.82,
+        63.88
+      ],
+      "slices": {
+        "numerals": 60.96
+      },
+      "missing": 0
+    },
+    "screen": {
+      "n": 120,
+      "cer": 0.12043684902416826,
+      "aer": 0.1531368102796674,
+      "wer": 0.29403095062638174,
+      "exact_match": 0.08333333333333333,
+      "score": 87.95631509758317,
+      "ci95": [
+        84.72,
+        90.65
+      ],
+      "slices": {
+        "corpus": 87.31,
+        "nonce": 92.61
+      },
+      "missing": 0
+    },
+    "handwriting": {
+      "n": 100,
+      "cer": 0.18593120545398203,
+      "aer": 0.23065621939275222,
+      "wer": 0.5229591836734694,
+      "exact_match": 0.22,
+      "score": 81.40687945460179,
+      "ci95": [
+        76.59,
+        85.65
+      ],
+      "slices": {
+        "corpus": 82.11,
+        "lexicon": 79.21,
+        "nonce": 80.19
+      },
+      "missing": 0
+    },
+    "scene": {
+      "n": 100,
+      "cer": 0.8311540648095509,
+      "aer": 0.8662900188323918,
+      "wer": 0.9866666666666667,
+      "exact_match": 0.03,
+      "score": 16.88459351904491,
+      "ci95": [
+        11.19,
+        23.32
+      ],
+      "slices": {
+        "nonce": 14.69,
+        "corpus": 17.24
+      },
+      "missing": 0
+    },
+    "pre-reform-print": {
+      "n": 100,
+      "cer": 0.3566835094166284,
+      "aer": 0.4111069698099143,
+      "wer": 0.7436893203883496,
+      "exact_match": 0.07,
+      "score": 64.33164905833716,
+      "ci95": [
+        57.5,
+        70.75
+      ],
+      "slices": {
+        "nonce": 53.8,
+        "corpus": 68.69
+      },
+      "missing": 0
+    },
+    "palm-leaf-synth": {
+      "n": 80,
+      "cer": 0.45826235093696766,
+      "aer": 0.5003164843114206,
+      "wer": 1.0,
+      "exact_match": 0.0,
+      "score": 54.173764906303234,
+      "ci95": [
+        46.62,
+        62.46
+      ],
+      "slices": {
+        "corpus": 53.78,
+        "nonce": 58.0
+      },
+      "missing": 0
+    },
+    "palm-leaf-cict": {
+      "n": 26,
+      "cer": 0.9203259393390675,
+      "aer": 1.06,
+      "wer": 1.0,
+      "exact_match": 0.0,
+      "score": 7.967406066093252,
+      "ci95": [
+        3.99,
+        11.45
+      ],
+      "slices": {
+        "corpus": 7.97
+      },
+      "missing": 0
+    },
+    "grantha-tamil": {
+      "n": 60,
+      "cer": 0.792916871618298,
+      "aer": 0.840571742715778,
+      "wer": 1.0,
+      "exact_match": 0.0,
+      "score": 20.708312838170194,
+      "ci95": [
+        16.37,
+        24.95
+      ],
+      "slices": {
+        "nonce": 22.57,
+        "corpus": 20.57
+      },
+      "missing": 0
+    },
+    "stone": {
+      "n": 80,
+      "cer": 1.28975791433892,
+      "aer": 1.640373637778931,
+      "wer": 0.875,
+      "exact_match": 0.125,
+      "score": 0.0,
+      "ci95": [
+        0.0,
+        8.79
+      ],
+      "slices": {
+        "corpus": 0.0,
+        "nonce": 0.0
+      },
+      "missing": 0
+    },
+    "copper-plate": {
+      "n": 60,
+      "cer": 0.4820995145631068,
+      "aer": 0.5990606319385141,
+      "wer": 1.0,
+      "exact_match": 0.0,
+      "score": 51.790048543689316,
+      "ci95": [
+        45.84,
+        56.79
+      ],
+      "slices": {
+        "corpus": 51.79
+      },
+      "missing": 0
+    },
+    "tamil-brahmi": {
+      "n": 100,
+      "cer": 0.976867151354924,
+      "aer": 0.9879740980573543,
+      "wer": 1.0,
+      "exact_match": 0.0,
+      "score": 2.313284864507603,
+      "ci95": [
+        1.46,
+        3.25
+      ],
+      "slices": {
+        "corpus": 2.46,
+        "nonce": 0.0
+      },
+      "missing": 0
+    },
+    "grantha": {
+      "n": 60,
+      "cer": 1.0834496232207647,
+      "aer": 1.032654200390734,
+      "wer": 1.0,
+      "exact_match": 0.0,
+      "score": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "slices": {
+        "corpus": 0.0,
+        "nonce": 0.0
+      },
+      "missing": 0
+    },
+    "script-id": null,
+    "medium-id": null,
+    "translate-en": null
+  },
+  "prior_reliance": {
+    "corpus_text": 50.77,
+    "nonce_words": 48.33
+  },
+  "model": {
+    "id": "tesseract:tam",
+    "provider": "tesseract",
+    "model": "tam",
+    "kind": "ocr-engine",
+    "supports": [
+      "recognition"
+    ],
+    "params": {
+      "tessdata": "tessdata_best",
+      "psm": "auto",
+      "oem": 1
+    },
+    "engine_version": "tesseract 5.3.4"
+  },
+  "benchmark_version": "v1",
+  "split": "test",
+  "prompt_version": "prompts-v1",
+  "complete": true,
+  "n_refusals": 0,
+  "n_errors": 0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "mean_latency_s": 0.154,
+  "scored_at": "2026-10-02T16:25:05+00:00"
+}

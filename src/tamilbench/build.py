@@ -24,7 +24,8 @@ from .render import fonts as F
 from .render import media as M
 from .taxonomy import MEDIUM_TO_ID_LABEL, Medium, Script, Task
 from .text import brahmi, indic, numerals
-from .text.grantha import devanagari_to_grantha, devanagari_to_iast
+from .text import manipravalam as mp
+from .text.grantha import iast_to_grantha
 from .text.tamil import (REFORM_SYLLABLES, contains_reform_syllable, drop_pulli, merge_long_e_o,
                          scriptio_continua)
 
@@ -335,30 +336,29 @@ def gen_tamil_brahmi(pr: random.Random) -> Sample:
                   render=meta, fields={"text_native": "\n".join(lines)})
 
 
-_SKT_SYL = ["क", "त", "प", "न", "म", "र", "व", "स", "ध", "ग", "य", "ज", "श", "ह", "ल", "द", "भ"]
-_SKT_SIGN = ["", "", "ा", "ि", "ी", "ु", "े", "ो", "ं"]
+_SKT_SYL = ["k", "t", "p", "n", "m", "r", "v", "s", "dh", "g", "y", "j", "ś", "h", "l", "d", "bh"]
+_SKT_VOWEL = ["a", "a", "ā", "i", "ī", "u", "e", "o", "aṃ"]
 
 
 def _sanskrit_nonce(pr: random.Random) -> str:
     words = []
     for _ in range(pr.randint(3, 5)):
-        words.append("".join(_pick(pr, _SKT_SYL) + _pick(pr, _SKT_SIGN) for _ in range(pr.randint(2, 4))))
+        words.append("".join(_pick(pr, _SKT_SYL) + _pick(pr, _SKT_VOWEL) for _ in range(pr.randint(2, 4))))
     return " ".join(words)
 
 
 def gen_grantha(pr: random.Random) -> Sample:
     rng = _np(pr)
     if pr.random() < 0.15:
-        deva, kind, src = _sanskrit_nonce(pr), "nonce", "nonce"
-        deva_lines = [deva]
+        iast_lines, kind, src = [_sanskrit_nonce(pr)], "nonce", "nonce"
     else:
         it = _pick(pr, corpus.sanskrit())
-        deva_lines, kind, src = it.text.split("\n"), "corpus", f"sanskrit:{it.id}"
-        if len(deva_lines) > 2:
-            k = pr.randrange(len(deva_lines) - 1)
-            deva_lines = deva_lines[k:k + 2]
-    lines = [devanagari_to_grantha(d) for d in deva_lines]
-    iast = "\n".join(devanagari_to_iast(d) for d in deva_lines)
+        iast_lines, kind, src = it.text.split("\n"), "corpus", f"sanskrit:{it.id}"
+        if len(iast_lines) > 2:
+            k = pr.randrange(len(iast_lines) - 1)
+            iast_lines = iast_lines[k:k + 2]
+    lines = [iast_to_grantha(x) for x in iast_lines]
+    iast = "\n".join(iast_lines)
     font = F.BY_ID[_pick(pr, ["grantha-sans", "grantha-sans", "grantha-serif"])]
     surface = _pick(pr, ["copper-plate", "stone", "palm-leaf", "print-scan"])
     if surface == "copper-plate":
@@ -371,7 +371,58 @@ def gen_grantha(pr: random.Random) -> Sample:
         img, meta = M.print_scan(lines, rng, font=font, aged=pr.uniform(0.2, 0.7), letterpress=True)
     return Sample(img, iast, script=Script.GRANTHA.value, medium=surface,
                   granularity="line" if len(lines) == 1 else "block", lexical=kind, text_source=src, render=meta,
-                  fields={"iast": iast, "text_native": "\n".join(lines), "devanagari": "\n".join(deva_lines)})
+                  fields={"iast": iast, "text_native": "\n".join(lines)})
+
+
+
+def _fill_lines(words: list[str], width: int, max_lines: int) -> list[list[int]]:
+    """Greedy word wrap by code points; returns word indices per line (at most ``max_lines``)."""
+    lines: list[list[int]] = [[]]
+    used = 0
+    for i, w in enumerate(words):
+        if lines[-1] and used + 1 + len(w) > width:
+            if len(lines) == max_lines:
+                break
+            lines.append([])
+            used = 0
+        used += len(w) + (1 if lines[-1] else 0)
+        lines[-1].append(i)
+    return lines
+
+
+def gen_grantha_tamil(pr: random.Random) -> Sample:
+    rng = _np(pr)
+    surface = _pick(pr, ["palm-leaf", "palm-leaf", "palm-leaf", "print-scan", "print-scan"])
+    if pr.random() < 0.2:
+        markups, kind, srcs = [mp.nonce_markup(pr)], "nonce", ["nonce"]
+    else:
+        items = [_pick(pr, corpus.manipravalam()) for _ in range(pr.randint(1, 3 if surface == "palm-leaf" else 2))]
+        markups, kind = [it.meta["markup"] for it in items], "corpus"
+        srcs = [f"manipravalam:{it.id}" for it in items]
+    words = [w for m in markups for w in mp.parse(m)]
+    if surface == "palm-leaf":
+        p_drop, continua, width, max_lines = _pick(pr, [1.0, 0.6, 0.0]), pr.random() < 0.7, pr.randint(30, 44), 5
+    else:
+        p_drop, continua, width, max_lines = 0.0, False, pr.randint(28, 40), 3
+    nat = [mp.native(w) for w in words]
+    if p_drop:
+        nat = [drop_pulli(n, p_drop, pr) for n in nat]   # Tamil puḷḷi only; the Grantha virama stays
+    rows = _fill_lines(nat, width, max_lines)
+    sep = "" if continua else " "
+    lines = [sep.join(nat[i] for i in row) for row in rows]
+    ref = "\n".join(" ".join(mp.reference(words[i]) for i in row) for row in rows)
+    tamil_font = F.BY_ID["lohit-classical"]
+    if surface == "palm-leaf":
+        img, meta = M.palm_leaf(lines, rng, font=tamil_font, fallback=[F.BY_ID["grantha-sans"]])
+    else:
+        gfont = F.BY_ID[_pick(pr, ["grantha-serif", "grantha-sans"])]
+        img, meta = M.print_scan(lines, rng, font=tamil_font, aged=pr.uniform(0.3, 0.8), letterpress=True,
+                                 fallback=[gfont])
+        meta["grantha_font"] = gfont.id
+    meta.update({"pulli_dropped": p_drop, "scriptio_continua": continua})
+    return Sample(img, ref, script=Script.GRANTHA_TAMIL.value, medium=surface,
+                  granularity="line" if len(lines) == 1 else "block", lexical=kind,
+                  text_source=",".join(srcs), render=meta, fields={"text_native": "\n".join(lines)})
 
 
 # ---- classification ---------------------------------------------------------------------------------
@@ -432,7 +483,7 @@ def gen_script_id(pr: random.Random, label: str) -> Sample:
         text = it.text
     elif label == Script.GRANTHA.value:
         it = _pick(pr, corpus.sanskrit())
-        lines = [devanagari_to_grantha(d) for d in it.text.split("\n")[:2]]
+        lines = [iast_to_grantha(x) for x in it.text.split("\n")[:2]]
         kind = _pick(pr, ["print", "copper", "palm", "stone"])
         font = F.BY_ID[_pick(pr, ["grantha-sans", "grantha-serif"])]
         if kind == "print":
@@ -446,7 +497,7 @@ def gen_script_id(pr: random.Random, label: str) -> Sample:
         else:
             img, meta = M.stone(lines, rng, style="plaque-grey", font=font)
             medium = Medium.STONE.value
-        text = devanagari_to_iast(it.text)
+        text = it.text
     else:
         script = Script(label)
         src = _modern_with_reform(pr)
@@ -604,6 +655,7 @@ GENERATORS: dict[str, Callable[[random.Random], Sample]] = {
     "numerals-symbols": gen_numerals, "handwriting": gen_handwriting, "scene": gen_scene,
     "pre-reform-print": gen_pre_reform, "palm-leaf-synth": gen_palm_leaf, "stone": gen_stone,
     "copper-plate": gen_copper, "tamil-brahmi": gen_tamil_brahmi, "grantha": gen_grantha,
+    "grantha-tamil": gen_grantha_tamil,
 }
 
 
@@ -764,7 +816,8 @@ def write_manifests(out_dir: Path, rows: list[dict], *, split: str = "test", see
         with open(out_dir / "manifest-lite.jsonl", "w", encoding="utf-8") as f:
             for r in rows:
                 k = seen.get(r["subset"], 0)
-                cap = lite if r["subset"] not in ("script-id", "medium-id") else lite + 7
+                spec = S.get(r["subset"])
+                cap = 3 * len(spec.labels) if spec.labels else lite   # 3 per class for identification
                 if k < cap:
                     f.write(json.dumps({**r, "split": "lite"}, ensure_ascii=False) + "\n")
                     seen[r["subset"]] = k + 1

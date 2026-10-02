@@ -18,7 +18,8 @@ from functools import lru_cache
 from importlib import resources
 
 from ..text import brahmi
-from ..text.grantha import devanagari_to_grantha, devanagari_to_iast
+from ..text.grantha import iast_to_grantha
+from ..text import manipravalam as mp
 from ..text.pseudo import pseudo_line
 
 _SPLIT = " / "
@@ -27,7 +28,7 @@ _SPLIT = " / "
 @dataclass(frozen=True)
 class Item:
     id: str
-    text: str                     # modern-Tamil (or Devanagari for Sanskrit) text; lines joined by "\n"
+    text: str                     # modern-Tamil text (IAST for Sanskrit); lines joined by "\n"
     source: str                   # pool name, e.g. "modern", "classical", "historical"
     tag: str = ""                 # domain / register / kind
     english: str | None = None    # reference translation when available
@@ -90,16 +91,25 @@ def ui_strings() -> tuple[Item, ...]:
 
 @lru_cache(maxsize=None)
 def sanskrit() -> tuple[Item, ...]:
-    """Sanskrit in Devanagari, with Grantha and IAST forms precomputed in ``meta``."""
+    """Sanskrit in IAST (the answer key), with the Grantha rendering precomputed in ``meta``."""
     out = []
     for r in _rows("sanskrit.tsv"):
-        deva = _lines(r["devanagari"])
-        out.append(Item(r["id"], deva, "sanskrit", r["source"], meta={
-            "grantha": devanagari_to_grantha(deva),
-            "iast": devanagari_to_iast(deva),
-        }))
+        iast = _lines(r["iast"])
+        out.append(Item(r["id"], iast, "sanskrit", r["source"], meta={"grantha": iast_to_grantha(iast)}))
     return tuple(out)
 
+
+
+@lru_cache(maxsize=None)
+def manipravalam() -> tuple[Item, ...]:
+    """Grantha–Tamil mixed lines. ``text`` is the reference (Tamil in Tamil, Grantha in IAST);
+    ``meta["markup"]`` keeps the segment markup ({IAST} = Grantha)."""
+    out = []
+    for r in _rows("manipravalam.tsv"):
+        words = mp.parse(r["text"])
+        out.append(Item(r["id"], " ".join(mp.reference(w) for w in words), "manipravalam", r["register"],
+                        meta={"markup": r["text"].strip()}))
+    return tuple(out)
 
 _TOKEN = re.compile(r"[஀-௿]+")
 
@@ -141,4 +151,4 @@ def brahmi_pool() -> list[Item]:
 def all_pools() -> dict[str, tuple[Item, ...]]:
     return {"modern": modern(), "classical": classical(), "historical": historical(),
             "signage": signage(), "plaques": plaques(), "names": names(),
-            "ui": ui_strings(), "sanskrit": sanskrit()}
+            "ui": ui_strings(), "sanskrit": sanskrit(), "manipravalam": manipravalam()}

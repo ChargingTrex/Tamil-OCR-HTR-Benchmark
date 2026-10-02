@@ -47,7 +47,7 @@ R, T = Task.RECOGNITION, Track
 SUBSETS: list[SubsetSpec] = [
     # ---------------------------------------------------------------- Print & Digital
     SubsetSpec("print-digital", "Born-digital text", R, T.PRINT, "recognition",
-               "Clean Unicode text rendered in 17 Tamil typefaces — words, lines and paragraphs. "
+               "Clean Unicode text rendered in a dozen Tamil typefaces and weights — words, lines and paragraphs. "
                "The upper bound: failures here are failures of script knowledge, not of vision.",
                (Script.TAMIL_MODERN,), (Medium.BORN_DIGITAL,),
                granularity=(Granularity.WORD, Granularity.LINE, Granularity.BLOCK)),
@@ -107,6 +107,13 @@ SUBSETS: list[SubsetSpec] = [
                policy=dict(EPIGRAPHIC, strip_tamil_numerals=True),
                attribution="Central Institute of Classical Tamil (CICT), CICT Tirukkural Ground "
                            "Truth Corpus, CC BY 4.0; per-leaf DOIs in the manifest."),
+    SubsetSpec("grantha-tamil", "Grantha–Tamil (maṇipravāḷam)", R, T.MANUSCRIPTS, "recognition-grantha-tamil",
+               "Tamil manuscripts and old print that write Sanskrit words in Grantha inside Tamil text, "
+               "often switching script mid-word (commentaries, astrology, medicine, colophons, "
+               "inscription formulae). Transcribed with Tamil in Tamil Unicode and Grantha in IAST.",
+               (Script.GRANTHA_TAMIL,), (Medium.PALM_LEAF, Medium.PRINT_SCAN), count=60,
+               granularity=(Granularity.LINE, Granularity.BLOCK), target="text",
+               policy={"spaces": "remove", "script": "iast", "fold_pulli": True, "fold_vowel_length": True}),
     # ---------------------------------------------------------------- Epigraphy
     SubsetSpec("stone", "Stone inscriptions & plaques", R, T.EPIGRAPHY, "recognition-epigraphic",
                "Engraved granite and marble: modern foundation stones, donor and memorial plaques, "
@@ -132,7 +139,7 @@ SUBSETS: list[SubsetSpec] = [
     # ---------------------------------------------------------------- Classification
     SubsetSpec("script-id", "Script identification", Task.SCRIPT_ID, T.CLASSIFICATION, "script-id",
                "Which script is this? Modern vs pre-reform Tamil, Tamil-Brahmi, Grantha, and "
-               "neighbouring scripts (Malayalam, Kannada, Telugu, Sinhala, Devanagari).",
+               "the neighbouring South Indian and Sri Lankan scripts (Malayalam, Kannada, Telugu, Sinhala).",
                tuple(Script(s) for s in SCRIPT_ID_LABELS.labels), tuple(Medium), count=144,
                labels=tuple(SCRIPT_ID_LABELS.labels), target="label"),
     SubsetSpec("medium-id", "Medium identification", Task.MEDIUM_ID, T.CLASSIFICATION, "medium-id",

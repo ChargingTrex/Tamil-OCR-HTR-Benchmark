@@ -62,6 +62,14 @@ RECOGNITION_GRANTHA = (
     "spacing is not scored. Output only the IAST transliteration."
 )
 
+RECOGNITION_GRANTHA_TAMIL = (
+    "This image shows Grantha-Tamil (maṇipravāḷam) writing: Tamil in the Tamil script, with "
+    "Sanskrit words in the Grantha script, sometimes switching script inside a word. Transcribe "
+    "it in reading order, writing the Tamil-script parts in Tamil Unicode and the Grantha-script "
+    "parts in IAST, e.g. 'kalyāṇaguṇaங்களை' for a Grantha stem followed by a Tamil suffix. Word "
+    "spacing is not scored. Output only the transcription."
+)
+
 
 def classification_prompt(question: str, labels: LabelSet) -> str:
     options = "\n".join(f"- {lab}: {labels.descriptions.get(lab, lab)}" for lab in labels.labels)
@@ -85,6 +93,7 @@ PROMPTS = {
     "recognition-epigraphic": RECOGNITION_EPIGRAPHIC,
     "recognition-tamil-brahmi": RECOGNITION_TAMIL_BRAHMI,
     "recognition-grantha": RECOGNITION_GRANTHA,
+    "recognition-grantha-tamil": RECOGNITION_GRANTHA_TAMIL,
     "script-id": SCRIPT_ID,
     "medium-id": MEDIUM_ID,
     "translation": TRANSLATION,
