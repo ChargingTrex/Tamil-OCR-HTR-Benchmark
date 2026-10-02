@@ -30,11 +30,13 @@ dependencies = [
 build = ["scipy>=1.10", "fonttools>=4.40", "playwright>=1.40", "tqdm>=4.60"]
 # Faster edit distance (pure-Python fallback is used otherwise).
 fast = ["rapidfuzz>=3.0"]
+# MCP server (`tamilbench mcp`): use the benchmark from Claude and other MCP clients.
+mcp = ["mcp>=2.2,<3"]
 # Optional local OCR engines (each needs its own model weights).
 easyocr = ["easyocr>=1.7"]
 paddleocr = ["paddleocr>=2.7"]
 surya = ["surya-ocr>=0.6"]
-dev = ["pytest>=7.4", "sacrebleu>=2.3", "scipy>=1.10", "fonttools>=4.40", "rapidfuzz>=3.0"]
+dev = ["pytest>=7.4", "sacrebleu>=2.3", "scipy>=1.10", "fonttools>=4.40", "rapidfuzz>=3.0", "mcp>=2.2,<3"]
 
 [project.scripts]
 tamilbench = "tamilbench.cli:main"

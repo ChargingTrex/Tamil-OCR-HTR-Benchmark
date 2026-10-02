@@ -14,12 +14,9 @@ import numpy as np
 from . import BENCHMARK_VERSION, CANARY
 from . import subsets as S
 from .models import load_registry
-from .metrics import classification as cls_m
-from .metrics import recognition as rec_m
-from .metrics import translation as tr_m
 from .runner import load_manifest, read_predictions
-from .scoring import CI_METHOD
-from .taxonomy import MEDIA, SCRIPTS, TRACKS, Task, Track
+from .scoring import CI_METHOD, item_result
+from .taxonomy import MEDIA, SCRIPTS, TRACKS, Track
 
 README_START, README_END = "<!-- LEADERBOARD:START -->", "<!-- LEADERBOARD:END -->"
 EXAMPLES_PER_SUBSET = 3
@@ -146,22 +143,10 @@ def _examples(data_dir: Path, results_root: Path, site_dir: Path, model_ids: lis
             "provenance": r["provenance"], "lexical": r.get("lexical"),
             "text_native": r.get("text_native"), "text_diplomatic": r.get("text_diplomatic"),
             "attribution": r.get("attribution"), "source": r.get("source"),
-            "predictions": {mid: _item_result(spec, r, (preds[mid].get(r["id"]) or {}).get("text"))
+            "predictions": {mid: item_result(spec, r, (preds[mid].get(r["id"]) or {}).get("text"))
                             for mid in model_ids if r["id"] in preds[mid]},
         })
     return out
-
-
-def _item_result(spec, row: dict, text: str | None) -> dict:
-    """Official per-item score, computed with the same code as the subset score."""
-    ref = row.get(spec.target) or ""
-    if spec.task == Task.RECOGNITION:
-        st = rec_m.sample_stats(ref, text or "", rec_m.TextPolicy.from_dict(spec.policy))
-        return {"text": text, "cer": round(st["char_edits"] / max(1, st["chars"]), 3)}
-    if spec.task in (Task.SCRIPT_ID, Task.MEDIUM_ID):
-        lab = cls_m.parse_label(text or "", list(spec.labels))
-        return {"text": text, "label": lab, "ok": lab == ref}
-    return {"text": text, "chrf": round(tr_m.f_score(tr_m.sentence_stats(text or "", ref)), 1)}
 
 
 def build(results_root: Path, data_dir: Path, out_json: Path, *, readme: Path | None = None,
@@ -170,7 +155,8 @@ def build(results_root: Path, data_dir: Path, out_json: Path, *, readme: Path | 
     found: dict[str, dict] = {}
     for p in sorted(Path(results_root).glob(f"*/{BENCHMARK_VERSION}-test/scores.json")):
         s = json.loads(p.read_text())
-        if s["model"].get("kind") == "debug" and not include_debug:
+        # debug adapters and interactive (chat-client) runs are never ranked
+        if s["model"].get("kind") in ("debug", "interactive") and not include_debug:
             continue
         found[p.parent.parent.name] = s
     models = []

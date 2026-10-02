@@ -81,6 +81,13 @@ def cmd_compare(a):
     for k, v in res["subsets"].items():
         print(line("    " + k, v))
 
+def cmd_mcp(a):
+    try:
+        from .mcp_server import main as serve
+    except ImportError as e:
+        raise SystemExit(f"The MCP server needs the MCP SDK: pip install 'tamilbench[mcp]' ({e})") from None
+    serve(transport=a.transport, host=a.host, port=a.port)
+
 def _print_scores(s: dict):
     def f(v):
         return "  —  " if v is None else f"{v:5.1f}"
@@ -210,6 +217,12 @@ def main(argv=None) -> int:
     c.add_argument("--n-boot", type=int, default=1000)
     c.add_argument("--json", help="also write the full comparison to this file")
     c.set_defaults(fn=cmd_compare)
+
+    mc = sub.add_parser("mcp", help="serve the benchmark to Claude and other MCP clients")
+    mc.add_argument("--transport", choices=["stdio", "streamable-http"], default="stdio")
+    mc.add_argument("--host", default="127.0.0.1")
+    mc.add_argument("--port", type=int, default=8000)
+    mc.set_defaults(fn=cmd_mcp)
 
     lb = sub.add_parser("leaderboard", help="aggregate scores into leaderboard.json and the README table")
     lb.add_argument("--results", default=str(RESULTS))

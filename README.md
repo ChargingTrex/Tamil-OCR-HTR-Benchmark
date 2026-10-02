@@ -113,6 +113,30 @@ confused Tamil letters, and a **recitation index** that shows whether a system r
 real Tirukkural leaves or writes the textbook version instead. The research behind these
 choices is reviewed in [`docs/RELATED-WORK.md`](docs/RELATED-WORK.md).
 
+## Use it from Claude (MCP server)
+
+`tamilbench mcp` serves the benchmark over the Model Context Protocol. In Claude Code the
+repository's `.mcp.json` registers it automatically; for Claude Desktop and other clients
+see [`docs/MCP.md`](docs/MCP.md).
+
+```bash
+pip install -e ".[mcp]"
+claude mcp add tamilbench -- tamilbench mcp      # if you are not using the bundled .mcp.json
+```
+
+Then ask Claude, for example:
+
+* *"Take the Tamil OCR benchmark on the lite split as run `claude-desktop`, then score it."*
+  Claude fetches each image with its exact prompt, answers, and gets every answer scored by
+  the official code. Interactive runs like this are recorded but not ranked.
+* *"Which models can run here? Evaluate `qwen3-vl-30b-a3b` against my vLLM server at
+  http://gpu:8000/v1 and compare it with `tesseract-tam-best`."*
+* *"Show the leaderboard and the failure modes of the best system on the real palm leaves."*
+
+The server has 15 tools for browsing, answering, running models, importing outputs,
+scoring, paired comparison, diagnostics and the leaderboard. API keys come from the
+server's environment, never from tool calls.
+
 ## Repository layout
 
 ```
@@ -127,6 +151,8 @@ docs/METHODOLOGY.md    methodology, prompts and scoring rubric in full
 docs/real-data.md      real data in v1, wanted sources, how to contribute a dataset
 docs/RELATED-WORK.md   review of benchmark, OCR/HTR and Tamil OCR research, and what it changed here
 docs/DATASHEET.md      datasheet and BetterBench self-assessment
+docs/MCP.md            the MCP server: setup for Claude Code / Desktop, tools, workflows, rules
+.mcp.json              registers the MCP server with Claude Code for this repository
 docs/annotation-guidelines.md  transcription conventions per script
 tests/                 pytest suite: worked examples, determinism, data integrity, docs
 .github/workflows/     ci (tests), evaluate (run a model with repository secrets), pages

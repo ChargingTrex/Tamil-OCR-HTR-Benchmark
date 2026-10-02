@@ -152,6 +152,19 @@ def score_translation(spec, rows, preds, n_boot, seed, *, return_boot=False) -> 
     return res
 
 
+def item_result(spec, row: dict, text: str | None) -> dict:
+    """Official per-item score, computed with the same code as the subset score."""
+    ref = row.get(spec.target) or ""
+    if spec.task == Task.RECOGNITION:
+        st = rec_m.sample_stats(ref, text or "", rec_m.TextPolicy.from_dict(spec.policy))
+        return {"text": text, "cer": round(st["char_edits"] / max(1, st["chars"]), 3),
+                "char_edits": st["char_edits"], "chars": st["chars"]}
+    if spec.task in (Task.SCRIPT_ID, Task.MEDIUM_ID):
+        lab = cls_m.parse_label(text or "", list(spec.labels))
+        return {"text": text, "label": lab, "ok": lab == ref}
+    return {"text": text, "chrf": round(tr_m.f_score(tr_m.sentence_stats(text or "", ref)), 1)}
+
+
 SCORERS = {Task.RECOGNITION: score_recognition, Task.SCRIPT_ID: score_classification,
            Task.MEDIUM_ID: score_classification, Task.TRANSLATION: score_translation}
 

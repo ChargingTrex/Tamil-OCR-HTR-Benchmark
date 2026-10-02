@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "tamilbench": {
+      "command": "tamilbench",
+      "args": ["mcp"],
+      "env": {
+        "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY:-}",
+        "OPENAI_API_KEY": "${OPENAI_API_KEY:-}",
+        "GEMINI_API_KEY": "${GEMINI_API_KEY:-}",
+        "MISTRAL_API_KEY": "${MISTRAL_API_KEY:-}",
+        "GOOGLE_VISION_API_KEY": "${GOOGLE_VISION_API_KEY:-}",
+        "AZURE_DI_ENDPOINT": "${AZURE_DI_ENDPOINT:-}",
+        "AZURE_DI_KEY": "${AZURE_DI_KEY:-}",
+        "OPENAI_COMPAT_API_KEY": "${OPENAI_COMPAT_API_KEY:-}"
+      }
+    }
+  }
+}
